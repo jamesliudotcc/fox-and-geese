@@ -13,8 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.24.6",
-    "immutable": "^4.0.0-rc.12",
-    "typings": "^2.1.1"
+    "immutable": "^4.0.0-rc.12"
   },
   "homepage": "",
   "main": "index.js",

@@ -1,11 +1,7 @@
-const { fromJS, List } = require('immutable');
-
-// In JS file, instead of import, use: List = Immutable.List;
-
-const WIDTH = 7,
+List = Immutable.List;
+var WIDTH = 7,
   HEIGHT = 7;
-
-const NW = 0 - WIDTH - 1,
+var NW = 0 - WIDTH - 1,
   N = 0 - WIDTH,
   NE = 0 - WIDTH + 1,
   W = -1,
@@ -13,19 +9,15 @@ const NW = 0 - WIDTH - 1,
   SW = WIDTH - 1,
   S = WIDTH,
   SE = WIDTH + 1;
-
-const xmlns = 'http://www.w3.org/2000/svg';
-
+var xmlns = 'http://www.w3.org/2000/svg';
 document.addEventListener('DOMContentLoaded', main);
-
 function main() {
-  const boardList = createBoard();
-
+  var boardList = createBoard();
   function createBoard() {
-    let drawBoard: any[] = [];
+    var drawBoard = [];
     // Some functions to calculate commonly seen board patterns
     // These functions are created for 3 or more of the same pattern
-    let allNeighbors = function(tile: number) {
+    var allNeighbors = function(tile) {
       return List([
         tile + NW,
         tile + N,
@@ -37,43 +29,43 @@ function main() {
         tile + SE,
       ]);
     };
-    const crossNeighbors = function(tile: number) {
+    var crossNeighbors = function(tile) {
       return List([tile + N, tile + W, tile + E, tile + S]);
     };
-    const leftCenter = function(tile: number) {
+    var leftCenter = function(tile) {
       return List([tile + N, tile + E, tile + S]);
     };
-    const rightCenter = function(tile: number) {
+    var rightCenter = function(tile) {
       return List([tile + N, tile + W, tile + S]);
     };
-    const topCenter = function(tile: number) {
+    var topCenter = function(tile) {
       return List([tile + W, tile + E, tile + S]);
     };
-    const bottomCenter = function(tile: number) {
+    var bottomCenter = function(tile) {
       return List([tile + N, tile + W, tile + E]);
     };
     // 10, 22, 24, 26, and 38 are allNeighbors
-    [10, 22, 24, 26, 38].forEach(tile => {
+    [10, 22, 24, 26, 38].forEach(function(tile) {
       drawBoard[tile] = allNeighbors(tile);
     });
     //17, 23, 25, and 31 are crossNeighbors
-    [17, 23, 25, 31].forEach(tile => {
+    [17, 23, 25, 31].forEach(function(tile) {
       drawBoard[tile] = crossNeighbors(tile);
     });
     //3, 15, 19 are topCenters
-    [3, 15, 19].forEach(tile => {
+    [3, 15, 19].forEach(function(tile) {
       drawBoard[tile] = topCenter(tile);
     });
     //9, 21, 37 are leftCenter
-    [9, 21, 37].forEach(tile => {
+    [9, 21, 37].forEach(function(tile) {
       drawBoard[tile] = leftCenter(tile);
     });
     // 11, 27, 39 are rightCenter
-    [11, 27, 39].forEach(tile => {
+    [11, 27, 39].forEach(function(tile) {
       drawBoard[tile] = rightCenter(tile);
     });
     // 29, 33, 45 are bottomCenter
-    [29, 33, 45].forEach(tile => {
+    [29, 33, 45].forEach(function(tile) {
       drawBoard[tile] = bottomCenter(tile);
     });
     // These cases are literally on corners.
@@ -91,40 +83,33 @@ function main() {
     drawBoard[46] = List([38, 39, 45]);
     // Future refactoring: odds are crossNeighbors, evens are allNeighbors
     // Edge cases can be taken care of by detecting board edges and removing those nodes
-
     // Using immutable JS
     return List(drawBoard);
   }
-
   // console.log(createBoard());
-
   function createBoardDOMElement(boardList) {
-    let boardMain = document.getElementById('main');
-
-    function newSvgLine(x2: number, y2: number) {
+    var boardMain = document.getElementById('main');
+    function newSvgLine(x2, y2) {
       // SVG Line always starts at center: 50, 50; goes to outside
-      let svgLine = document.createElementNS(xmlns, 'line');
+      var svgLine = document.createElementNS(xmlns, 'line');
       svgLine.setAttributeNS(null, 'x1', '50');
       svgLine.setAttributeNS(null, 'x2', x2.toString());
       svgLine.setAttributeNS(null, 'y1', '50');
       svgLine.setAttributeNS(null, 'y2', y2.toString());
       svgLine.setAttributeNS(null, 'stroke', 'black');
       svgLine.setAttributeNS(null, 'vector-effect', 'non-scaling-stroke');
-
       return svgLine;
     }
-    for (let i = 0; i < WIDTH * HEIGHT; i++) {
+    for (var i = 0; i < WIDTH * HEIGHT; i++) {
       // All tiles 0 -> 48 are drawn on the DOM`
-      let boardTile = document.createElement('div');
+      var boardTile = document.createElement('div');
       boardTile.className = 'tile';
       boardTile.id = i.toString();
-
       // Check if tile has any connections to neighbors, if so, set SVG box to draw lines
       if (boardList.get(i)) {
-        let svgTag = document.createElementNS(xmlns, 'svg');
+        var svgTag = document.createElementNS(xmlns, 'svg');
         svgTag.setAttributeNS(null, 'height', '100');
         svgTag.setAttributeNS(null, 'width', '100');
-
         // Check each direction and draw a line if appropriate
         if (boardList.get(i).includes(i + N)) {
           svgTag.appendChild(newSvgLine(50, 0));
@@ -152,10 +137,8 @@ function main() {
         }
         boardTile.appendChild(svgTag);
       }
-
       boardMain.appendChild(boardTile);
     } // for
   }
-
   createBoardDOMElement(boardList);
 }
