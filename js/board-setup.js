@@ -12,7 +12,9 @@ var NW = 0 - WIDTH - 1,
 var xmlns = 'http://www.w3.org/2000/svg';
 document.addEventListener('DOMContentLoaded', main);
 function main() {
-  var boardList = createBoard();
+  var boardArray = createBoard();
+  //@ts-ignore
+  var boardList = List(boardArray);
   function createBoard() {
     var drawBoard = [];
     // Some functions to calculate commonly seen board patterns
@@ -84,7 +86,7 @@ function main() {
     // Future refactoring: odds are crossNeighbors, evens are allNeighbors
     // Edge cases can be taken care of by detecting board edges and removing those nodes
     // Using immutable JS
-    return List(drawBoard);
+    return drawBoard;
   }
   // console.log(createBoard());
   function createBoardDOMElement(boardList) {
@@ -140,5 +142,6 @@ function main() {
       boardMain.appendChild(boardTile);
     } // for
   }
+  function createBoardState() {}
   createBoardDOMElement(boardList);
 }

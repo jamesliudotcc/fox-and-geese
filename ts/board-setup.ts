@@ -19,9 +19,11 @@ const xmlns = 'http://www.w3.org/2000/svg';
 document.addEventListener('DOMContentLoaded', main);
 
 function main() {
-  const boardList = createBoard();
+  const boardArray: number[] = createBoard();
+  //@ts-ignore
+  const boardList = List(boardArray);
 
-  function createBoard() {
+  function createBoard() {boardArray
     let drawBoard: any[] = [];
     // Some functions to calculate commonly seen board patterns
     // These functions are created for 3 or more of the same pattern
@@ -93,9 +95,8 @@ function main() {
     // Edge cases can be taken care of by detecting board edges and removing those nodes
 
     // Using immutable JS
-    return List(drawBoard);
+    return drawBoard;
   }
-
   // console.log(createBoard());
 
   function createBoardDOMElement(boardList) {
@@ -156,6 +157,8 @@ function main() {
       boardMain.appendChild(boardTile);
     } // for
   }
+
+  function createBoardState() {}
 
   createBoardDOMElement(boardList);
 }
