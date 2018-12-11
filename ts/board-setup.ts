@@ -23,11 +23,9 @@ const xmlns = 'http://www.w3.org/2000/svg';
 document.addEventListener('DOMContentLoaded', main);
 
 function main() {
-  const boardArray: number[] = createBoard();
-  const boardList = List(boardArray);
+  const boardList = createBoard();
 
   function createBoard() {
-    boardArray;
     let drawBoard: any[] = [];
     // Some functions to calculate commonly seen board patterns
     // These functions are created for 3 or more of the same pattern
@@ -98,8 +96,8 @@ function main() {
     // Future refactoring: odds are crossNeighbors, evens are allNeighbors
     // Edge cases can be taken care of by detecting board edges and removing those nodes
 
-    // Using immutable JS
-    return drawBoard;
+    // Iniside function, nonmutable is OK.
+    return List(drawBoard);
   }
 
   function createBoardDOMElement(boardList: any) {
@@ -159,17 +157,22 @@ function main() {
 
       // Active tiles should have a different class
 
-      if (boardList.get(i).get('active')) {
+      if (boardList.get(i)) {
         boardTile.classList.add('active-tile');
+
+        //Development scafolding: write numbers on tiles
+        let tileLabel = document.createElement('p');
+        tileLabel.innerText = i.toString();
+        boardTile.appendChild(tileLabel);
       }
       // Fox is an HTML class
       if (i === startingState.get('foxAt')) {
         boardTile.classList.add(FOX);
       }
-      // // Geese are a class
-      // if (startingState.geeseAt.includes(i)) {
-      //   boardTile.classList.add(GOOSE);
-      // }
+      // Geese are a class
+      if (startingState.get('geeseAt').includes(i)) {
+        boardTile.classList.add(GOOSE);
+      }
       boardMain.appendChild(boardTile);
     } // for
   }
