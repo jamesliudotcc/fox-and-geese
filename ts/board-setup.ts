@@ -1,6 +1,7 @@
 const { fromJS, List } = require('immutable');
 
-// In JS file, instead of import, use: List = Immutable.List;
+// In JS file, instead of import, use:
+//let List = Immutable.List, fromJS = Immutable.fromJS;
 
 const FOX = 'fox',
   GOOSE = 'goose';
@@ -23,7 +24,6 @@ document.addEventListener('DOMContentLoaded', main);
 
 function main() {
   const boardArray: number[] = createBoard();
-  //@ts-ignore
   const boardList = List(boardArray);
 
   function createBoard() {
@@ -102,7 +102,7 @@ function main() {
     return drawBoard;
   }
 
-  function createBoardDOMElement(boardList) {
+  function createBoardDOMElement(boardList: any) {
     let boardMain = document.getElementById('main');
 
     function newSvgLine(x2: number, y2: number) {
@@ -159,72 +159,57 @@ function main() {
 
       // Active tiles should have a different class
 
-      // Fox is a class
-
-      // Geese are a class
-
+      if (boardList.get(i).get('active')) {
+        boardTile.classList.add('active-tile');
+      }
+      // Fox is an HTML class
+      if (i === startingState.get('foxAt')) {
+        boardTile.classList.add(FOX);
+      }
+      // // Geese are a class
+      // if (startingState.geeseAt.includes(i)) {
+      //   boardTile.classList.add(GOOSE);
+      // }
       boardMain.appendChild(boardTile);
     } // for
   }
 
-  function createBoardState(boardArray: any[]) {
-    let startingState: {
-      board: {
-        active: boolean;
-        neighbors: any;
-        occupied: string;
-        possibleMoves: number[];
-      }[];
-      foxTurn: boolean;
-      jumped: boolean;
+  function createBoardState() {
+    const startingState: {
       foxWon: boolean;
       geeseWon: boolean;
+      foxTurn: boolean;
+      foxJumped: boolean;
+      foxAt: number;
+      geeseAt: number[];
+      legalMoves: number[][];
+      legalJumps: number[][];
     } = {
-      board: [
-        {
-          active: false,
-          neighbors: undefined,
-          occupied: '',
-          possibleMoves: [],
-        },
-      ],
-      foxTurn: true,
-      jumped: false,
       foxWon: false,
       geeseWon: false,
+      foxTurn: false,
+      foxJumped: false,
+      foxAt: 17, // Fox placed here.
+      geeseAt: [],
+      legalMoves: [],
+      legalJumps: [],
     };
-    for (let i = 0; i < HEIGHT * WIDTH; i++) {
-      startingState.board[i] = {
-        active: false,
-        neighbors: null,
-        occupied: '',
-        possibleMoves: [],
-      };
-      startingState.board[i].neighbors = boardArray[i];
-
-      if (startingState.board[i].neighbors) {
-        startingState.board[i].active = true;
-      }
-    } // for
-
-    // Place fox
-
-    startingState.board[17].occupied = FOX;
 
     // Place geese
     for (let i = 28; i < HEIGHT * WIDTH; i++) {
-      if (startingState.board[i].active) {
-        startingState.board[i].occupied = GOOSE;
+      if (boardList.get(i)) {
+        startingState.geeseAt.push(i);
       }
-    }
+    } // for
 
     return startingState;
   }
 
-  startingState = createBoardState(boardArray);
+  let startingState = fromJS(createBoardState());
 
   console.log(startingState);
-  createBoardState(boardArray);
+  console.log(startingState.get('foxAt'));
+  console.log(startingState.get('geeseAt'));
 
   createBoardDOMElement(boardList);
 }
