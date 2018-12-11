@@ -2,6 +2,9 @@ const { fromJS, List } = require('immutable');
 
 // In JS file, instead of import, use: List = Immutable.List;
 
+const FOX = 'fox',
+  GOOSE = 'goose';
+
 const WIDTH = 7,
   HEIGHT = 7;
 
@@ -23,7 +26,8 @@ function main() {
   //@ts-ignore
   const boardList = List(boardArray);
 
-  function createBoard() {boardArray
+  function createBoard() {
+    boardArray;
     let drawBoard: any[] = [];
     // Some functions to calculate commonly seen board patterns
     // These functions are created for 3 or more of the same pattern
@@ -97,7 +101,6 @@ function main() {
     // Using immutable JS
     return drawBoard;
   }
-  // console.log(createBoard());
 
   function createBoardDOMElement(boardList) {
     let boardMain = document.getElementById('main');
@@ -154,11 +157,74 @@ function main() {
         boardTile.appendChild(svgTag);
       }
 
+      // Active tiles should have a different class
+
+      // Fox is a class
+
+      // Geese are a class
+
       boardMain.appendChild(boardTile);
     } // for
   }
 
-  function createBoardState() {}
+  function createBoardState(boardArray: any[]) {
+    let startingState: {
+      board: {
+        active: boolean;
+        neighbors: any;
+        occupied: string;
+        possibleMoves: number[];
+      }[];
+      foxTurn: boolean;
+      jumped: boolean;
+      foxWon: boolean;
+      geeseWon: boolean;
+    } = {
+      board: [
+        {
+          active: false,
+          neighbors: undefined,
+          occupied: '',
+          possibleMoves: [],
+        },
+      ],
+      foxTurn: true,
+      jumped: false,
+      foxWon: false,
+      geeseWon: false,
+    };
+    for (let i = 0; i < HEIGHT * WIDTH; i++) {
+      startingState.board[i] = {
+        active: false,
+        neighbors: null,
+        occupied: '',
+        possibleMoves: [],
+      };
+      startingState.board[i].neighbors = boardArray[i];
+
+      if (startingState.board[i].neighbors) {
+        startingState.board[i].active = true;
+      }
+    } // for
+
+    // Place fox
+
+    startingState.board[17].occupied = FOX;
+
+    // Place geese
+    for (let i = 28; i < HEIGHT * WIDTH; i++) {
+      if (startingState.board[i].active) {
+        startingState.board[i].occupied = GOOSE;
+      }
+    }
+
+    return startingState;
+  }
+
+  startingState = createBoardState(boardArray);
+
+  console.log(startingState);
+  createBoardState(boardArray);
 
   createBoardDOMElement(boardList);
 }

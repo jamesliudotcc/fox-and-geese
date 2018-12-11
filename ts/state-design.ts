@@ -1,4 +1,4 @@
-let state: {
+let startingState: {
   board: {
     active: boolean;
     neighbors: number[];
@@ -11,4 +11,8 @@ let state: {
   geeseWon: boolean;
 } = {
   board: [{ active: false, neighbors: [], occupied: '', possibleMoves: [] }],
+  foxTurn: true,
+  jumped: false,
+  foxWon: false,
+  geeseWon: false,
 };

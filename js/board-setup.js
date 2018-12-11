@@ -1,4 +1,6 @@
-List = Immutable.List;
+let List = Immutable.List;
+var FOX = 'fox',
+  GOOSE = 'goose';
 var WIDTH = 7,
   HEIGHT = 7;
 var NW = 0 - WIDTH - 1,
@@ -16,6 +18,7 @@ function main() {
   //@ts-ignore
   var boardList = List(boardArray);
   function createBoard() {
+    boardArray;
     var drawBoard = [];
     // Some functions to calculate commonly seen board patterns
     // These functions are created for 3 or more of the same pattern
@@ -88,7 +91,6 @@ function main() {
     // Using immutable JS
     return drawBoard;
   }
-  // console.log(createBoard());
   function createBoardDOMElement(boardList) {
     var boardMain = document.getElementById('main');
     function newSvgLine(x2, y2) {
@@ -142,6 +144,44 @@ function main() {
       boardMain.appendChild(boardTile);
     } // for
   }
-  function createBoardState() {}
+  function createBoardState(boardArray) {
+    var startingState = {
+      board: [
+        {
+          active: false,
+          neighbors: undefined,
+          occupied: '',
+          possibleMoves: [],
+        },
+      ],
+      foxTurn: true,
+      jumped: false,
+      foxWon: false,
+      geeseWon: false,
+    };
+    for (var i = 0; i < HEIGHT * WIDTH; i++) {
+      startingState.board[i] = {
+        active: false,
+        neighbors: null,
+        occupied: '',
+        possibleMoves: [],
+      };
+      startingState.board[i].neighbors = boardArray[i];
+      if (startingState.board[i].neighbors) {
+        startingState.board[i].active = true;
+      }
+    } // for
+    // Place fox
+    startingState.board[17].occupied = FOX;
+    // Place geese
+    for (var i = 28; i < HEIGHT * WIDTH; i++) {
+      if (startingState.board[i].active) {
+        startingState.board[i].occupied = GOOSE;
+      }
+    }
+    console.log(startingState.board);
+  }
+  console.log(createBoardState(boardArray));
+  createBoardState(boardArray);
   createBoardDOMElement(boardList);
 }
