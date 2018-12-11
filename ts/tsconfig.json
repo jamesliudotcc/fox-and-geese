@@ -7,5 +7,6 @@
     "noImplicitAny": true,
     "target": "es6",
     "types": ["node"]
-  }
+  },
+  "exclude": ["state-design.ts"]
 }
