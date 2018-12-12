@@ -1,6 +1,5 @@
-let List = Immutable.List,
-  fromJS = Immutable.fromJS,
-  Map = Immutable.Map;
+const { Range, fromJS, List, remove } = require('immutable');
+
 const FOX = 'fox',
   GOOSE = 'goose';
 const WIDTH = 7,
@@ -13,7 +12,6 @@ const NW = 0 - WIDTH - 1,
   SW = WIDTH - 1,
   S = WIDTH,
   SE = WIDTH + 1;
-//Directions start at N and go clockwise. For convenience.
 const DIRECTIONS = [N, NE, E, SE, S, SW, W, NW];
 const XMLNS = 'http://www.w3.org/2000/svg';
 let startingState = {
@@ -25,7 +23,6 @@ let startingState = {
   geeseAt: [],
   legalMoves: [],
   legalJumps: [],
-  messageToView: "Game begins with goose's move",
 };
 const onBoardTilesList = setBoardLimits([
   0,
@@ -55,8 +52,15 @@ function setBoardLimits(offBoard) {
   }
   return List(boardTiles);
 }
-// Messages to display
-const NOT_FOX_TURN = "Not fox's turn, geese go",
-  NOT_GEESE_TURN = "Not geese's turn, fox goes",
-  FOX_GOES = 'Fox Goes',
-  GEESE_GO = 'Geese Go';
+
+console.log(onBoardTilesList.get(5));
+
+let here = 46;
+
+let legalMoves = DIRECTIONS.map(direction => direction + here)
+  .filter(neighbor => onBoardTilesList.includes(neighbor))
+  .map(neighbor => {
+    return [here, neighbor];
+  });
+
+console.log(legalMoves);

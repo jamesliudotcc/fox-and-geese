@@ -1,15 +1,11 @@
-const { fromJS, List } = require('immutable');
-
-// In JS file, instead of import, use:
-//let List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
-
 //ImmutabeJS types are declared as any for now.
 let currentState: any;
+let boardList: any;
 
 document.addEventListener('DOMContentLoaded', main);
 
 function main() {
-  const boardList = createBoard();
+  boardList = createBoard();
 
   function createBoardState() {
     // TODO: Place geese should be in board-setup.ts
@@ -45,7 +41,7 @@ function foxMoves(movesFrom: number, movesTo: number): void {
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
-  console.log(messageToUpdate);
+  console.log('Message to Update from foxMoves:', messageToUpdate);
   currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
@@ -57,7 +53,7 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
-  console.log(messageToUpdate);
+  console.log('Message to Update from gooseMoves:', messageToUpdate);
   currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
@@ -72,6 +68,7 @@ function updater(
   previousState: any
 ): any {
   // Any until I get Immutable working with TS
+  console.log('previousState Object in Updater', previousState);
   let newState: {
     foxWon: boolean;
     geeseWon: boolean;
@@ -81,30 +78,43 @@ function updater(
     geeseAt: number[];
     legalMoves: number[][];
     legalJumps: number[][];
+    messageToView: string;
   } = {
-    foxWon: false,
-    geeseWon: false,
-    foxTurn: false,
-    foxJumped: false,
-    foxAt: 0,
-    geeseAt: [],
-    legalMoves: [],
-    legalJumps: [],
+    foxWon: previousState.get('foxWon'),
+    geeseWon: previousState.get('geeseWon'),
+    foxTurn: previousState.get('foxTurn'),
+    foxJumped: previousState.get('foxJumped'),
+    foxAt: previousState.get('foxAt'),
+    geeseAt: previousState.get('geeseAt'),
+    legalMoves: previousState.get('legalMoves'),
+    legalJumps: previousState.get('legalJumps'),
+    messageToView: '',
   }; // Make updates to newState and return it as immutable
   // set new position for moved piece
-  console.log('From Updater, Foxmoved:', message.foxMoved);
   //read previous geese state
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
   if (message.foxMoved) {
     //Check if Fox's move, move is legal, before going on to move logic.
+    // Check if Fox's move
+    if (!newState.foxTurn) {
+      newState.messageToView = NOT_FOX_TURN;
+      return fromJS(newState);
+    }
+
+    // Check if move is legal.
 
     //Move logic
     newState.foxAt = message.moveTo;
     newState.geeseAt = previousGeeseAt;
   } else {
-    // 2. remove piece from old tile
-    newState.foxAt = currentState.get('foxAt');
+    // Check if Geese's move
+    if (newState.foxTurn) {
+      newState.messageToView = NOT_GEESE_TURN;
+      return fromJS(newState);
+    }
+    // Check if Geese's move is legal
+
     let newGeeseAt: any = previousGeeseAt
       .filter(goose => goose !== message.moveFrom)
       //@ts-ignore
@@ -112,18 +122,21 @@ function updater(
     // 3. place piece on new tile
 
     newState.geeseAt = newGeeseAt;
+    newState.foxTurn = true;
+    newState.messageToView = FOX_GOES;
   }
 
   if (message.jumped) {
     newState.foxTurn = true;
     // remove the jumped goose
+    newState.messageToView = FOX_GOES;
     console.log();
     console.log('Fox caught a gooose!');
   } else {
     newState.foxTurn = false;
     newState.foxTurn = !message.foxMoved;
+    newState.messageToView = GEESE_GO;
   }
-
   // Create the new legal moves
   //   if (newState.currentState.getfoxTurn) {
   //     // create legal single space moves
@@ -150,9 +163,14 @@ function updater(
 }
 
 function viewUpdate(currentState: any) {
-  let gameMessages = document.getElementById('game-messages');
+  const gameMessages = document.getElementById('game-messages');
   // Only reflect the current game state on the view in this function
-  let boardTiles = document.getElementsByClassName('active-tile');
+  const boardTiles = document.getElementsByClassName('active-tile');
+
+  const messagesToDisplay = currentState.get('messageToView');
+
+  console.log(messagesToDisplay);
+
   for (let i = 0; i < HEIGHT * WIDTH; i++) {
     // remove the fox and goose classes from all of the tiles
     if (boardTiles[i] !== undefined) {
@@ -202,3 +220,4 @@ function viewUpdate(currentState: any) {
 //     legalJumps: [], // calculate legal jumps
 //   });
 // }
+console.log(onBoardTilesList);

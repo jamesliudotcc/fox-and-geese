@@ -78,7 +78,7 @@ function createBoardDOMElement(boardList: any) {
 
   function newSvgLine(x2: number, y2: number) {
     // SVG Line always starts at center: 50, 50; goes to outside
-    let svgLine = document.createElementNS(xmlns, 'line');
+    let svgLine = document.createElementNS(XMLNS, 'line');
     svgLine.setAttributeNS(null, 'x1', '50');
     svgLine.setAttributeNS(null, 'x2', x2.toString());
     svgLine.setAttributeNS(null, 'y1', '50');
@@ -96,7 +96,7 @@ function createBoardDOMElement(boardList: any) {
 
     // Check if tile has any connections to neighbors, if so, set SVG box to draw lines
     if (boardList.get(i)) {
-      let svgTag = document.createElementNS(xmlns, 'svg');
+      let svgTag = document.createElementNS(XMLNS, 'svg');
       svgTag.setAttributeNS(null, 'height', '100');
       svgTag.setAttributeNS(null, 'width', '100');
 
