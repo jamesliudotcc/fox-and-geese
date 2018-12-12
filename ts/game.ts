@@ -335,11 +335,12 @@ function updater(
   } else {
     // 2. remove piece from old tile
     newState.foxAt = currentState.get('foxAt');
-    let newGeeseAt: number[] = previousGeeseAt.filter(
+    let stayingGeeseAt: any = previousGeeseAt.filter(
       goose => goose !== message.moveFrom
     );
     // 3. place piece on new tile
-    newGeeseAt.push(message.moveTo);
+    console.log(stayingGeeseAt);
+    let newGeeseAt: any = stayingGeeseAt.push(message.moveTo);
     console.log(newGeeseAt);
     newState.geeseAt = newGeeseAt;
   }
@@ -395,7 +396,6 @@ function viewUpdate(currentState: any) {
   console.log('Geese at:', currentState.get('geeseAt'));
   let newGooseLoc;
   for (let i = 0; i < currentState.get('geeseAt').size; i++) {
-    console.log('Geese to place', currentState.get('geeseAt').get(i));
     newGooseLoc = document.getElementById(currentState.get('geeseAt').get(i));
     newGooseLoc.classList.add('goose');
   }
