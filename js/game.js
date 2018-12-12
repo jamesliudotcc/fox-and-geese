@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', main);
 function main() {
   const boardList = createBoard();
   function createBoardState() {
+    // TODO: Place geese should be in board-setup.ts
     // Place geese
     for (let i = 28; i < HEIGHT * WIDTH; i++) {
       if (boardList.get(i)) {
@@ -47,38 +48,44 @@ function gooseMoves(movesFrom, movesTo) {
   currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
-function foxMoveCheck(movesFrom, movesTo) {
-  //None of this function works, redo.
-  let jumped = false; // assume that the fox does not jump a goose
-  if (/*move is legal*/ null) {
-    let jumped = false;
-  }
-  if (/*jump is legal*/ null) {
-    jumped = true;
-  } else {
-    // call error handler
-    return null;
-  }
-  //
-  let message = {
-    foxMoved: true,
-    jumped: jumped,
-    moveFrom: movesFrom,
-    moveTo: movesTo,
-  };
-  console.log(message);
-  return message;
-}
-function gooseMoveCheck(movesFrom, movesTo) {
-  //check if move legal
-  //return
-  return {
-    foxMoved: false,
-    jumped: false,
-    moveFrom: movesFrom,
-    moveTo: movesTo,
-  };
-}
+// function foxMoveCheck(
+//   movesFrom: number,
+//   movesTo: number
+// ): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
+//   //None of this function works, redo.
+//   let jumped = false; // assume that the fox does not jump a goose
+//   if (/*move is legal*/ null) {
+//     let jumped = false;
+//   }
+//   if (/*jump is legal*/ null) {
+//     jumped = true;
+//   } else {
+//     // call error handler
+//     return null;
+//   }
+//   //
+//   let message = {
+//     foxMoved: true,
+//     jumped: jumped,
+//     moveFrom: movesFrom,
+//     moveTo: movesTo,
+//   };
+//   console.log(message);
+//   return message;
+// }
+// function gooseMoveCheck(
+//   movesFrom: number,
+//   movesTo: number
+// ): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
+//   //check if move legal
+//   //return
+//   return {
+//     foxMoved: false,
+//     jumped: false,
+//     moveFrom: movesFrom,
+//     moveTo: movesTo,
+//   };
+// }
 function updater(message, previousState) {
   // Any until I get Immutable working with TS
   let newState = {
