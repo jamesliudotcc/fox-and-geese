@@ -3,6 +3,7 @@ const { fromJS, List } = require('immutable');
 // In JS file, instead of import, use:
 //let List = Immutable.List, fromJS = Immutable.fromJS;
 
+//ImmutabeJS types are declared as any for now.
 let startingState: any;
 let currentState: any;
 
@@ -215,189 +216,198 @@ function main() {
 
   createBoardDOMElement(boardList);
 
-  let gameMessages = document.getElementById('game-messages');
+  currentState = allowFirstMove(startingState);
+}
+// Create fox event listener, once triggered:
 
-  // Create fox event listener, once triggered:
+function allowFirstMove(startingState: any): any {
+  return startingState;
+}
 
-  //This is so I can play Fox & Geese from the console
-  function foxMoves(movesFrom: number, movesTo: number): void {
-    currentState = updater(
-      { ...foxMoveCheck(movesFrom, movesTo) },
-      currentState
+//This is so I can play Fox & Geese from the console
+function foxMoves(movesFrom: number, movesTo: number): void {
+  let messageToUpdate = { ...foxMoveCheck(movesFrom, movesTo) };
+  console.log(messageToUpdate);
+  currentState = updater(messageToUpdate, currentState);
+  console.log('From FoxMoves:', currentState.get('foxAt'));
+
+  viewUpdate(currentState);
+}
+
+function gooseMoves(movesFrom: number, movesTo: number): void {
+  currentState = updater(
+    { ...gooseMoveCheck(movesFrom, movesTo) },
+    currentState
+  );
+  viewUpdate(currentState);
+}
+
+function foxMoveCheck(
+  movesFrom: number,
+  movesTo: number
+): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
+  let jumped = false; // assume that the fox does not jump a goose
+  if (/*move is legal*/ null) {
+    let jumped = false;
+  }
+  if (/*jump is legal*/ null) {
+    jumped = true;
+  } else {
+    // call error handler
+    return null;
+  }
+  //
+  let message = {
+    foxMoved: true,
+    jumped: jumped,
+    moveFrom: movesFrom,
+    moveTo: movesTo,
+  };
+  console.log(message);
+  return message;
+}
+
+// Create goose event listener, once triggered:
+function gooseMoveCheck(
+  movesFrom: number,
+  movesTo: number
+): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
+  //check if move legal
+
+  //return
+  return {
+    foxMoved: false,
+    jumped: false,
+    moveFrom: movesFrom,
+    moveTo: movesTo,
+  };
+}
+
+function updater(
+  message: {
+    foxMoved: boolean;
+    jumped: boolean;
+    moveFrom: number;
+    moveTo: number;
+  },
+  previousState: any
+): any {
+  // Any until I get Immutable working with TS
+  let newState: {
+    foxWon: boolean;
+    geeseWon: boolean;
+    foxTurn: boolean;
+    foxJumped: boolean;
+    foxAt: number;
+    geeseAt: number[];
+    legalMoves: number[][];
+    legalJumps: number[][];
+  } = {
+    foxWon: false,
+    geeseWon: false,
+    foxTurn: false,
+    foxJumped: false,
+    foxAt: 0,
+    geeseAt: [],
+    legalMoves: [],
+    legalJumps: [],
+  }; // Make updates to newState and return it as immutable
+  // set new position for moved piece
+  console.log('From Updater, Foxmoved:', message.foxMoved);
+  if (message.foxMoved) {
+    newState.foxAt = message.moveTo;
+  } else {
+    // 1. read positions from the old state
+    let previousGeeseAt: [] = previousState.get('geeseAt');
+    // 2. remove piece from old tile
+    let newGeeseAt: number[] = previousGeeseAt.filter(
+      goose => goose !== message.moveFrom
     );
-    viewUpdate(currentState);
+    // 3. place piece on new tile
+    newGeeseAt.push(message.moveTo);
+    newState.geeseAt = newGeeseAt;
   }
 
-  function gooseMoves(movesFrom: number, movesTo: number): void {
-    currentState = updater(
-      { ...gooseMoveCheck(movesFrom, movesTo) },
-      currentState
-    );
-    viewUpdate(currentState);
+  if ((message.jumped = true)) {
+    newState.foxJumped = true;
+    newState.foxTurn = true;
+    // remove the goose
+    console.log('Fox caught a gooose!');
+  } else {
+    newState.foxTurn = false;
+    newState.foxTurn = !message.foxMoved;
   }
 
-  function foxMoveCheck(
-    movesFrom: number,
-    movesTo: number
-  ): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
-    let jumped = false; // assume that the fox does not jump a goose
-    if (/*move is legal*/ null) {
-      let jumped = false;
-    }
-    if (/*jump is legal*/ null) {
-      jumped = true;
-    } else {
-      // call error handler
-      return null;
-    }
-    //
-    return {
-      foxMoved: true,
-      jumped: jumped,
-      moveFrom: movesFrom,
-      moveTo: movesTo,
-    };
+  // Create the new legal moves
+  //   if (newState.foxTurn) {
+  //     // create legal single space moves
+  //   } else {
+  //   }
+
+  // check if fox won
+  if (newState.geeseAt.length <= 4) {
+    newState.foxWon = true;
   }
 
-  // Create goose event listener, once triggered:
-  function gooseMoveCheck(
-    movesFrom: number,
-    movesTo: number
-  ): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
-    //check if move legal
-
-    //return
-    return {
-      foxMoved: false,
-      jumped: false,
-      moveFrom: movesFrom,
-      moveTo: movesTo,
-    };
-  }
-
-  function updater(
-    message: {
-      foxMoved: boolean;
-      jumped: boolean;
-      moveFrom: number;
-      moveTo: number;
-    },
-    previousState: any
-  ): any {
-    // Any until I get Immutable working with TS
-    let newState: {
-      foxWon: boolean;
-      geeseWon: boolean;
-      foxTurn: boolean;
-      foxJumped: boolean;
-      foxAt: number;
-      geeseAt: number[];
-      legalMoves: number[][];
-      legalJumps: number[][];
-    } = {
-      foxWon: false,
-      geeseWon: false,
-      foxTurn: false,
-      foxJumped: false,
-      foxAt: 0,
-      geeseAt: [],
-      legalMoves: [],
-      legalJumps: [],
-    }; // Make updates to newState and return it as immutable
-
-    // set new position for moved piece
-
-    if (message.foxMoved) {
-      newState.foxAt = message.moveTo;
-    } else {
-      // 1. read positions from the old state
-      let previousGeeseAt: [] = previousState.get('geeseAt');
-      // 2. remove piece from old tile
-      let newGeeseAt: number[] = previousGeeseAt.filter(
-        goose => goose !== message.moveFrom
-      );
-      // 3. place piece on new tile
-      newGeeseAt.push(message.moveTo);
-      newState.geeseAt = newGeeseAt;
-    }
-
-    if ((message.jumped = true)) {
-      newState.foxJumped = true;
-      newState.foxTurn = true;
-      // remove the goose
-      console.log('Fox caught a gooose!');
-    } else {
-      newState.foxTurn = false;
-      newState.foxTurn = !message.foxMoved;
-    }
-
-    // Create the new legal moves
-    //   if (newState.foxTurn) {
-    //     // create legal single space moves
-    //   } else {
-    //   }
-
-    // check if fox won
-    if (newState.geeseAt.length <= 4) {
-      newState.foxWon = true;
-    }
-
-    // check if geese won
-    /* This happens after the turn is toggled so that fox's legal moves can 
+  // check if geese won
+  /* This happens after the turn is toggled so that fox's legal moves can 
     be checked. Geese only win at the close of their turn and do not jump 
     the fox, so it is OK to do this after toggling the turn to fox. */
 
-    if (newState.foxTurn && newState.legalMoves.length === 0) {
-      //   check fox legal moves. If there are none, geese won.
-      newState.geeseWon = true;
-    }
-
-    return fromJS(newState);
+  if (newState.foxTurn && newState.legalMoves.length === 0) {
+    //   check fox legal moves. If there are none, geese won.
+    newState.geeseWon = true;
   }
 
-  function viewUpdate(currentState: any) {
-    // Only reflect the current game state on the view in this function
-    let boardTiles = document.getElementsByClassName('active-tile');
-    for (let i = 0; i < HEIGHT * WIDTH; i++) {
-      // remove the fox and goose classes from all of the tiles
+  return fromJS(newState);
+}
+
+function viewUpdate(currentState: any) {
+  let gameMessages = document.getElementById('game-messages');
+  // Only reflect the current game state on the view in this function
+  let boardTiles = document.getElementsByClassName('active-tile');
+  for (let i = 0; i < HEIGHT * WIDTH; i++) {
+    // remove the fox and goose classes from all of the tiles
+    if (boardTiles[i] !== undefined) {
       boardTiles[i].classList.remove('fox');
       boardTiles[i].classList.remove('goose');
-
-      // put goose classes tiles based on currentState
-      if (currentState.get('GeeseAt').includes(i)) {
-        boardTiles[i].classList.add(GOOSE);
-      }
-    } // for
-
-    // Only one place where the fox might be:
-    boardTiles[currentState.get('FoxAt')].classList.add(FOX);
-
-    // Declare victory for fox or geese if appropriate
-    if (currentState.get('foxWon')) {
-      gameMessages.textContent = 'Fox Won!';
-
-      // Turn off board.
     }
-    if (currentState.get('geeseWon')) {
-      gameMessages.textContent = 'Geeeese Won!';
+  } // for
 
-      // Turn off board.
-      // number of ee's == number of geese
-    }
+  // put goose classes tiles based on currentState
+  //   console.log(currentState.get('GeeseAt'));
+  //   if (currentState.get('GeeseAt').includes(i)) {
+  //     boardTiles[i].classList.add(GOOSE);
+  //   }
+  // Only one place where the fox might be:
+  console.log('From ViewUpdate:', currentState);
+  boardTiles[currentState.get('FoxAt')].classList.add(FOX);
+
+  // Declare victory for fox or geese if appropriate
+  if (currentState.get('foxWon')) {
+    gameMessages.textContent = 'Fox Won!';
+
+    // Turn off board.
   }
+  if (currentState.get('geeseWon')) {
+    gameMessages.textContent = 'Geeeese Won!';
 
-  // // Implement cheater state:
-
-  // function cheaterState() {
-  //   currentState = fromJS({
-  //     foxWon: false,
-  //     geeseWon: false,
-  //     foxTurn: false,
-  //     foxJumped: false,
-  //     foxAt: 17, // Fox placed here.
-  //     geeseAt: [],
-  //     legalMoves: [], // calculate legal moves
-  //     legalJumps: [], // calculate legal jumps
-  //   });
-  // }
+    // Turn off board.
+    // number of ee's == number of geese
+  }
 }
+
+// // Implement cheater state:
+
+// function cheaterState() {
+//   currentState = fromJS({
+//     foxWon: false,
+//     geeseWon: false,
+//     foxTurn: false,
+//     foxJumped: false,
+//     foxAt: 17, // Fox placed here.
+//     geeseAt: [],
+//     legalMoves: [], // calculate legal moves
+//     legalJumps: [], // calculate legal jumps
+//   });
+// }
