@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', main);
 function main() {
   const boardList = createBoard();
 
-  // TODO refactor create geese out of main.
   function createBoardState() {
     // Place geese
     for (let i = 28; i < HEIGHT * WIDTH; i++) {

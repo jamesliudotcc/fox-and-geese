@@ -130,10 +130,12 @@ function createBoardDOMElement(boardList) {
             boardTile.appendChild(tileLabel);
         }
         // Fox is an HTML class
+        //@ts-ignore
         if (i === startingState.get('foxAt')) {
             boardTile.classList.add(FOX);
         }
         // Geese are a class
+        //@ts-ignore
         if (startingState.get('geeseAt').includes(i)) {
             boardTile.classList.add(GOOSE);
         }
