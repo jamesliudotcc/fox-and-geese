@@ -387,8 +387,8 @@ function viewUpdate(currentState: any) {
   //     boardTiles[i].classList.add(GOOSE);
   //   }
   // Only one place where the fox might be:
-  console.log('From ViewUpdate:', currentState, currentState.get('FoxAt'));
-  boardTiles[currentState.get('FoxAt')].classList.add(FOX);
+  console.log('From ViewUpdate:', currentState, currentState.get('foxAt'));
+  boardTiles[currentState.get('foxAt')].classList.add(FOX);
 
   // Declare victory for fox or geese if appropriate
   if (currentState.get('foxWon')) {
