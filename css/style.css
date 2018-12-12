@@ -7,12 +7,6 @@ main {
   grid-template-columns: repeat(7, 12vw);
   grid-template-rows: repeat(7, 12vw);
 }
-.yellow-goes {
-  color: #cb9d00;
-}
-.red-goes {
-  color: #a00016;
-}
 .tile {
   height: 100%;
   width: 100%;
@@ -22,50 +16,13 @@ main {
   align-items: center;
   justify-content: center;
 }
-.porthole,
-.red,
-.yellow {
-  height: 80%;
-  width: 80%;
-  border-radius: 50%;
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
+.fox {
+  background-image: url(../assets/fox.svg);
   background-size: cover;
 }
-.porthole {
-  background-color: #cccccc;
-}
-.red {
-  background-image: url(../img/red-piece.png);
-}
-.yellow {
-  background-image: url(../img/yellow-piece.png);
-}
-.porthole:hover {
-  background-color: #888888;
-}
-.hovered {
-  background-color: #58acf7;
-}
-.container {
-  width: 900px;
-}
-
-@media screen and (min-width: 702px) {
-  main {
-    display: grid;
-    grid-template-columns: repeat(7, 100px);
-    grid-template-rows: repeat(7, 100px);
-  }
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-#reset {
-  font-size: 0.7em;
+.goose {
+  background-image: url(../assets/goose.svg);
+  background-size: cover;
 }
 line {
   stroke: rgb(32, 32, 32);
