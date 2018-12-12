@@ -113,7 +113,7 @@ function updater(message, previousState) {
         return (boardList
             .get(foxAt)
             //@ts-ignore
-            .filter(direction => !currentState.get('geeseAt').includes(direction))
+            .filter(direction => !newState.geeseAt.includes(direction))
             //@ts-ignore
             .map(neighbor => [foxAt, neighbor]));
     }

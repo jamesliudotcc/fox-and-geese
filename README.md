@@ -20,3 +20,6 @@ http://thecraftchop.com/entries/svg/fox
 https://commons.wikimedia.org/wiki/File:BarnacleGoose_svg_element.svg
 
 https://pixabay.com/en/grass-landscape-wallpaper-37305/
+
+Arctic Fox:
+http://pngimg.com/download/41383
