@@ -59,4 +59,5 @@ function setBoardLimits(offBoard) {
 const NOT_FOX_TURN = "Not fox's turn, geese go",
   NOT_GEESE_TURN = "Not geese's turn, fox goes",
   FOX_GOES = 'Fox Goes',
-  GEESE_GO = 'Geese Go';
+  GEESE_GO = 'Geese Go',
+  ILLEGAL_MOVE = 'Illegal Move';

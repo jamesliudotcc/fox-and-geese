@@ -41,7 +41,6 @@ function foxMoves(movesFrom: number, movesTo: number): void {
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
-  console.log('Message to Update from foxMoves:', messageToUpdate);
   currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
@@ -53,7 +52,6 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
-  console.log('Message to Update from gooseMoves:', messageToUpdate);
   currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
@@ -68,7 +66,6 @@ function updater(
   previousState: any
 ): any {
   // Any until I get Immutable working with TS
-  console.log('previousState Object in Updater', previousState);
   let newState: {
     foxWon: boolean;
     geeseWon: boolean;
@@ -97,19 +94,38 @@ function updater(
 
   if (message.foxMoved) {
     //Check if Fox's move, move is legal, before going on to move logic.
-    // Check if Fox's move
+    // Check if it is Fox's move
     if (!newState.foxTurn) {
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
     }
-
+    const legalMovesArr = previousState.get('legalMoves').toJS();
     // Check if move is legal.
+    console.log('Check if legal fox move', legalMovesArr);
+    console.log('moveFrom, MoveTo: ', message.moveFrom, message.moveTo);
+    let foxMoveIsLegal = false;
+    for (let i = 0; i < legalMovesArr.length; i++) {
+      console.log(legalMovesArr[i]);
+      if (
+        legalMovesArr[i][0] === message.moveFrom &&
+        legalMovesArr[i][1] === message.moveTo
+      ) {
+        foxMoveIsLegal = true;
+        break;
+      }
+    }
+    console.log('moveWasLegal: ', foxMoveIsLegal);
 
-    //Move logic
-    newState.foxAt = message.moveTo;
-    newState.geeseAt = previousGeeseAt;
+    if (foxMoveIsLegal) {
+      //Move logic
+      newState.foxAt = message.moveTo;
+      newState.geeseAt = previousGeeseAt;
+    } else {
+      newState.messageToView = ILLEGAL_MOVE;
+      return fromJS(newState);
+    } // foxMoveIsLegal
   } else {
-    // Check if Geese's move
+    // Check if it is Geese's move
     if (newState.foxTurn) {
       newState.messageToView = NOT_GEESE_TURN;
       return fromJS(newState);
@@ -130,18 +146,17 @@ function updater(
   if (message.jumped) {
     newState.foxTurn = true;
     // remove the jumped goose
-    newState.messageToView = FOX_GOES;
-    console.log();
     console.log('Fox caught a gooose!');
   } else {
     newState.foxTurn = false;
     newState.foxTurn = !message.foxMoved;
-    newState.messageToView = GEESE_GO;
   }
 
   if (newState.foxTurn) {
+    newState.messageToView = FOX_GOES;
     newState.legalMoves = setFoxLegalMoves(newState.foxAt);
   } else {
+    newState.messageToView = GEESE_GO;
     newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
   }
 
@@ -162,7 +177,7 @@ function updater(
 
   // check if fox won
   if (newState.geeseAt.length <= 4) {
-    console.log(newState.geeseAt);
+    console.log('Fox won!');
     //newState.foxWon = true;
   }
 
