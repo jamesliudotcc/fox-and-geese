@@ -1,7 +1,7 @@
 const { fromJS, List } = require('immutable');
 
 // In JS file, instead of import, use:
-//let List = Immutable.List, fromJS = Immutable.fromJS;
+//let List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
 
 //ImmutabeJS types are declared as any for now.
 let startingState: any;
@@ -226,11 +226,14 @@ function allowFirstMove(startingState: any): any {
 
 //This is so I can play Fox & Geese from the console
 function foxMoves(movesFrom: number, movesTo: number): void {
-  let messageToUpdate = { ...foxMoveCheck(movesFrom, movesTo) };
+  let messageToUpdate = {
+    foxMoved: true,
+    jumped: false,
+    moveFrom: movesFrom,
+    moveTo: movesTo,
+  };
   console.log(messageToUpdate);
   currentState = updater(messageToUpdate, currentState);
-  console.log('From FoxMoves:', currentState.get('foxAt'));
-
   viewUpdate(currentState);
 }
 
@@ -246,6 +249,7 @@ function foxMoveCheck(
   movesFrom: number,
   movesTo: number
 ): { foxMoved: boolean; jumped: boolean; moveFrom: number; moveTo: number } {
+  //None of this function works, redo.
   let jumped = false; // assume that the fox does not jump a goose
   if (/*move is legal*/ null) {
     let jumped = false;
@@ -314,24 +318,26 @@ function updater(
   }; // Make updates to newState and return it as immutable
   // set new position for moved piece
   console.log('From Updater, Foxmoved:', message.foxMoved);
+  //read previous geese state
+  let previousGeeseAt: [] = previousState.get('geeseAt');
   if (message.foxMoved) {
     newState.foxAt = message.moveTo;
+    newState.geeseAt = previousGeeseAt;
   } else {
-    // 1. read positions from the old state
-    let previousGeeseAt: [] = previousState.get('geeseAt');
     // 2. remove piece from old tile
     let newGeeseAt: number[] = previousGeeseAt.filter(
       goose => goose !== message.moveFrom
     );
     // 3. place piece on new tile
     newGeeseAt.push(message.moveTo);
+    console.log(newGeeseAt);
     newState.geeseAt = newGeeseAt;
   }
 
-  if ((message.jumped = true)) {
-    newState.foxJumped = true;
+  if (message.jumped) {
     newState.foxTurn = true;
-    // remove the goose
+    // remove the jumped goose
+    console.log();
     console.log('Fox caught a gooose!');
   } else {
     newState.foxTurn = false;
@@ -339,14 +345,15 @@ function updater(
   }
 
   // Create the new legal moves
-  //   if (newState.foxTurn) {
+  //   if (newState.currentState.getfoxTurn) {
   //     // create legal single space moves
   //   } else {
   //   }
 
   // check if fox won
   if (newState.geeseAt.length <= 4) {
-    newState.foxWon = true;
+    console.log(newState.geeseAt);
+    //newState.foxWon = true;
   }
 
   // check if geese won
@@ -380,7 +387,7 @@ function viewUpdate(currentState: any) {
   //     boardTiles[i].classList.add(GOOSE);
   //   }
   // Only one place where the fox might be:
-  console.log('From ViewUpdate:', currentState);
+  console.log('From ViewUpdate:', currentState, currentState.get('FoxAt'));
   boardTiles[currentState.get('FoxAt')].classList.add(FOX);
 
   // Declare victory for fox or geese if appropriate
