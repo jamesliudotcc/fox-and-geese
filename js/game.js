@@ -186,15 +186,16 @@ function main() {
   createBoardDOMElement(boardList);
   currentState = allowFirstMove(startingState);
 }
-// Create fox event listener, once triggered:
 function allowFirstMove(startingState) {
   return startingState;
 }
 //This is so I can play Fox & Geese from the console
 function foxMoves(movesFrom, movesTo) {
+  let jumped = false;
+  //implement logic to check whether a jump happened.
   let messageToUpdate = {
     foxMoved: true,
-    jumped: false,
+    jumped: jumped,
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
@@ -203,10 +204,14 @@ function foxMoves(movesFrom, movesTo) {
   viewUpdate(currentState);
 }
 function gooseMoves(movesFrom, movesTo) {
-  currentState = updater(
-    Object.assign({}, gooseMoveCheck(movesFrom, movesTo)),
-    currentState
-  );
+  let messageToUpdate = {
+    foxMoved: false,
+    jumped: false,
+    moveFrom: movesFrom,
+    moveTo: movesTo,
+  };
+  console.log(messageToUpdate);
+  currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
 function foxMoveCheck(movesFrom, movesTo) {
@@ -258,10 +263,13 @@ function updater(message, previousState) {
   //read previous geese state
   let previousGeeseAt = previousState.get('geeseAt');
   if (message.foxMoved) {
+    //Check if Fox's move, move is legal, before going on to move logic.
+    //Move logic
     newState.foxAt = message.moveTo;
     newState.geeseAt = previousGeeseAt;
   } else {
     // 2. remove piece from old tile
+    newState.foxAt = currentState.get('foxAt');
     let newGeeseAt = previousGeeseAt.filter(
       goose => goose !== message.moveFrom
     );
@@ -327,11 +335,11 @@ function viewUpdate(currentState) {
     gameMessages.textContent = 'Fox Won!';
     // Turn off board.
   }
-  if (currentState.get('geeseWon')) {
-    gameMessages.textContent = 'Geeeese Won!';
-    // Turn off board.
-    // number of ee's == number of geese
-  }
+  //   if (currentState.get('geeseWon')) {
+  //     gameMessages.textContent = 'Geeeese Won!';
+  //     // Turn off board.
+  //     // number of ee's == number of geese
+  //   }
 }
 // // Implement cheater state:
 // function cheaterState() {

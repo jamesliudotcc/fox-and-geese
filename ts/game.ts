@@ -225,9 +225,12 @@ function allowFirstMove(startingState: any): any {
 
 //This is so I can play Fox & Geese from the console
 function foxMoves(movesFrom: number, movesTo: number): void {
+  let jumped = false;
+  //implement logic to check whether a jump happened.
+
   let messageToUpdate = {
     foxMoved: true,
-    jumped: false,
+    jumped: jumped,
     moveFrom: movesFrom,
     moveTo: movesTo,
   };
@@ -237,10 +240,14 @@ function foxMoves(movesFrom: number, movesTo: number): void {
 }
 
 function gooseMoves(movesFrom: number, movesTo: number): void {
-  currentState = updater(
-    { ...gooseMoveCheck(movesFrom, movesTo) },
-    currentState
-  );
+  let messageToUpdate = {
+    foxMoved: false,
+    jumped: false,
+    moveFrom: movesFrom,
+    moveTo: movesTo,
+  };
+  console.log(messageToUpdate);
+  currentState = updater(messageToUpdate, currentState);
   viewUpdate(currentState);
 }
 
@@ -318,11 +325,16 @@ function updater(
   console.log('From Updater, Foxmoved:', message.foxMoved);
   //read previous geese state
   let previousGeeseAt: [] = previousState.get('geeseAt');
+
   if (message.foxMoved) {
+    //Check if Fox's move, move is legal, before going on to move logic.
+
+    //Move logic
     newState.foxAt = message.moveTo;
     newState.geeseAt = previousGeeseAt;
   } else {
     // 2. remove piece from old tile
+    newState.foxAt = currentState.get('foxAt');
     let newGeeseAt: number[] = previousGeeseAt.filter(
       goose => goose !== message.moveFrom
     );
@@ -399,12 +411,12 @@ function viewUpdate(currentState: any) {
 
     // Turn off board.
   }
-  if (currentState.get('geeseWon')) {
-    gameMessages.textContent = 'Geeeese Won!';
+  //   if (currentState.get('geeseWon')) {
+  //     gameMessages.textContent = 'Geeeese Won!';
 
-    // Turn off board.
-    // number of ee's == number of geese
-  }
+  //     // Turn off board.
+  //     // number of ee's == number of geese
+  //   }
 }
 
 // // Implement cheater state:
