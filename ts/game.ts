@@ -218,7 +218,6 @@ function main() {
 
   currentState = allowFirstMove(startingState);
 }
-// Create fox event listener, once triggered:
 
 function allowFirstMove(startingState: any): any {
   return startingState;
@@ -271,7 +270,6 @@ function foxMoveCheck(
   return message;
 }
 
-// Create goose event listener, once triggered:
 function gooseMoveCheck(
   movesFrom: number,
   movesTo: number
@@ -381,14 +379,19 @@ function viewUpdate(currentState: any) {
     }
   } // for
 
-  // put goose classes tiles based on currentState
-  //   console.log(currentState.get('GeeseAt'));
-  //   if (currentState.get('GeeseAt').includes(i)) {
-  //     boardTiles[i].classList.add(GOOSE);
-  //   }
+  //   put goose classes tiles based on currentState
+  console.log('Geese at:', currentState.get('geeseAt'));
+  let newGooseLoc;
+  for (let i = 0; i < currentState.get('geeseAt').size; i++) {
+    console.log('Geese to place', currentState.get('geeseAt').get(i));
+    newGooseLoc = document.getElementById(currentState.get('geeseAt').get(i));
+    newGooseLoc.classList.add('goose');
+  }
   // Only one place where the fox might be:
-  console.log('From ViewUpdate:', currentState, currentState.get('foxAt'));
-  boardTiles[currentState.get('foxAt')].classList.add(FOX);
+  let newFoxLoc = document.getElementById(currentState.get('foxAt').toString());
+  newFoxLoc.classList.add('fox');
+
+  boardTiles[currentState.get('foxAt')];
 
   // Declare victory for fox or geese if appropriate
   if (currentState.get('foxWon')) {

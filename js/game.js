@@ -231,7 +231,6 @@ function foxMoveCheck(movesFrom, movesTo) {
   console.log(message);
   return message;
 }
-// Create goose event listener, once triggered:
 function gooseMoveCheck(movesFrom, movesTo) {
   //check if move legal
   //return
@@ -311,14 +310,18 @@ function viewUpdate(currentState) {
       boardTiles[i].classList.remove('goose');
     }
   } // for
-  // put goose classes tiles based on currentState
-  //   console.log(currentState.get('GeeseAt'));
-  //   if (currentState.get('GeeseAt').includes(i)) {
-  //     boardTiles[i].classList.add(GOOSE);
-  //   }
+  //   put goose classes tiles based on currentState
+  console.log('Geese at:', currentState.get('geeseAt'));
+  let newGooseLoc;
+  for (let i = 0; i < currentState.get('geeseAt').size; i++) {
+    console.log('Geese to place', currentState.get('geeseAt').get(i));
+    newGooseLoc = document.getElementById(currentState.get('geeseAt').get(i));
+    newGooseLoc.classList.add('goose');
+  }
   // Only one place where the fox might be:
-  console.log('From ViewUpdate:', currentState, currentState.get('foxAt'));
-  boardTiles[currentState.get('foxAt')].classList.add(FOX);
+  let newFoxLoc = document.getElementById(currentState.get('foxAt').toString());
+  newFoxLoc.classList.add('fox');
+  boardTiles[currentState.get('foxAt')];
   // Declare victory for fox or geese if appropriate
   if (currentState.get('foxWon')) {
     gameMessages.textContent = 'Fox Won!';
