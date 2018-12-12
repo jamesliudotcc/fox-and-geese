@@ -270,13 +270,11 @@ function updater(message, previousState) {
   } else {
     // 2. remove piece from old tile
     newState.foxAt = currentState.get('foxAt');
-    let stayingGeeseAt = previousGeeseAt.filter(
-      goose => goose !== message.moveFrom
-    );
+    let newGeeseAt = previousGeeseAt
+      .filter(goose => goose !== message.moveFrom)
+      //@ts-ignore
+      .push(message.moveTo);
     // 3. place piece on new tile
-    console.log(stayingGeeseAt);
-    let newGeeseAt = stayingGeeseAt.push(message.moveTo);
-    console.log(newGeeseAt);
     newState.geeseAt = newGeeseAt;
   }
   if (message.jumped) {

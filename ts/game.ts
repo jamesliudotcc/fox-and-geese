@@ -160,7 +160,7 @@ function main() {
         boardTile.appendChild(svgTag);
       }
 
-      // Active tiles should have a different class
+      // Active tiles should have a html different class
 
       if (boardList.get(i)) {
         boardTile.classList.add('active-tile');
@@ -335,13 +335,12 @@ function updater(
   } else {
     // 2. remove piece from old tile
     newState.foxAt = currentState.get('foxAt');
-    let stayingGeeseAt: any = previousGeeseAt.filter(
-      goose => goose !== message.moveFrom
-    );
+    let newGeeseAt: any = previousGeeseAt
+      .filter(goose => goose !== message.moveFrom)
+      //@ts-ignore
+      .push(message.moveTo);
     // 3. place piece on new tile
-    console.log(stayingGeeseAt);
-    let newGeeseAt: any = stayingGeeseAt.push(message.moveTo);
-    console.log(newGeeseAt);
+
     newState.geeseAt = newGeeseAt;
   }
 
