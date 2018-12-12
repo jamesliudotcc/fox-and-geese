@@ -1,4 +1,4 @@
-let List = Immutable.List,
+const List = Immutable.List,
   fromJS = Immutable.fromJS,
   Map = Immutable.Map;
 const FOX = 'fox',

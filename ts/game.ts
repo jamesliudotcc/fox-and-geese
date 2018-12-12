@@ -1,6 +1,6 @@
 //ImmutabeJS types are declared as any for now.
 let currentState: any;
-let boardList: any;
+let boardList: any; // Directory of legal moves
 
 document.addEventListener('DOMContentLoaded', main);
 
@@ -76,7 +76,7 @@ function updater(
     foxJumped: boolean;
     foxAt: number;
     geeseAt: number[];
-    legalMoves: number[][];
+    legalMoves: any;
     legalJumps: number[][];
     messageToView: string;
   } = {
@@ -89,8 +89,9 @@ function updater(
     legalMoves: previousState.get('legalMoves'),
     legalJumps: previousState.get('legalJumps'),
     messageToView: '',
-  }; // Make updates to newState and return it as immutable
-  // set new position for moved piece
+  };
+  // Make updates to newState and return it as immutable
+
   //read previous geese state
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
@@ -137,11 +138,27 @@ function updater(
     newState.foxTurn = !message.foxMoved;
     newState.messageToView = GEESE_GO;
   }
-  // Create the new legal moves
-  //   if (newState.currentState.getfoxTurn) {
-  //     // create legal single space moves
-  //   } else {
-  //   }
+
+  if (newState.foxTurn) {
+    newState.legalMoves = setFoxLegalMoves(newState.foxAt);
+  } else {
+    newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+  }
+
+  function setFoxLegalMoves(foxAt: number) {
+    return (
+      boardList
+        .get(foxAt)
+        //@ts-ignore
+        .filter(direction => !currentState.get('geeseAt').includes(direction))
+        //@ts-ignore
+        .map(neighbor => [foxAt, neighbor])
+    );
+  }
+
+  function setGeeseLegalMoves(geeseAt: number[]) {
+    //create function
+  }
 
   // check if fox won
   if (newState.geeseAt.length <= 4) {

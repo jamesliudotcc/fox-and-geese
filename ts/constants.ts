@@ -1,7 +1,7 @@
 const { fromJS, List } = require('immutable');
 
 // In JS file, instead of import, use:
-//let List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
+// const List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
 
 const FOX = 'fox',
   GOOSE = 'goose';

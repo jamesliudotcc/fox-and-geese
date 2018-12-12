@@ -2,7 +2,10 @@ After wiring together a basic Connect 4 game over my first weekend at General As
 
 For this project, I decided to apply some concepts from Elm and Redux: the Model-View-Update pattern, strongly typed data, and immutability.
 
-Type is implemented using Typescript, and immutability is implemented using Immutabile.js. The Immutable.js documentation is written with Typescript in mind, but it seems pitched at someone who is some weeks further along in JS knowledge than I have. Thus, getting the TS ad I.js to play well together has been a major challenge.
+Type is implemented using Typescript, and immutability is implemented using Immutabile.js. The Immutable.js documentation is written with Typescript in mind, but it seems pitched at someone who is some weeks further along in JS knowledge than I have. Thus, getting the TS ad I.js to play well together has been a major challenge. It turns out, I am not the only one to have this problem. For example: https://www.reddit.com/r/reactjs/comments/7mfaxy/it_aint_pretty_typescript/
+https://blog.mgechev.com/2018/01/18/react-typescript-redux-immutable/
+https://themapguyde.blogspot.com/2018/03/making-immutablejs-objects-easier-to.html
+All of the solutions I found would take too long to implement for a week-long project, eg: https://medium.com/@alexxgent/enforcing-types-with-immutablejs-and-typescript-6ab980819b6a
 
 In order to keep myself sane, inside functions, arrays and objects are mutable, but to preserve the benefits of immutability, return values are immutable.
 

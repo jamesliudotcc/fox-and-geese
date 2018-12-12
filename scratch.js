@@ -64,3 +64,6 @@ let legalMoves = DIRECTIONS.map(direction => direction + here)
   });
 
 console.log(legalMoves);
+
+
+boardList.get(25).filter(a => (currentState.get('geeseAt').includes(a)))
