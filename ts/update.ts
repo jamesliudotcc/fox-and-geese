@@ -18,7 +18,7 @@ function update(
     foxTurn: boolean;
     foxJumped: boolean;
     foxAt: number;
-    geeseAt: number[];
+    geeseAt: any;
     legalMoves: any;
     legalJumps: any;
     messageToView: string;
@@ -76,7 +76,8 @@ function update(
   }
 
   // check if fox won
-  if (newState.geeseAt.length <= 4) {
+  console.log(newState.geeseAt.length);
+  if (newState.geeseAt.size <= 4) {
     newState.foxWon = true;
     console.log('Fox won!');
   }
@@ -225,7 +226,7 @@ function update(
     console.log(
       'Fox can move and jump:',
       newState.legalMoves.size,
-      newState.legalMoves.size
+      newState.legalJumps.size
     );
 
     newState.messageToView = FOX_GOES;

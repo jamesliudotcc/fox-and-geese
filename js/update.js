@@ -55,6 +55,7 @@ function update(message, previousState) {
         }
     }
     // check if fox won
+    console.log(newState.geeseAt.length);
     if (newState.geeseAt.length <= 4) {
         newState.foxWon = true;
         console.log('Fox won!');
@@ -176,7 +177,7 @@ function update(message, previousState) {
         newState.foxTurn = true;
         newState.legalMoves = setFoxLegalMoves(newState.foxAt);
         newState.legalJumps = setFoxLegalJumps(newState.foxAt);
-        console.log('Fox can move and jump:', newState.legalMoves.size, newState.legalMoves.size);
+        console.log('Fox can move and jump:', newState.legalMoves.size, newState.legalJumps.size);
         newState.messageToView = FOX_GOES;
     }
     function foxJumpsAGoose() {
