@@ -2,7 +2,9 @@ const { fromJS, List } = require('immutable');
 
 // In JS file, instead of import, use:
 // const List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
-
+const { fromJS, List } = require('immutable');
+// In JS file, instead of import, use:
+//
 const FOX = 'fox',
   GOOSE = 'goose';
 
@@ -58,37 +60,6 @@ let startingState: {
   legalJumps: [],
   messageToView: "Game begins with goose's move",
 };
-
-// const onBoardTilesList: any = setBoardLimits([
-//   0,
-//   1,
-//   5,
-//   6,
-//   7,
-//   8,
-//   12,
-//   13,
-//   35,
-//   36,
-//   40,
-//   41,
-//   42,
-//   43,
-//   47,
-//   48,
-// ]);
-
-// function setBoardLimits(offBoard: number[]) {
-//   // Pass in an array of off-board numbers, which are excluded from the return List
-
-//   let boardTiles = [];
-//   for (let i = 0; i < HEIGHT * WIDTH; i++) {
-//     if (!offBoard.includes(i)) {
-//       boardTiles.push(i);
-//     }
-//   }
-//   return List(boardTiles);
-// }
 
 // Messages to display
 
