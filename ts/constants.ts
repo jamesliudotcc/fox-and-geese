@@ -40,41 +40,55 @@ let startingState: {
   foxJumped: false,
   foxAt: 17, // Fox placed here.
   geeseAt: [],
-  legalMoves: [],
+  legalMoves: [
+    [28, 21],
+    [28, 22],
+    [29, 22],
+    [30, 22],
+    [30, 23],
+    [30, 24],
+    [31, 24],
+    [32, 24],
+    [32, 25],
+    [32, 26],
+    [33, 26],
+    [34, 26],
+    [34, 27],
+  ],
   legalJumps: [],
   messageToView: "Game begins with goose's move",
 };
 
-const onBoardTilesList: any = setBoardLimits([
-  0,
-  1,
-  5,
-  6,
-  7,
-  8,
-  12,
-  13,
-  35,
-  36,
-  40,
-  41,
-  42,
-  43,
-  47,
-  48,
-]);
+// const onBoardTilesList: any = setBoardLimits([
+//   0,
+//   1,
+//   5,
+//   6,
+//   7,
+//   8,
+//   12,
+//   13,
+//   35,
+//   36,
+//   40,
+//   41,
+//   42,
+//   43,
+//   47,
+//   48,
+// ]);
 
-function setBoardLimits(offBoard: number[]) {
-  // Pass in an array of off-board numbers, which are excluded from the return List
+// function setBoardLimits(offBoard: number[]) {
+//   // Pass in an array of off-board numbers, which are excluded from the return List
 
-  let boardTiles = [];
-  for (let i = 0; i < HEIGHT * WIDTH; i++) {
-    if (!offBoard.includes(i)) {
-      boardTiles.push(i);
-    }
-  }
-  return List(boardTiles);
-}
+//   let boardTiles = [];
+//   for (let i = 0; i < HEIGHT * WIDTH; i++) {
+//     if (!offBoard.includes(i)) {
+//       boardTiles.push(i);
+//     }
+//   }
+//   return List(boardTiles);
+// }
 
 // Messages to display
 

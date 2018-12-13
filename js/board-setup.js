@@ -71,6 +71,9 @@ function createBoard() {
     // Iniside function, nonmutable is OK.
     return List(drawBoard);
 }
+// for (let i = WIDTH * 4; I < WIDTH *5 i++) {
+// Slightly better than hard coding, though not much.
+// }
 function createBoardDOMElement(boardList) {
     let boardMain = document.getElementById('main');
     function newSvgLine(x2, y2) {

@@ -4,6 +4,9 @@ let boardList; // Directory of legal moves
 document.addEventListener('DOMContentLoaded', main);
 function main() {
     boardList = createBoard();
+    startingState = createBoardState();
+    createBoardDOMElement(boardList);
+    currentState = allowFirstMove(startingState);
     function createBoardState() {
         // TODO: Place geese should be in board-setup.ts
         // Place geese
@@ -14,11 +17,31 @@ function main() {
         } // for
         return fromJS(startingState);
     }
-    startingState = createBoardState();
-    createBoardDOMElement(boardList);
-    currentState = allowFirstMove(startingState);
+}
+//Figure this out later
+function setInitialGeeseLegalMoves(geeseAt) {
+    // for each goose in array, as per fox
+    let eachGooseMoves;
+    let allowedGooseMovesArr = [];
+    for (let i = 0; i < geeseAt.size; i++) {
+        eachGooseMoves = boardList
+            .get(geeseAt.get(i))
+            //@ts-ignore
+            .filter(direction => !geeseAt.includes(direction))
+            //@ts-ignore
+            .filter(direction => direction !== startingState.foxAt)
+            //@ts-ignore
+            .map(neighbor => [geeseAt.get(i), neighbor]);
+        for (let j = 0; j < eachGooseMoves.size; j++) {
+            allowedGooseMovesArr.push(eachGooseMoves.get(j));
+        }
+    }
 }
 function allowFirstMove(startingState) {
+    // figure this out later
+    startingState.set('legalMoves', setInitialGeeseLegalMoves(
+    //@ts-ignore
+    startingState.get('geeseAt')));
     return startingState;
 }
 //This is so I can play Fox & Geese from the console
@@ -89,20 +112,38 @@ function updater(message, previousState) {
         } // foxMoveIsLegal
     }
     else {
+        //This else block is from checking if Fox or Goose move
         // Check if it is Geese tried to move when it was Fox's turn
         if (newState.foxTurn) {
             newState.messageToView = NOT_GEESE_TURN;
             return fromJS(newState);
         }
         // Check if Geese's move is legal
-        let newGeeseAt = previousGeeseAt
-            .filter(goose => goose !== message.moveFrom)
-            //@ts-ignore
-            .push(message.moveTo);
-        // 3. place piece on new tile
-        newState.geeseAt = newGeeseAt;
-        newState.foxTurn = true;
-        newState.messageToView = FOX_GOES;
+        const legalMovesArr = previousState.get('legalMoves').toJS();
+        let gooseMoveIsLegal = false;
+        for (let i = 0; i < legalMovesArr.length; i++) {
+            if (legalMovesArr[i][0] === message.moveFrom &&
+                legalMovesArr[i][1] === message.moveTo) {
+                gooseMoveIsLegal = true;
+                break;
+            }
+        }
+        if (gooseMoveIsLegal) {
+            let newGeeseAt = previousGeeseAt
+                .filter(goose => goose !== message.moveFrom)
+                //@ts-ignore
+                .push(message.moveTo);
+            // 3. place piece on new tile
+            newState.geeseAt = newGeeseAt;
+            newState.foxTurn = true;
+            newState.messageToView = FOX_GOES;
+        }
+        else {
+            // No need to reset any state, it only matters to send a message
+            // for viewUpdate to display
+            newState.messageToView = ILLEGAL_MOVE;
+            return fromJS(newState);
+        }
     }
     if (message.jumped) {
         newState.foxTurn = true;
@@ -146,7 +187,7 @@ function updater(message, previousState) {
                 allowedGooseMovesArr.push(eachGooseMoves.get(j));
             }
         }
-        return fromJS(allowedGooseMovesArr);
+        return List(allowedGooseMovesArr);
     }
     // check if fox won
     if (newState.geeseAt.length <= 4) {
