@@ -19,8 +19,8 @@ function update(
     foxJumped: boolean;
     foxAt: number;
     geeseAt: number[];
-    legalMoves: any; // see if this can be made into number[][] without breking Immutable.JS
-    legalJumps: number[][];
+    legalMoves: any;
+    legalJumps: any;
     messageToView: string;
   } = {
     foxWon: previousState.get('foxWon'),
@@ -38,8 +38,6 @@ function update(
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
   if (message.foxMoved) {
-    console.log('Message passed is foxmoves');
-    // Check if it is Fox's turn to move
     if (!newState.foxTurn) {
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
@@ -88,7 +86,11 @@ function update(
     be checked. Geese only win at the close of their turn and do not jump 
     the fox, so it is OK to do this after toggling the turn to fox. */
 
-  if (newState.foxTurn && newState.legalMoves.length === 0) {
+  if (
+    newState.foxTurn &&
+    newState.legalMoves.size === 0 &&
+    newState.legalJumps.size === 0
+  ) {
     //   check fox legal moves. If there are none, geese won.
     newState.geeseWon = true;
     console.log('Geese Won!');
@@ -115,14 +117,9 @@ function update(
       .get(foxAt)
       // @ts-ignore
       .map(neighbor => neighbor - foxAt);
-    console.log('Fox is in a square allowing: ', directions);
     // @ts-ignore
     let checkGoose = directions.filter(dir =>
       newState.geeseAt.includes(foxAt + dir)
-    );
-    console.log(
-      'Check if there is a goose next to fox at that direction',
-      checkGoose
     );
     let canJumpTo = checkGoose
       .filter(
@@ -136,7 +133,6 @@ function update(
       //@ts-ignore
       // create array of current position, next position
       .map(dir => [foxAt, foxAt + dir * 2]);
-    console.log('can jump to:', canJumpTo);
     return canJumpTo;
   }
   function setGeeseLegalMoves(geeseAt: any) {
@@ -222,10 +218,17 @@ function update(
     // 3. place piece on new tile
     newState.geeseAt = newGeeseAt;
     newState.foxTurn = true;
-    newState.messageToView = FOX_GOES;
+
     newState.legalMoves = setFoxLegalMoves(newState.foxAt);
     newState.legalJumps = setFoxLegalJumps(newState.foxAt);
-    console.log(newState.legalJumps);
+
+    console.log(
+      'Fox can move and jump:',
+      newState.legalMoves.size,
+      newState.legalMoves.size
+    );
+
+    newState.messageToView = FOX_GOES;
   }
 
   function foxJumpsAGoose() {

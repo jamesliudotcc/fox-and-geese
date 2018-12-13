@@ -1,8 +1,8 @@
 function update(message, previousState) {
-    // Any until I get Immutable working with TS
-    // Initialize newState with some sensible defaults, the update function
-    // updates them, returns it as an immutable object. The main function will then
-    // pass the newly created state to updateView, which will update the view.
+    /* Initialize newState with some sensible defaults, the update function
+       updates them, returns it as an immutable object. The main function will then
+       pass the newly created state to updateView, which will update the view.
+    */
     let newState = {
         foxWon: previousState.get('foxWon'),
         geeseWon: previousState.get('geeseWon'),
@@ -14,12 +14,9 @@ function update(message, previousState) {
         legalJumps: previousState.get('legalJumps'),
         messageToView: '',
     };
-    // Make updates to newState and return it as immutable
-    // convenience aliases
+    // convenience alias
     let previousGeeseAt = previousState.get('geeseAt');
     if (message.foxMoved) {
-        console.log('Message passed is foxmoves');
-        // Check if it is Fox's turn to move
         if (!newState.foxTurn) {
             newState.messageToView = NOT_FOX_TURN;
             return fromJS(newState);
@@ -66,7 +63,9 @@ function update(message, previousState) {
     /* This happens after the turn is toggled so that fox's legal moves can
       be checked. Geese only win at the close of their turn and do not jump
       the fox, so it is OK to do this after toggling the turn to fox. */
-    if (newState.foxTurn && newState.legalMoves.length === 0) {
+    if (newState.foxTurn &&
+        newState.legalMoves.size === 0 &&
+        newState.legalJumps.size === 0) {
         //   check fox legal moves. If there are none, geese won.
         newState.geeseWon = true;
         console.log('Geese Won!');
@@ -89,10 +88,8 @@ function update(message, previousState) {
             .get(foxAt)
             // @ts-ignore
             .map(neighbor => neighbor - foxAt);
-        console.log('Fox is in a square allowing: ', directions);
         // @ts-ignore
         let checkGoose = directions.filter(dir => newState.geeseAt.includes(foxAt + dir));
-        console.log('Check if there is a goose next to fox at that direction', checkGoose);
         let canJumpTo = checkGoose
             .filter(
         //@ts-ignore
@@ -104,7 +101,6 @@ function update(message, previousState) {
             //@ts-ignore
             // create array of current position, next position
             .map(dir => [foxAt, foxAt + dir * 2]);
-        console.log('can jump to:', canJumpTo);
         return canJumpTo;
     }
     function setGeeseLegalMoves(geeseAt) {
@@ -178,10 +174,10 @@ function update(message, previousState) {
         // 3. place piece on new tile
         newState.geeseAt = newGeeseAt;
         newState.foxTurn = true;
-        newState.messageToView = FOX_GOES;
         newState.legalMoves = setFoxLegalMoves(newState.foxAt);
         newState.legalJumps = setFoxLegalJumps(newState.foxAt);
-        console.log(newState.legalJumps);
+        console.log('Fox can move and jump:', newState.legalMoves.size, newState.legalMoves.size);
+        newState.messageToView = FOX_GOES;
     }
     function foxJumpsAGoose() {
         newState.geeseAt = previousGeeseAt;
@@ -192,17 +188,17 @@ function update(message, previousState) {
         newState.geeseAt = previousGeeseAt.filter(tile => tile !== jumpedTile);
         const jumps = setFoxLegalJumps(newState.foxAt);
         if (jumps.size > 0) {
+            // check for legal jump moves. If so, set legal jumps,
             newState.foxTurn = true;
             newState.legalJumps = jumps;
             newState.messageToView = FOX_GOES;
         }
         else {
+            // otherwise, relinquishes turn to geese.
             newState.foxTurn = false;
             newState.messageToView = GEESE_GO;
             newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
         }
-        // check for legal jump moves. If so, set legal jumps,
-        // otherwise, relinquishes turn to geese.
     }
     return fromJS(newState);
 }
