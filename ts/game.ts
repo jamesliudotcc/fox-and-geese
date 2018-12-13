@@ -93,19 +93,15 @@ function updater(
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
   if (message.foxMoved) {
-    //Check if Fox's move, move is legal, before going on to move logic.
-    // Check if it is Fox's move
+    // Check if it is Fox's turn to move
     if (!newState.foxTurn) {
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
     }
     const legalMovesArr = previousState.get('legalMoves').toJS();
     // Check if move is legal.
-    console.log('Check if legal fox move', legalMovesArr);
-    console.log('moveFrom, MoveTo: ', message.moveFrom, message.moveTo);
     let foxMoveIsLegal = false;
     for (let i = 0; i < legalMovesArr.length; i++) {
-      console.log(legalMovesArr[i]);
       if (
         legalMovesArr[i][0] === message.moveFrom &&
         legalMovesArr[i][1] === message.moveTo
@@ -114,18 +110,19 @@ function updater(
         break;
       }
     }
-    console.log('moveWasLegal: ', foxMoveIsLegal);
 
     if (foxMoveIsLegal) {
       //Move logic
       newState.foxAt = message.moveTo;
       newState.geeseAt = previousGeeseAt;
     } else {
+      // No need to reset any state, it only matters to send a message
+      // for viewUpdate to display
       newState.messageToView = ILLEGAL_MOVE;
       return fromJS(newState);
     } // foxMoveIsLegal
   } else {
-    // Check if it is Geese's move
+    // Check if it is Geese tried to move when it was Fox's turn
     if (newState.foxTurn) {
       newState.messageToView = NOT_GEESE_TURN;
       return fromJS(newState);
@@ -171,8 +168,19 @@ function updater(
     );
   }
 
-  function setGeeseLegalMoves(geeseAt: number[]) {
-    //create function
+  function setGeeseLegalMoves(geeseAt: any) {
+    // create geeseArray
+    let geeseAtArr = geeseAt.toJS();
+    console.log(geeseAtArr);
+    // for each goose in array, as per fox
+    for (let i = 0; i < geeseAt.size; i++) {
+      console.log(
+        boardList
+          .get(geeseAt.get(i))
+          //@ts-ignore
+          .filter(direction => !newState.geeseAt.includes(direction))
+      );
+    }
   }
 
   // check if fox won
@@ -212,7 +220,6 @@ function viewUpdate(currentState: any) {
   } // for
 
   //   put goose classes tiles based on currentState
-  console.log('Geese at:', currentState.get('geeseAt'));
   let newGooseLoc;
   for (let i = 0; i < currentState.get('geeseAt').size; i++) {
     newGooseLoc = document.getElementById(currentState.get('geeseAt').get(i));
@@ -252,4 +259,3 @@ function viewUpdate(currentState: any) {
 //     legalJumps: [], // calculate legal jumps
 //   });
 // }
-console.log(onBoardTilesList);
