@@ -1,17 +1,17 @@
 //ImmutabeJS types are declared as any for now.
 let currentState;
-let boardList; // Directory of legal moves
+let boardNeighbors; // Directory of legal moves
 document.addEventListener('DOMContentLoaded', main);
 function main() {
-    boardList = createBoard();
+    boardNeighbors = createBoard();
     startingState = createBoardState();
-    createBoardDOMElement(boardList);
+    createBoardDOMElement(boardNeighbors);
     currentState = allowFirstMove(startingState);
     function createBoardState() {
         // TODO: Place geese should be in board-setup.ts
         // Place geese
         for (let i = 28; i < HEIGHT * WIDTH; i++) {
-            if (boardList.get(i)) {
+            if (boardNeighbors.get(i)) {
                 startingState.geeseAt.push(i);
             }
         } // for
@@ -24,7 +24,7 @@ function setInitialGeeseLegalMoves(geeseAt) {
     let eachGooseMoves;
     let allowedGooseMovesArr = [];
     for (let i = 0; i < geeseAt.size; i++) {
-        eachGooseMoves = boardList
+        eachGooseMoves = boardNeighbors
             .get(geeseAt.get(i))
             //@ts-ignore
             .filter(direction => !geeseAt.includes(direction))
@@ -157,13 +157,24 @@ function updater(message, previousState) {
     if (newState.foxTurn) {
         newState.messageToView = FOX_GOES;
         newState.legalMoves = setFoxLegalMoves(newState.foxAt);
+        newState.legalJumps = setFoxLegalJumps(newState.foxAt);
+        console.log(newState.legalJumps);
     }
     else {
         newState.messageToView = GEESE_GO;
         newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
     }
     function setFoxLegalMoves(foxAt) {
-        return (boardList
+        return (boardNeighbors
+            .get(foxAt)
+            //@ts-ignore
+            .filter(direction => !newState.geeseAt.includes(direction))
+            //@ts-ignore
+            .map(neighbor => [foxAt, neighbor]));
+    }
+    function setFoxLegalJumps(foxAt) {
+        console.log('setFoxLegalJumps', boardNeighbors.get(foxAt));
+        return (boardNeighbors
             .get(foxAt)
             //@ts-ignore
             .filter(direction => !newState.geeseAt.includes(direction))
@@ -175,7 +186,7 @@ function updater(message, previousState) {
         let eachGooseMoves;
         let allowedGooseMovesArr = [];
         for (let i = 0; i < geeseAt.size; i++) {
-            eachGooseMoves = boardList
+            eachGooseMoves = boardNeighbors
                 .get(geeseAt.get(i))
                 //@ts-ignore
                 .filter(direction => !geeseAt.includes(direction))
