@@ -49,7 +49,7 @@ function update(
     // Implement this.
 
     if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
-      foxJumpsAGoose(newState, message, previousGeeseAt);
+      foxJumpsAGoose();
     } else if (foxMoveIsLegal(previousState.get('legalMoves'))) {
       foxMoves();
     } else {
@@ -205,6 +205,7 @@ function update(
   /*
   Animal mover functions
   */
+  // These would be really nice as object destructuring arr
   function foxMoves() {
     newState.foxAt = message.moveTo;
     newState.geeseAt = previousGeeseAt;
@@ -226,32 +227,17 @@ function update(
     console.log(newState.legalJumps);
   }
 
-  function foxJumpsAGoose(
-    newState: {
-      foxWon: boolean;
-      geeseWon: boolean;
-      foxTurn: boolean;
-      foxJumped: boolean;
-      foxAt: number;
-      geeseAt: number[];
-      legalMoves: any;
-      legalJumps: number[][];
-      messageToView: string;
-    },
-    message: {
-      foxMoved: boolean;
-      jumped: boolean;
-      moveFrom: number;
-      moveTo: number;
-    },
-    previousGeeseAt: any
-  ) {
+  function foxJumpsAGoose() {
     newState.foxTurn = true;
     newState.foxAt = message.moveTo;
-    newState.geeseAt = previousGeeseAt;
     newState.foxJumped = true;
-    // Remove the jumped goose
-    console.log('Fox caught a gooose! Implement removing it!');
+    newState.legalMoves = [];
+    
+    let jumpedTile = (message.moveFrom + message.moveTo) / 2;
+    newState.geeseAt = previousGeeseAt.filter(tile => tile !== jumpedTile);
+
+    // check for legal jump moves. If so, set legal jumps,
+    // otherwise, relinquishes turn to geese.
   }
   return fromJS(newState);
 }
