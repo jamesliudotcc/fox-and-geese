@@ -32,19 +32,22 @@ function update(message, previousState) {
             foxJumpsAGoose(newState, message, previousGeeseAt);
         }
         else {
-            newState.foxTurn = true;
+            console.log('rus newState.foxTurn = true at 60 ????');
+            newState.foxTurn = true; // What does this do?
         }
-        const legalMovesArr = previousState.get('legalMoves').toJS();
-        // Check if move is legal.
-        let foxMoveIsLegal = false;
-        for (let i = 0; i < legalMovesArr.length; i++) {
-            if (legalMovesArr[i][0] === message.moveFrom &&
-                legalMovesArr[i][1] === message.moveTo) {
-                foxMoveIsLegal = true;
-                break;
+        function foxMoveIsLegal(legalMovesList) {
+            const legalMovesArr = legalMovesList.toJS();
+            // Check if move is legal.
+            let foxMoveIsLegal = false;
+            for (let i = 0; i < legalMovesArr.length; i++) {
+                if (legalMovesArr[i][0] === message.moveFrom &&
+                    legalMovesArr[i][1] === message.moveTo) {
+                    return true;
+                }
             }
+            return false;
         }
-        if (foxMoveIsLegal) {
+        if (foxMoveIsLegal(previousState.get('legalMoves'))) {
             //Move logic
             newState.foxAt = message.moveTo;
             newState.geeseAt = previousGeeseAt;
@@ -57,7 +60,8 @@ function update(message, previousState) {
         } // foxMoveIsLegal
     }
     else {
-        //This else block is from checking if Fox or Goose move
+        //This else block is from checking if the message passed Fox moved,
+        //else implemens Goose moved
         // Check if it is Geese tried to move when it was Fox's turn
         if (newState.foxTurn) {
             newState.messageToView = NOT_GEESE_TURN;
