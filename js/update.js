@@ -18,6 +18,7 @@ function update(message, previousState) {
     // convenience aliases
     let previousGeeseAt = previousState.get('geeseAt');
     if (message.foxMoved) {
+        console.log('Message passed is foxmoves');
         // Check if it is Fox's turn to move
         if (!newState.foxTurn) {
             newState.messageToView = NOT_FOX_TURN;
@@ -25,20 +26,16 @@ function update(message, previousState) {
         }
         // Check if the prevTurnJumped, if so, only check jump logic.
         // Implement this.
-        // Before checking normal moves, check jumps
-        //convenience alias
-        // Check if jump is made?
         if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
             foxJumpsAGoose(newState, message, previousGeeseAt);
         }
         else {
-            console.log('rus newState.foxTurn = true at 60 ????');
-            newState.foxTurn = true; // What does this do?
+            // console.log('rus newState.foxTurn = true at 60 ????');
+            // newState.foxTurn = true; // What does this do?
         }
         function foxMoveIsLegal(legalMovesList) {
             const legalMovesArr = legalMovesList.toJS();
-            // Check if move is legal.
-            let foxMoveIsLegal = false;
+            // Check in each direction move is legal.
             for (let i = 0; i < legalMovesArr.length; i++) {
                 if (legalMovesArr[i][0] === message.moveFrom &&
                     legalMovesArr[i][1] === message.moveTo) {
@@ -51,6 +48,7 @@ function update(message, previousState) {
             //Move logic
             newState.foxAt = message.moveTo;
             newState.geeseAt = previousGeeseAt;
+            newState.foxTurn = false;
         }
         else {
             // No need to reset any state, it only matters to send a message
