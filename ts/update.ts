@@ -51,29 +51,11 @@ function update(
     if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
       foxJumpsAGoose(newState, message, previousGeeseAt);
     } else {
-      // console.log('rus newState.foxTurn = true at 60 ????');
-      // newState.foxTurn = true; // What does this do?
-    }
-
-    function foxMoveIsLegal(legalMovesList: any) {
-      const legalMovesArr = legalMovesList.toJS();
-      // Check in each direction move is legal.
-      for (let i = 0; i < legalMovesArr.length; i++) {
-        if (
-          legalMovesArr[i][0] === message.moveFrom &&
-          legalMovesArr[i][1] === message.moveTo
-        ) {
-          return true;
-        }
-      }
-      return false;
     }
 
     if (foxMoveIsLegal(previousState.get('legalMoves'))) {
       //Move logic
-      newState.foxAt = message.moveTo;
-      newState.geeseAt = previousGeeseAt;
-      newState.foxTurn = false;
+      foxMoves();
     } else {
       // No need to reset any state, it only matters to send a message
       // for viewUpdate to display
@@ -89,44 +71,15 @@ function update(
       newState.messageToView = NOT_GEESE_TURN;
       return fromJS(newState);
     }
-    // Check if Geese's move is legal
-    const legalMovesArr = previousState.get('legalMoves').toJS();
-    let gooseMoveIsLegal = false;
-    for (let i = 0; i < legalMovesArr.length; i++) {
-      if (
-        legalMovesArr[i][0] === message.moveFrom &&
-        legalMovesArr[i][1] === message.moveTo
-      ) {
-        gooseMoveIsLegal = true;
-        break;
-      }
-    }
-    if (gooseMoveIsLegal) {
-      let newGeeseAt: any = previousGeeseAt
-        .filter(goose => goose !== message.moveFrom)
-        //@ts-ignore
-        .push(message.moveTo);
-      // 3. place piece on new tile
 
-      newState.geeseAt = newGeeseAt;
-      newState.foxTurn = true;
-      newState.messageToView = FOX_GOES;
+    if (gooseMoveIsLegal(previousState.get('legalMoves'))) {
+      gooseMoves();
     } else {
       // No need to reset any state, it only matters to send a message
       // for viewUpdate to display
       newState.messageToView = ILLEGAL_MOVE;
       return fromJS(newState);
     }
-  }
-
-  if (newState.foxTurn) {
-    newState.messageToView = FOX_GOES;
-    newState.legalMoves = setFoxLegalMoves(newState.foxAt);
-    newState.legalJumps = setFoxLegalJumps(newState.foxAt);
-    console.log(newState.legalJumps);
-  } else {
-    newState.messageToView = GEESE_GO;
-    newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
   }
 
   // check if fox won
@@ -227,6 +180,56 @@ function update(
     return false;
   }
 
+  function foxMoveIsLegal(legalMovesList: any) {
+    const legalMovesArr = legalMovesList.toJS();
+    // Check in each direction move is legal.
+    for (let i = 0; i < legalMovesArr.length; i++) {
+      if (
+        legalMovesArr[i][0] === message.moveFrom &&
+        legalMovesArr[i][1] === message.moveTo
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function gooseMoveIsLegal(legalMovesList: any) {
+    const legalMovesArr = legalMovesList.toJS();
+    for (let i = 0; i < legalMovesArr.length; i++) {
+      if (
+        legalMovesArr[i][0] === message.moveFrom &&
+        legalMovesArr[i][1] === message.moveTo
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+  /*
+  Animal mover functions
+  */
+  function foxMoves() {
+    newState.foxAt = message.moveTo;
+    newState.geeseAt = previousGeeseAt;
+    newState.foxTurn = false;
+    newState.messageToView = GEESE_GO;
+    newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+  }
+  function gooseMoves() {
+    let newGeeseAt: any = previousGeeseAt
+      .filter(goose => goose !== message.moveFrom)
+      //@ts-ignore
+      .push(message.moveTo);
+    // 3. place piece on new tile
+    newState.geeseAt = newGeeseAt;
+    newState.foxTurn = true;
+    newState.messageToView = FOX_GOES;
+    newState.legalMoves = setFoxLegalMoves(newState.foxAt);
+    newState.legalJumps = setFoxLegalJumps(newState.foxAt);
+    console.log(newState.legalJumps);
+  }
+
   function foxJumpsAGoose(
     newState: {
       foxWon: boolean;
@@ -235,8 +238,7 @@ function update(
       foxJumped: boolean;
       foxAt: number;
       geeseAt: number[];
-      legalMoves: any; // see if this can be made into number[][] without breking Immutable.JS
-      // see if this can be made into number[][] without breking Immutable.JS
+      legalMoves: any;
       legalJumps: number[][];
       messageToView: string;
     },

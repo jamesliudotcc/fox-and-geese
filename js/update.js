@@ -46,9 +46,7 @@ function update(message, previousState) {
         }
         if (foxMoveIsLegal(previousState.get('legalMoves'))) {
             //Move logic
-            newState.foxAt = message.moveTo;
-            newState.geeseAt = previousGeeseAt;
-            newState.foxTurn = false;
+            foxMoves();
         }
         else {
             // No need to reset any state, it only matters to send a message
@@ -65,25 +63,18 @@ function update(message, previousState) {
             newState.messageToView = NOT_GEESE_TURN;
             return fromJS(newState);
         }
-        // Check if Geese's move is legal
-        const legalMovesArr = previousState.get('legalMoves').toJS();
-        let gooseMoveIsLegal = false;
-        for (let i = 0; i < legalMovesArr.length; i++) {
-            if (legalMovesArr[i][0] === message.moveFrom &&
-                legalMovesArr[i][1] === message.moveTo) {
-                gooseMoveIsLegal = true;
-                break;
+        function gooseMoveIsLegal(legalMovesList) {
+            const legalMovesArr = legalMovesList.toJS();
+            for (let i = 0; i < legalMovesArr.length; i++) {
+                if (legalMovesArr[i][0] === message.moveFrom &&
+                    legalMovesArr[i][1] === message.moveTo) {
+                    return true;
+                }
             }
+            return false;
         }
-        if (gooseMoveIsLegal) {
-            let newGeeseAt = previousGeeseAt
-                .filter(goose => goose !== message.moveFrom)
-                //@ts-ignore
-                .push(message.moveTo);
-            // 3. place piece on new tile
-            newState.geeseAt = newGeeseAt;
-            newState.foxTurn = true;
-            newState.messageToView = FOX_GOES;
+        if (gooseMoveIsLegal(previousState.get('legalMoves'))) {
+            gooseMoves();
         }
         else {
             // No need to reset any state, it only matters to send a message
@@ -91,16 +82,6 @@ function update(message, previousState) {
             newState.messageToView = ILLEGAL_MOVE;
             return fromJS(newState);
         }
-    }
-    if (newState.foxTurn) {
-        newState.messageToView = FOX_GOES;
-        newState.legalMoves = setFoxLegalMoves(newState.foxAt);
-        newState.legalJumps = setFoxLegalJumps(newState.foxAt);
-        console.log(newState.legalJumps);
-    }
-    else {
-        newState.messageToView = GEESE_GO;
-        newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
     }
     // check if fox won
     if (newState.geeseAt.length <= 4) {
@@ -181,6 +162,29 @@ function update(message, previousState) {
             }
         }
         return false;
+    }
+    /*
+    Animal mover functions
+    */
+    function foxMoves() {
+        newState.foxAt = message.moveTo;
+        newState.geeseAt = previousGeeseAt;
+        newState.foxTurn = false;
+        newState.messageToView = GEESE_GO;
+        newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+    }
+    function gooseMoves() {
+        let newGeeseAt = previousGeeseAt
+            .filter(goose => goose !== message.moveFrom)
+            //@ts-ignore
+            .push(message.moveTo);
+        // 3. place piece on new tile
+        newState.geeseAt = newGeeseAt;
+        newState.foxTurn = true;
+        newState.messageToView = FOX_GOES;
+        newState.legalMoves = setFoxLegalMoves(newState.foxAt);
+        newState.legalJumps = setFoxLegalJumps(newState.foxAt);
+        console.log(newState.legalJumps);
     }
     function foxJumpsAGoose(newState, message, previousGeeseAt) {
         newState.foxTurn = true;
