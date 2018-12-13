@@ -35,7 +35,7 @@ function update(
   };
   // Make updates to newState and return it as immutable
 
-  // convenience alias
+  // convenience aliases
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
   if (message.foxMoved) {
@@ -44,33 +44,19 @@ function update(
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
     }
+    // Check if the prevTurnJumped, if so, only check jump logic.
+    // Implement this.
 
     // Before checking normal moves, check jumps
-    const legalJumpsArr = previousState.get('legalJumps').toJS();
+
+    //convenience alias
+
     // Check if jump is made?
 
-    function foxJumpIsLegal(legalJumpsArr: []) {
-      for (let i = 0; i < legalJumpsArr.length; i++) {
-        if (
-          legalJumpsArr[i][0] === message.moveFrom &&
-          legalJumpsArr[i][1] === message.moveTo
-        ) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    if (foxJumpIsLegal(legalJumpsArr)) {
-      newState.foxTurn = true;
-      newState.foxAt = message.moveTo;
-      newState.geeseAt = previousGeeseAt;
-      newState.foxJumped = true;
-      // Remove the jumped goose
-      console.log('Fox caught a gooose! Implement removing it!');
+    if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
+      foxJumpsAGoose(newState, message, previousGeeseAt);
     } else {
       newState.foxTurn = true;
-      newState.foxTurn = !message.foxMoved;
     }
 
     const legalMovesArr = previousState.get('legalMoves').toJS();
@@ -144,6 +130,26 @@ function update(
     newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
   }
 
+  // check if fox won
+  if (newState.geeseAt.length <= 4) {
+    console.log('Fox won!');
+    //newState.foxWon = true;
+  }
+
+  // check if geese won
+  /* This happens after the turn is toggled so that fox's legal moves can 
+    be checked. Geese only win at the close of their turn and do not jump 
+    the fox, so it is OK to do this after toggling the turn to fox. */
+
+  if (newState.foxTurn && newState.legalMoves.length === 0) {
+    //   check fox legal moves. If there are none, geese won.
+    newState.geeseWon = true;
+  }
+
+  /* 
+  These repopulate the legal moves lists at the close of each turn
+  */
+
   function setFoxLegalMoves(foxAt: number) {
     return (
       boardNeighbors
@@ -206,21 +212,49 @@ function update(
     return List(allowedGooseMovesArr);
   }
 
-  // check if fox won
-  if (newState.geeseAt.length <= 4) {
-    console.log('Fox won!');
-    //newState.foxWon = true;
+  /*
+  Legal move checker functions
+  */
+
+  function foxJumpIsLegal(legalJumpsArr: []) {
+    for (let i = 0; i < legalJumpsArr.length; i++) {
+      if (
+        legalJumpsArr[i][0] === message.moveFrom &&
+        legalJumpsArr[i][1] === message.moveTo
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  // check if geese won
-  /* This happens after the turn is toggled so that fox's legal moves can 
-    be checked. Geese only win at the close of their turn and do not jump 
-    the fox, so it is OK to do this after toggling the turn to fox. */
-
-  if (newState.foxTurn && newState.legalMoves.length === 0) {
-    //   check fox legal moves. If there are none, geese won.
-    newState.geeseWon = true;
+  function foxJumpsAGoose(
+    newState: {
+      foxWon: boolean;
+      geeseWon: boolean;
+      foxTurn: boolean;
+      foxJumped: boolean;
+      foxAt: number;
+      geeseAt: number[];
+      legalMoves: any; // see if this can be made into number[][] without breking Immutable.JS
+      // see if this can be made into number[][] without breking Immutable.JS
+      legalJumps: number[][];
+      messageToView: string;
+    },
+    message: {
+      foxMoved: boolean;
+      jumped: boolean;
+      moveFrom: number;
+      moveTo: number;
+    },
+    previousGeeseAt: any
+  ) {
+    newState.foxTurn = true;
+    newState.foxAt = message.moveTo;
+    newState.geeseAt = previousGeeseAt;
+    newState.foxJumped = true;
+    // Remove the jumped goose
+    console.log('Fox caught a gooose! Implement removing it!');
   }
-
   return fromJS(newState);
 }
