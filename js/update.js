@@ -59,8 +59,8 @@ function update(message, previousState) {
     }
     // check if fox won
     if (newState.geeseAt.length <= 4) {
+        newState.foxWon = true;
         console.log('Fox won!');
-        //newState.foxWon = true;
     }
     // check if geese won
     /* This happens after the turn is toggled so that fox's legal moves can
@@ -69,6 +69,7 @@ function update(message, previousState) {
     if (newState.foxTurn && newState.legalMoves.length === 0) {
         //   check fox legal moves. If there are none, geese won.
         newState.geeseWon = true;
+        console.log('Geese Won!');
     }
     /*
     These repopulate the legal moves lists at the close of each turn
@@ -161,7 +162,7 @@ function update(message, previousState) {
     /*
     Animal mover functions
     */
-    // These would be really nice as object destructuring arr
+    // These would be really nice as object destructuring spread operator syntax
     function foxMoves() {
         newState.foxAt = message.moveTo;
         newState.geeseAt = previousGeeseAt;
@@ -183,14 +184,23 @@ function update(message, previousState) {
         console.log(newState.legalJumps);
     }
     function foxJumpsAGoose() {
-        newState.foxTurn = true;
+        newState.geeseAt = previousGeeseAt;
         newState.foxAt = message.moveTo;
         newState.foxJumped = true;
         newState.legalMoves = [];
-        // Remove the jumped goose
-        console.log('Fox caught a gooose! Does it go away?');
-        let jumpedTile = (message.moveFrom + message.moveTo) / 2;
+        const jumpedTile = (message.moveFrom + message.moveTo) / 2;
         newState.geeseAt = previousGeeseAt.filter(tile => tile !== jumpedTile);
+        const jumps = setFoxLegalJumps(newState.foxAt);
+        if (jumps.size > 0) {
+            newState.foxTurn = true;
+            newState.legalJumps = jumps;
+            newState.messageToView = FOX_GOES;
+        }
+        else {
+            newState.foxTurn = false;
+            newState.messageToView = GEESE_GO;
+            newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+        }
         // check for legal jump moves. If so, set legal jumps,
         // otherwise, relinquishes turn to geese.
     }

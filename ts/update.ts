@@ -7,11 +7,11 @@ function update(
   },
   previousState: any
 ): any {
-  // Any until I get Immutable working with TS
+  /* Initialize newState with some sensible defaults, the update function
+     updates them, returns it as an immutable object. The main function will then
+     pass the newly created state to updateView, which will update the view.
+  */
 
-  // Initialize newState with some sensible defaults, the update function
-  // updates them, returns it as an immutable object. The main function will then
-  // pass the newly created state to updateView, which will update the view.
   let newState: {
     foxWon: boolean;
     geeseWon: boolean;
@@ -33,9 +33,8 @@ function update(
     legalJumps: previousState.get('legalJumps'),
     messageToView: '',
   };
-  // Make updates to newState and return it as immutable
 
-  // convenience aliases
+  // convenience alias
   let previousGeeseAt: [] = previousState.get('geeseAt');
 
   if (message.foxMoved) {
@@ -80,8 +79,8 @@ function update(
 
   // check if fox won
   if (newState.geeseAt.length <= 4) {
+    newState.foxWon = true;
     console.log('Fox won!');
-    //newState.foxWon = true;
   }
 
   // check if geese won
@@ -92,6 +91,7 @@ function update(
   if (newState.foxTurn && newState.legalMoves.length === 0) {
     //   check fox legal moves. If there are none, geese won.
     newState.geeseWon = true;
+    console.log('Geese Won!');
   }
 
   /* 
@@ -202,10 +202,11 @@ function update(
     }
     return false;
   }
+
   /*
   Animal mover functions
   */
-  // These would be really nice as object destructuring arr
+  // These would be really nice as object destructuring spread operator syntax
   function foxMoves() {
     newState.foxAt = message.moveTo;
     newState.geeseAt = previousGeeseAt;
@@ -228,16 +229,27 @@ function update(
   }
 
   function foxJumpsAGoose() {
-    newState.foxTurn = true;
+    newState.geeseAt = previousGeeseAt;
     newState.foxAt = message.moveTo;
     newState.foxJumped = true;
     newState.legalMoves = [];
-    
-    let jumpedTile = (message.moveFrom + message.moveTo) / 2;
+
+    const jumpedTile = (message.moveFrom + message.moveTo) / 2;
     newState.geeseAt = previousGeeseAt.filter(tile => tile !== jumpedTile);
 
-    // check for legal jump moves. If so, set legal jumps,
-    // otherwise, relinquishes turn to geese.
+    const jumps = setFoxLegalJumps(newState.foxAt);
+
+    if (jumps.size > 0) {
+      // check for legal jump moves. If so, set legal jumps,
+      newState.foxTurn = true;
+      newState.legalJumps = jumps;
+      newState.messageToView = FOX_GOES;
+    } else {
+      // otherwise, relinquishes turn to geese.
+      newState.foxTurn = false;
+      newState.messageToView = GEESE_GO;
+      newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+    }
   }
   return fromJS(newState);
 }
