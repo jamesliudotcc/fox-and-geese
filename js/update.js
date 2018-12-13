@@ -1,5 +1,8 @@
 function update(message, previousState) {
     // Any until I get Immutable working with TS
+    // Initialize newState with some sensible defaults, the update function
+    // updates them, returns it as an immutable object. The main function will then
+    // pass the newly created state to updateView, which will update the view.
     let newState = {
         foxWon: previousState.get('foxWon'),
         geeseWon: previousState.get('geeseWon'),
@@ -12,7 +15,7 @@ function update(message, previousState) {
         messageToView: '',
     };
     // Make updates to newState and return it as immutable
-    //read previous geese state
+    // convenience alias
     let previousGeeseAt = previousState.get('geeseAt');
     if (message.foxMoved) {
         // Check if it is Fox's turn to move
@@ -20,20 +23,23 @@ function update(message, previousState) {
             newState.messageToView = NOT_FOX_TURN;
             return fromJS(newState);
         }
+        // Before checking normal moves, check jumps
         const legalJumpsArr = previousState.get('legalJumps').toJS();
         // Check if jump is made?
-        let foxJumpIsLegal = false;
-        for (let i = 0; i < legalJumpsArr.length; i++) {
-            if (legalJumpsArr[i][0] === message.moveFrom &&
-                legalJumpsArr[i][1] === message.moveTo) {
-                foxJumpIsLegal = true;
-                break;
+        function foxJumpIsLegal(legalJumpsArr) {
+            for (let i = 0; i < legalJumpsArr.length; i++) {
+                if (legalJumpsArr[i][0] === message.moveFrom &&
+                    legalJumpsArr[i][1] === message.moveTo) {
+                    return true;
+                }
             }
+            return false;
         }
-        if (foxJumpIsLegal) {
+        if (foxJumpIsLegal(legalJumpsArr)) {
             newState.foxTurn = true;
             newState.foxAt = message.moveTo;
             newState.geeseAt = previousGeeseAt;
+            newState.foxJumped = true;
             // Remove the jumped goose
             console.log('Fox caught a gooose! Implement removing it!');
         }

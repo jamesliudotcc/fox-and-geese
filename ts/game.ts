@@ -85,7 +85,6 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
   viewUpdate(currentState);
 }
 
-
 // // Implement cheater state:
 
 // function cheaterState() {
