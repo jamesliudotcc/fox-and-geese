@@ -126,6 +126,31 @@ function updater(
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
     }
+
+    const legalJumpsArr = previousState.get('legalJumps').toJS();
+    // Check if jump is made?
+    let foxJumpIsLegal = false;
+    for (let i = 0; i < legalJumpsArr.length; i++) {
+      if (
+        legalJumpsArr[i][0] === message.moveFrom &&
+        legalJumpsArr[i][1] === message.moveTo
+      ) {
+        foxJumpIsLegal = true;
+        break;
+      }
+    }
+
+    if (foxJumpIsLegal) {
+      newState.foxTurn = true;
+      newState.foxAt = message.moveTo;
+      newState.geeseAt = previousGeeseAt;
+      // Remove the jumped goose
+      console.log('Fox caught a gooose! Implement removing it!');
+    } else {
+      newState.foxTurn = true;
+      newState.foxTurn = !message.foxMoved;
+    }
+
     const legalMovesArr = previousState.get('legalMoves').toJS();
     // Check if move is legal.
     let foxMoveIsLegal = false;
@@ -187,15 +212,6 @@ function updater(
     }
   }
 
-  if (message.jumped) {
-    newState.foxTurn = true;
-    // remove the jumped goose
-    console.log('Fox caught a gooose!');
-  } else {
-    newState.foxTurn = false;
-    newState.foxTurn = !message.foxMoved;
-  }
-
   if (newState.foxTurn) {
     newState.messageToView = FOX_GOES;
     newState.legalMoves = setFoxLegalMoves(newState.foxAt);
@@ -247,7 +263,6 @@ function updater(
     console.log('can jump to:', canJumpTo);
     return canJumpTo;
   }
-
   function setGeeseLegalMoves(geeseAt: any) {
     // for each goose in array, as per fox
     let eachGooseMoves;
