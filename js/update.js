@@ -29,23 +29,7 @@ function update(message, previousState) {
         if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
             foxJumpsAGoose(newState, message, previousGeeseAt);
         }
-        else {
-            // console.log('rus newState.foxTurn = true at 60 ????');
-            // newState.foxTurn = true; // What does this do?
-        }
-        function foxMoveIsLegal(legalMovesList) {
-            const legalMovesArr = legalMovesList.toJS();
-            // Check in each direction move is legal.
-            for (let i = 0; i < legalMovesArr.length; i++) {
-                if (legalMovesArr[i][0] === message.moveFrom &&
-                    legalMovesArr[i][1] === message.moveTo) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        if (foxMoveIsLegal(previousState.get('legalMoves'))) {
-            //Move logic
+        else if (foxMoveIsLegal(previousState.get('legalMoves'))) {
             foxMoves();
         }
         else {
@@ -62,16 +46,6 @@ function update(message, previousState) {
         if (newState.foxTurn) {
             newState.messageToView = NOT_GEESE_TURN;
             return fromJS(newState);
-        }
-        function gooseMoveIsLegal(legalMovesList) {
-            const legalMovesArr = legalMovesList.toJS();
-            for (let i = 0; i < legalMovesArr.length; i++) {
-                if (legalMovesArr[i][0] === message.moveFrom &&
-                    legalMovesArr[i][1] === message.moveTo) {
-                    return true;
-                }
-            }
-            return false;
         }
         if (gooseMoveIsLegal(previousState.get('legalMoves'))) {
             gooseMoves();
@@ -158,6 +132,27 @@ function update(message, previousState) {
         for (let i = 0; i < legalJumpsArr.length; i++) {
             if (legalJumpsArr[i][0] === message.moveFrom &&
                 legalJumpsArr[i][1] === message.moveTo) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function foxMoveIsLegal(legalMovesList) {
+        const legalMovesArr = legalMovesList.toJS();
+        // Check in each direction move is legal.
+        for (let i = 0; i < legalMovesArr.length; i++) {
+            if (legalMovesArr[i][0] === message.moveFrom &&
+                legalMovesArr[i][1] === message.moveTo) {
+                return true;
+            }
+        }
+        return false;
+    }
+    function gooseMoveIsLegal(legalMovesList) {
+        const legalMovesArr = legalMovesList.toJS();
+        for (let i = 0; i < legalMovesArr.length; i++) {
+            if (legalMovesArr[i][0] === message.moveFrom &&
+                legalMovesArr[i][1] === message.moveTo) {
                 return true;
             }
         }

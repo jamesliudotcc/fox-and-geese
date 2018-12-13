@@ -50,11 +50,7 @@ function update(
 
     if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
       foxJumpsAGoose(newState, message, previousGeeseAt);
-    } else {
-    }
-
-    if (foxMoveIsLegal(previousState.get('legalMoves'))) {
-      //Move logic
+    } else if (foxMoveIsLegal(previousState.get('legalMoves'))) {
       foxMoves();
     } else {
       // No need to reset any state, it only matters to send a message
