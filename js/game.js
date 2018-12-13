@@ -130,16 +130,23 @@ function updater(message, previousState) {
             .map(neighbor => [foxAt, neighbor]));
     }
     function setGeeseLegalMoves(geeseAt) {
-        // create geeseArray
-        let geeseAtArr = geeseAt.toJS();
-        console.log(geeseAtArr);
         // for each goose in array, as per fox
+        let eachGooseMoves;
+        let allowedGooseMovesArr = [];
         for (let i = 0; i < geeseAt.size; i++) {
-            console.log(boardList
+            eachGooseMoves = boardList
                 .get(geeseAt.get(i))
                 //@ts-ignore
-                .filter(direction => !newState.geeseAt.includes(direction)));
+                .filter(direction => !geeseAt.includes(direction))
+                //@ts-ignore
+                .filter(direction => direction !== newState.foxAt)
+                //@ts-ignore
+                .map(neighbor => [geeseAt.get(i), neighbor]);
+            for (let j = 0; j < eachGooseMoves.size; j++) {
+                allowedGooseMovesArr.push(eachGooseMoves.get(j));
+            }
         }
+        return fromJS(allowedGooseMovesArr);
     }
     // check if fox won
     if (newState.geeseAt.length <= 4) {
