@@ -217,15 +217,35 @@ function updater(
     );
   }
   function setFoxLegalJumps(foxAt: number) {
-    console.log('setFoxLegalJumps', boardNeighbors.get(foxAt));
-    return (
-      boardNeighbors
-        .get(foxAt)
-        //@ts-ignore
-        .filter(direction => !newState.geeseAt.includes(direction))
-        //@ts-ignore
-        .map(neighbor => [foxAt, neighbor])
+    // The board knows where fox can go in one move, so use that to
+    // figure out what directions the fox can go.
+    let directions = boardNeighbors
+      .get(foxAt)
+      // @ts-ignore
+      .map(neighbor => neighbor - foxAt);
+    console.log('Fox is in a square allowing: ', directions);
+    // @ts-ignore
+    let checkGoose = directions.filter(dir =>
+      newState.geeseAt.includes(foxAt + dir)
     );
+    console.log(
+      'Check if there is a goose next to fox at that direction',
+      checkGoose
+    );
+    let canJumpTo = checkGoose
+      .filter(
+        //@ts-ignore
+        // No goose 2 away
+        dir => !newState.geeseAt.includes(foxAt + dir * 2)
+      )
+      // @ts-ignore
+      // Check neighbor that it has a valid neighbor in that direction
+      .filter(dir => boardNeighbors.get(foxAt + dir).includes(foxAt + dir * 2))
+      //@ts-ignore
+      // create array of current position, next position
+      .map(dir => [foxAt, foxAt + dir * 2]);
+    console.log('can jump to:', canJumpTo);
+    return canJumpTo;
   }
 
   function setGeeseLegalMoves(geeseAt: any) {
