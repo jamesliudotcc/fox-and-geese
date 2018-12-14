@@ -136,7 +136,7 @@ function createBoardDOMElement(boardList) {
         // Active tiles should call ondrop function when dropped onto
         if (boardList.get(i)) {
             boardTile.classList.add('active-tile');
-            boardTile.setAttribute('drop', 'drop(event)');
+            boardTile.setAttribute('ondrop', 'drop(event)');
             boardTile.setAttribute('ondragover', 'allowDrop(event)');
             //Development scafolding: write numbers on tiles
             let tileLabel = document.createElement('p');
@@ -156,7 +156,7 @@ function createBoardDOMElement(boardList) {
             gooseImg = document.createElement('img');
             gooseImg.setAttribute('src', './assets/goose.svg');
             gooseImg.setAttribute('alt', 'Goose icon');
-            gooseImg.setAttribute('class', 'goose-' + i.toString());
+            gooseImg.setAttribute('class', 'goose');
             gooseImg.setAttribute('draggable', 'true');
             gooseImg.setAttribute('ondragstart', 'drag(event)');
             boardTile.appendChild(gooseImg);

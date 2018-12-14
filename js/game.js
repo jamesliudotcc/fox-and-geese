@@ -46,6 +46,27 @@ function allowFirstMove(startingState) {
     // changing the startingState to currentState.
     return startingState;
 }
+/*
+Drag Handlers. This calls the foxMoves and geeseMoves functions to allow
+gameplay using drag and drop interface
+*/
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+function drag(ev) {
+    const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
+    ev.dataTransfer.setData('text', dataFromDrag);
+    console.log('I was dragged', dataFromDrag);
+    //getAttribute
+}
+function drop(ev) {
+    ev.preventDefault();
+    console.log('Something dropped', [
+        ev.dataTransfer.getData('text').split(' ')[0],
+        ev.dataTransfer.getData('text').split(' ')[1],
+        ev.target.parentNode.id,
+    ], 'on', ev.target.id);
+}
 //This is so I can play Fox & Geese from the console
 function foxMoves(movesFrom, movesTo) {
     let jumped = false;

@@ -149,7 +149,7 @@ function createBoardDOMElement(boardList: any) {
     if (boardList.get(i)) {
       boardTile.classList.add('active-tile');
 
-      boardTile.setAttribute('drop', 'drop(event)');
+      boardTile.setAttribute('ondrop', 'drop(event)');
       boardTile.setAttribute('ondragover', 'allowDrop(event)');
 
       //Development scafolding: write numbers on tiles
@@ -170,7 +170,7 @@ function createBoardDOMElement(boardList: any) {
       gooseImg = document.createElement('img');
       gooseImg.setAttribute('src', './assets/goose.svg');
       gooseImg.setAttribute('alt', 'Goose icon');
-      gooseImg.setAttribute('class', 'goose-' + i.toString());
+      gooseImg.setAttribute('class', 'goose');
       gooseImg.setAttribute('draggable', 'true');
       gooseImg.setAttribute('ondragstart', 'drag(event)');
 
