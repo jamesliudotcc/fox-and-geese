@@ -87,6 +87,7 @@ function createBoardDOMElement(boardList) {
         svgLine.setAttributeNS(null, 'vector-effect', 'non-scaling-stroke');
         return svgLine;
     }
+    //Main loop for generating each tile element
     for (let i = 0; i < WIDTH * HEIGHT; i++) {
         // All tiles 0 -> 48 are drawn on the DOM`
         let boardTile = document.createElement('div');
@@ -125,8 +126,11 @@ function createBoardDOMElement(boardList) {
             boardTile.appendChild(svgTag);
         }
         // Active tiles should have a html different class
+        // Active tiles should call ondrop function when dropped onto
         if (boardList.get(i)) {
             boardTile.classList.add('active-tile');
+            boardTile.setAttribute('drop', 'drop(event)');
+            boardTile.setAttribute('ondragover', 'allowDrop(event)');
             //Development scafolding: write numbers on tiles
             let tileLabel = document.createElement('p');
             tileLabel.innerText = i.toString();

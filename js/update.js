@@ -56,7 +56,7 @@ function update(message, previousState) {
     }
     // check if fox won
     console.log(newState.geeseAt.length);
-    if (newState.geeseAt.length <= 4) {
+    if (newState.geeseAt.size <= 4) {
         newState.foxWon = true;
         console.log('Fox won!');
     }

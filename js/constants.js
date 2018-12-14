@@ -47,4 +47,6 @@ const NOT_FOX_TURN = "Not fox's turn, geese go",
   FOX_GOES = 'Fox Goes',
   GEESE_GO = 'Geese Go',
   ILLEGAL_MOVE = 'Illegal Move',
-  JUMP = 'Fox jumped over a goose!';
+  JUMP = 'Fox jumped over a goose!',
+  FOX_WON = 'Fox win!',
+  GEESE_WON = 'Geese win!';
