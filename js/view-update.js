@@ -4,22 +4,31 @@ function viewUpdate(currentState) {
     const boardTiles = document.getElementsByClassName('active-tile');
     const messagesToDisplay = currentState.get('messageToView');
     console.log(messagesToDisplay);
-    for (let i = 0; i < HEIGHT * WIDTH; i++) {
-        // remove the fox and goose classes from all of the tiles
-        if (boardTiles[i] !== undefined) {
-            boardTiles[i].classList.remove('fox');
-            boardTiles[i].classList.remove('goose');
-        }
-    } // for
+    // remove the fox and goose classes from all of the tiles
+    let geeseImgs = document.getElementsByClassName('goose');
+    for (let i = geeseImgs.length - 1; i >= 0; i--) {
+        geeseImgs[i].remove();
+    }
+    let foxImgs = document.getElementsByClassName('fox');
+    for (let i = foxImgs.length - 1; i >= 0; i++) {
+        foxImgs[i].remove();
+    }
+    // old way
+    // for (let i = 0; i < HEIGHT * WIDTH; i++) {
+    //   if (boardTiles[i] !== undefined) {
+    //     boardTiles[i].classList.remove('fox');
+    //     boardTiles[i].classList.remove('goose');
+    //   }
+    // } // for
     //   put goose classes tiles based on currentState
     let newGooseLoc;
     for (let i = 0; i < currentState.get('geeseAt').size; i++) {
         newGooseLoc = document.getElementById(currentState.get('geeseAt').get(i));
-        newGooseLoc.classList.add('goose');
+        newGooseLoc.appendChild(makeGooseImg());
     }
     // Only one place where the fox might be:
     let newFoxLoc = document.getElementById(currentState.get('foxAt').toString());
-    newFoxLoc.classList.add('fox');
+    newFoxLoc.appendChild(makeFoxImg());
     boardTiles[currentState.get('foxAt')];
     // Declare victory for fox or geese if appropriate
     if (currentState.get('foxWon')) {

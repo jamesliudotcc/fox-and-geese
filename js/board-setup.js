@@ -76,13 +76,6 @@ function createBoard() {
 // }
 function createBoardDOMElement(boardList) {
     let boardMain = document.getElementById('main');
-    let foxImg = document.createElement('img');
-    foxImg.setAttribute('src', './assets/fox.svg');
-    foxImg.setAttribute('alt', 'Fox icon');
-    foxImg.setAttribute('class', 'fox');
-    foxImg.setAttribute('draggable', 'true');
-    foxImg.setAttribute('ondragstart', 'drag(event)');
-    let gooseImg;
     function newSvgLine(x2, y2) {
         // SVG Line always starts at center: 50, 50; goes to outside
         let svgLine = document.createElementNS(XMLNS, 'line');
@@ -147,20 +140,33 @@ function createBoardDOMElement(boardList) {
         //@ts-ignore
         if (i === startingState.get('foxAt')) {
             // boardTile.classList.add(FOX);
-            boardTile.appendChild(foxImg);
+            boardTile.appendChild(makeFoxImg());
         }
         // Geese are a class
         //@ts-ignore
         if (startingState.get('geeseAt').includes(i)) {
             // boardTile.classList.add(GOOSE);
-            gooseImg = document.createElement('img');
-            gooseImg.setAttribute('src', './assets/goose.svg');
-            gooseImg.setAttribute('alt', 'Goose icon');
-            gooseImg.setAttribute('class', 'goose');
-            gooseImg.setAttribute('draggable', 'true');
-            gooseImg.setAttribute('ondragstart', 'drag(event)');
-            boardTile.appendChild(gooseImg);
+            boardTile.appendChild(makeGooseImg());
         }
         boardMain.appendChild(boardTile);
     } // for
+}
+// Global scope so that view-update can use
+function makeGooseImg() {
+    let gooseImg = document.createElement('img');
+    gooseImg.setAttribute('src', './assets/goose.svg');
+    gooseImg.setAttribute('alt', 'Goose icon');
+    gooseImg.setAttribute('class', 'goose');
+    gooseImg.setAttribute('draggable', 'true');
+    gooseImg.setAttribute('ondragstart', 'drag(event)');
+    return gooseImg;
+}
+function makeFoxImg() {
+    let foxImg = document.createElement('img');
+    foxImg.setAttribute('src', './assets/fox.svg');
+    foxImg.setAttribute('alt', 'Fox icon');
+    foxImg.setAttribute('class', 'fox');
+    foxImg.setAttribute('draggable', 'true');
+    foxImg.setAttribute('ondragstart', 'drag(event)');
+    return foxImg;
 }
