@@ -28,3 +28,11 @@ line {
   stroke: rgb(32, 32, 32);
   stroke-width: 2;
 }
+
+img {
+  max-height: 80%;
+  max-width: 80%;
+}
+div {
+  border: 1px black solid;
+}

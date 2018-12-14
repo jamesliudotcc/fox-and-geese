@@ -76,6 +76,11 @@ function createBoard() {
 // }
 function createBoardDOMElement(boardList) {
     let boardMain = document.getElementById('main');
+    let foxImg = document.createElement('img');
+    foxImg.setAttribute('src', './assets/fox.svg');
+    foxImg.setAttribute('alt', 'Fox icon');
+    foxImg.setAttribute('class', 'fox');
+    let gooseImg;
     function newSvgLine(x2, y2) {
         // SVG Line always starts at center: 50, 50; goes to outside
         let svgLine = document.createElementNS(XMLNS, 'line');
@@ -139,12 +144,18 @@ function createBoardDOMElement(boardList) {
         // Fox is an HTML class
         //@ts-ignore
         if (i === startingState.get('foxAt')) {
-            boardTile.classList.add(FOX);
+            // boardTile.classList.add(FOX);
+            boardTile.appendChild(foxImg);
         }
         // Geese are a class
         //@ts-ignore
         if (startingState.get('geeseAt').includes(i)) {
-            boardTile.classList.add(GOOSE);
+            // boardTile.classList.add(GOOSE);
+            gooseImg = document.createElement('img');
+            gooseImg.setAttribute('src', './assets/goose.svg');
+            gooseImg.setAttribute('alt', 'Goose icon');
+            gooseImg.setAttribute('class', 'goose-' + i.toString());
+            boardTile.appendChild(gooseImg);
         }
         boardMain.appendChild(boardTile);
     } // for
