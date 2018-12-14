@@ -144,9 +144,9 @@ function createBoardDOMElement(boardList: any) {
       boardTile.setAttribute('ondragover', 'allowDrop(event)');
 
       //Development scafolding: write numbers on tiles
-      let tileLabel = document.createElement('p');
-      tileLabel.innerText = i.toString();
-      boardTile.appendChild(tileLabel);
+      // let tileLabel = document.createElement('p');
+      // tileLabel.innerText = i.toString();
+      // boardTile.appendChild(tileLabel);
     }
     // Fox is an HTML class
     //@ts-ignore

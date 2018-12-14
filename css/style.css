@@ -1,5 +1,5 @@
 body {
-  background-color: #cccccc;
+  background-color: #fffbea;
   font-family: 'Playfair Display', serif;
 }
 main {
@@ -10,7 +10,7 @@ main {
 .tile {
   height: 100%;
   width: 100%;
-  background-color: #006600;
+  background-color: #bbff9b;
 
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@ main {
   background-size: cover;
 }
 line {
-  stroke: rgb(32, 32, 32);
+  stroke: #23101e;
   stroke-width: 2;
 }
 
@@ -34,5 +34,5 @@ img {
   max-width: 80%;
 }
 div {
-  border: 1px black solid;
+  border: 1px #23101e solid;
 }
