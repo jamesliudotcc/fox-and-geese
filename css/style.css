@@ -7,7 +7,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.2em 0;
+  padding: 1.2em 0.7em;
   margin: 1em;
 }
 main {
@@ -40,24 +40,23 @@ img {
   height: 100%;
   grid-row: 1;
   grid-column: 1;
-  max-height: 80%;
-  max-width: 80%;
-  z-index: 2;
-}
-/* .fox {
   max-height: 90%;
   max-width: 90%;
-} */
+  z-index: 2;
+}
+
 .tile {
   height: 100%;
   width: 100%;
-  background-color: #bbff9b;
-
+  background-color: #fffbea;
   display: grid;
   grid-template-rows: 1;
   grid-template-columns: 1;
 
   border: 1px #23101e solid;
+}
+.active-tile {
+  background-color: #bbff9b;
 }
 .flex-container {
   display: flex;
