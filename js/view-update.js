@@ -10,7 +10,7 @@ function viewUpdate(currentState) {
         geeseImgs[i].remove();
     }
     let foxImgs = document.getElementsByClassName('fox');
-    for (let i = foxImgs.length - 1; i >= 0; i++) {
+    for (let i = foxImgs.length - 1; i >= 0; i--) {
         foxImgs[i].remove();
     }
     // old way

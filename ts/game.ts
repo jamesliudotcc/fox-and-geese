@@ -77,16 +77,17 @@ function drag(ev: any) {
 
 function drop(ev: any) {
   ev.preventDefault();
-  console.log(
-    'Something dropped',
-    [
-      ev.dataTransfer.getData('text').split(' ')[0],
-      ev.dataTransfer.getData('text').split(' ')[1],
-      ev.target.parentNode.id,
-    ],
-    'on',
-    ev.target.id
-  );
+
+  const animalMoved = ev.dataTransfer.getData('text').split(' ')[0];
+  const dragFrom = ev.dataTransfer.getData('text').split(' ')[1];
+  const dragTo = ev.target.parentNode.id;
+  console.log('Something dropped', [animalMoved, dragFrom, dragTo]);
+  if (animalMoved === 'goose') {
+    gooseMoves(Number(dragFrom), Number(dragTo));
+  }
+  if (animalMoved === 'fox') {
+    foxMoves(Number(dragFrom), Number(dragTo));
+  }
 }
 
 //This is so I can play Fox & Geese from the console
@@ -115,7 +116,7 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
   viewUpdate(currentState);
 }
 
-// // Implement cheater state:
+// // Implement cheater state?
 
 // function cheaterState() {
 //   currentState = fromJS({
