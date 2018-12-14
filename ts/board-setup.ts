@@ -84,6 +84,8 @@ function createBoardDOMElement(boardList: any) {
   foxImg.setAttribute('src', './assets/fox.svg');
   foxImg.setAttribute('alt', 'Fox icon');
   foxImg.setAttribute('class', 'fox');
+  foxImg.setAttribute('draggable', 'true');
+  foxImg.setAttribute('ondragstart', 'drag(event)');
 
   let gooseImg;
 
@@ -169,6 +171,9 @@ function createBoardDOMElement(boardList: any) {
       gooseImg.setAttribute('src', './assets/goose.svg');
       gooseImg.setAttribute('alt', 'Goose icon');
       gooseImg.setAttribute('class', 'goose-' + i.toString());
+      gooseImg.setAttribute('draggable', 'true');
+      gooseImg.setAttribute('ondragstart', 'drag(event)');
+
       boardTile.appendChild(gooseImg);
     }
     boardMain.appendChild(boardTile);

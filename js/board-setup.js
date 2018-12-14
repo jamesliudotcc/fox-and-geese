@@ -80,6 +80,8 @@ function createBoardDOMElement(boardList) {
     foxImg.setAttribute('src', './assets/fox.svg');
     foxImg.setAttribute('alt', 'Fox icon');
     foxImg.setAttribute('class', 'fox');
+    foxImg.setAttribute('draggable', 'true');
+    foxImg.setAttribute('ondragstart', 'drag(event)');
     let gooseImg;
     function newSvgLine(x2, y2) {
         // SVG Line always starts at center: 50, 50; goes to outside
@@ -155,6 +157,8 @@ function createBoardDOMElement(boardList) {
             gooseImg.setAttribute('src', './assets/goose.svg');
             gooseImg.setAttribute('alt', 'Goose icon');
             gooseImg.setAttribute('class', 'goose-' + i.toString());
+            gooseImg.setAttribute('draggable', 'true');
+            gooseImg.setAttribute('ondragstart', 'drag(event)');
             boardTile.appendChild(gooseImg);
         }
         boardMain.appendChild(boardTile);
