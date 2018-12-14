@@ -17,13 +17,6 @@ function viewUpdate(currentState: any) {
   for (let i = foxImgs.length - 1; i >= 0; i--) {
     foxImgs[i].remove();
   }
-  // old way
-  // for (let i = 0; i < HEIGHT * WIDTH; i++) {
-  //   if (boardTiles[i] !== undefined) {
-  //     boardTiles[i].classList.remove('fox');
-  //     boardTiles[i].classList.remove('goose');
-  //   }
-  // } // for
 
   //   put goose classes tiles based on currentState
   let newGooseLoc;

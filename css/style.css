@@ -3,7 +3,7 @@ body {
   font-family: 'Annie Use Your Telescope', sans-serif;
 }
 header {
-  border: 4px solid #c65200;
+  border: 4px solid #2e2351;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,10 +15,16 @@ main {
   grid-template-columns: repeat(7, 12vw);
   grid-template-rows: repeat(7, 12vw);
 }
-h1 {
-  font-family: 'Cabin Sketch', cursive;
+aside {
+  width: 85%;
+  max-width: 700px;
 }
-
+h1 {
+  font-family: 'Cabin Sketch', sans-serif;
+}
+.border-fox-goes {
+  border: 4px solid #c65200;
+}
 svg {
   grid-row: 1;
   grid-column: 1;
@@ -68,4 +74,12 @@ img {
 }
 .goosy {
   color: #2e2351;
+}
+
+@media screen and (min-width: 702px) {
+  main {
+    display: grid;
+    grid-template-columns: repeat(7, 100px);
+    grid-template-rows: repeat(7, 100px);
+  }
 }
