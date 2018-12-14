@@ -5,16 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope|Cabin+Sketch"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="icon" href="./assets/arctic_fox.png" type="image/x-icon" />
+    <link rel="icon" href="./assets/favicon-96x96.png" type="image/x-icon" />
   </head>
   <body>
-    <main id="main"></main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/4.0.0-rc.12/immutable.js"></script>
-    <script src="./js/constants.js"></script>
-    <script src="./js/board-setup.js"></script>
-    <script src="./js/update.js"></script>
-    <script src="./js/view-update.js"></script>
-    <script src="./js/game.js"></script>
+    <div class="flex-container">
+      <header class="header">
+        <h1>
+          <span class="foxy">Fox</span> <span class="goosy">and Geese</span>
+        </h1>
+      </header>
+      <main id="main"></main>
+      <aside id="message-box">
+        <p>
+          Fox and Geese is a classic assymetric board game in the
+          <a href="https://en.wikipedia.org/wiki/Tafl_games">tafl family</a>.
+          The animals only move along the lines drawn on the board. Some squares
+          allow diagonal moves but others do not. The fox can move one square or
+          jump a goose in any allowed direction. The fox can jump only one goose
+          at a time, but can continue jumping geese in its turn as long as a
+          jump is possible. The geese can only move one square. Since the fox
+          can only jump over a single goose, a goose with another goose behind
+          it is safe from jumping. The geese win by trapping the fox. The fox
+          wins when there are four or fewer geese (and so the fox can no longer
+          be trapped).
+        </p>
+        <p>The game is ready when you are. Geese go!</p>
+      </aside>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/4.0.0-rc.12/immutable.js"></script>
+      <!-- Immutable JS from facebook -->
+      <script src="https://cdn.jsdelivr.net/npm/drag-drop-polyfill@2.0.0-rc.0/drag-drop-polyfill.min.js"></script>
+      <!-- Drag & drop polyfill for touch screens -->
+      <script src="./js/constants.js"></script>
+      <script src="./js/board-setup.js"></script>
+      <script src="./js/update.js"></script>
+      <script src="./js/view-update.js"></script>
+      <script src="./js/game.js"></script>
+    </div>
   </body>
 </html>

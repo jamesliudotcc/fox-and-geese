@@ -1,28 +1,34 @@
 body {
   background-color: #fffbea;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Annie Use Your Telescope', sans-serif;
+}
+header {
+  border: 4px solid #c65200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2em 0;
+  margin: 1em;
 }
 main {
   display: grid;
   grid-template-columns: repeat(7, 12vw);
   grid-template-rows: repeat(7, 12vw);
 }
-.tile {
-  height: 100%;
-  width: 100%;
-  background-color: #bbff9b;
+h1 {
+  font-family: 'Cabin Sketch', cursive;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fox {
-  background-image: url(../assets/fox.svg);
-  background-size: cover;
-}
-.goose {
-  background-image: url(../assets/goose.svg);
-  background-size: cover;
+svg {
+  grid-row: 1;
+  grid-column: 1;
+  z-index: 1;
+  justify-self: center;
+
+  align-self: center;
+  min-width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
 }
 line {
   stroke: #23101e;
@@ -30,9 +36,37 @@ line {
 }
 
 img {
+  width: 100%;
+  height: 100%;
+  grid-row: 1;
+  grid-column: 1;
   max-height: 80%;
   max-width: 80%;
+  z-index: 2;
 }
-div {
+/* .fox {
+  max-height: 90%;
+  max-width: 90%;
+} */
+.tile {
+  height: 100%;
+  width: 100%;
+  background-color: #bbff9b;
+
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 1;
+
   border: 1px #23101e solid;
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.foxy {
+  color: #c65200;
+}
+.goosy {
+  color: #2e2351;
 }
