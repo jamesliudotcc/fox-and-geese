@@ -103,8 +103,7 @@ function createBoardDOMElement(boardList: any) {
     // Check if tile has any connections to neighbors, if so, set SVG box to draw lines
     if (boardList.get(i)) {
       let svgTag = document.createElementNS(XMLNS, 'svg');
-      svgTag.setAttributeNS(null, 'height', '100');
-      svgTag.setAttributeNS(null, 'width', '100');
+      svgTag.setAttributeNS(null, 'viewBox', '0 0 100 100');
 
       // Check each direction and draw a line if appropriate
       if (boardList.get(i).includes(i + N)) {
