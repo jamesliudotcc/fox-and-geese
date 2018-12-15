@@ -31,6 +31,10 @@ The view-update function is very simpplistic. It removes all of the pieces from 
 
 I chose not to have sounds. As it turns out, foxes sound like screeching seaguls? And George Clooney's voice as a fox ("VaaF") is subject to copyright. Geese sounds are also not cute.
 
+## Typescript
+
+Refactoring is much easier using Typescript. For example, I wanted to add a new property to the messageToUpdate function, so I added it to the type declaration and to the object at one point in the code. The compiler hunted down all the other instances so I could be sure to pass on sensible values at each point in the program. This is as they say in the podcasts about strong type systems: you refactor by making changes and chasing down all of the compiler errors.
+
 This is the source of the cute foxk, geese, and grass SVGs:
 
 http://thecraftchop.com/entries/svg/fox

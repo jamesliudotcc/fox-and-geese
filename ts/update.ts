@@ -1,5 +1,6 @@
 function update(
   message: {
+    gameBegin: boolean;
     foxMoved: boolean;
     jumped: boolean;
     moveFrom: number;
@@ -13,6 +14,7 @@ function update(
   */
 
   let newState: {
+    gameBegin: boolean;
     foxWon: boolean;
     geeseWon: boolean;
     foxTurn: boolean;
@@ -23,6 +25,7 @@ function update(
     legalJumps: any;
     messageToView: string;
   } = {
+    gameBegin: false,
     foxWon: previousState.get('foxWon'),
     geeseWon: previousState.get('geeseWon'),
     foxTurn: previousState.get('foxTurn'),

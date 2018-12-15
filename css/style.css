@@ -168,7 +168,7 @@ img {
 }
 
 .button {
-  margin: auto;
+  margin: 1em auto;
 }
 
 @media screen and (min-width: 702px) {

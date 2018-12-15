@@ -23,6 +23,7 @@ const DIRECTIONS = [N, NE, E, SE, S, SW, W, NW];
 const XMLNS = 'http://www.w3.org/2000/svg';
 
 let startingState: {
+  gameBegin: boolean;
   foxWon: boolean;
   geeseWon: boolean;
   foxTurn: boolean;
@@ -33,6 +34,7 @@ let startingState: {
   legalJumps: number[][];
   messageToView: string;
 } = {
+  gameBegin: false,
   foxWon: false,
   geeseWon: false,
   foxTurn: false,
@@ -64,7 +66,7 @@ const NOT_FOX_TURN = "Not fox's turn, geese go",
   NOT_GEESE_TURN = "Not geese's turn, fox goes",
   FOX_GOES = 'Fox Goes',
   GEESE_GO = 'Geese Go',
-  ILLEGAL_MOVE = 'Illegal Move',
+  ILLEGAL_MOVE = 'Try again',
   JUMP = 'Fox jumped over a goose!',
   FOX_WON = 'Fox win!',
   GEESE_WON = 'Geese win!';

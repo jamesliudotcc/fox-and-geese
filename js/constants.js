@@ -17,6 +17,7 @@ const NW = 0 - WIDTH - 1,
 const DIRECTIONS = [N, NE, E, SE, S, SW, W, NW];
 const XMLNS = 'http://www.w3.org/2000/svg';
 let startingState = {
+  gameBegin: false,
   foxWon: false,
   geeseWon: false,
   foxTurn: false,

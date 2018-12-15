@@ -8,11 +8,8 @@ let newGameButton = document.getElementById('new-game');
 
 newGameButton.addEventListener('click', beginGame);
 
-function main() {}
-//Figure this out later
-
-function beginGame(e: any): void {
-  boardNeighbors = createBoard();
+function main() {
+  boardNeighbors = setBoardNeighbors();
 
   startingState = createBoardState();
 
@@ -20,6 +17,9 @@ function beginGame(e: any): void {
 
   currentState = allowFirstMove(startingState);
 }
+//Figure this out later
+
+function beginGame(e: any): void {}
 
 function setInitialGeeseLegalMoves(geeseAt: any) {
   // for each goose in array, as per fox
@@ -39,6 +39,7 @@ function setInitialGeeseLegalMoves(geeseAt: any) {
       allowedGooseMovesArr.push(eachGooseMoves.get(j));
     }
   }
+  return allowedGooseMovesArr;
 }
 function allowFirstMove(startingState: any): any {
   // figure this out later
@@ -56,7 +57,7 @@ function allowFirstMove(startingState: any): any {
 
 /*
 Drag Handlers. This calls the foxMoves and geeseMoves functions to allow
-gameplay using drag and drop interface
+gameplay using drag and drop interface.
 */
 
 function allowDrop(ev: any) {
@@ -85,12 +86,14 @@ function drop(ev: any) {
   }
 }
 
-//This is so I can play Fox & Geese from the console
+// These functions allow play the console. The drag interface uses
+// these functions.
 function foxMoves(movesFrom: number, movesTo: number): void {
   let jumped = false;
   //implement logic to check whether a jump happened.
 
   let messageToUpdate = {
+    gameBegin: false,
     foxMoved: true,
     jumped: jumped,
     moveFrom: movesFrom,
@@ -102,6 +105,7 @@ function foxMoves(movesFrom: number, movesTo: number): void {
 
 function gooseMoves(movesFrom: number, movesTo: number): void {
   let messageToUpdate = {
+    gameBegin: false,
     foxMoved: false,
     jumped: false,
     moveFrom: movesFrom,

@@ -4,6 +4,7 @@ function update(message, previousState) {
        pass the newly created state to updateView, which will update the view.
     */
     let newState = {
+        gameBegin: false,
         foxWon: previousState.get('foxWon'),
         geeseWon: previousState.get('geeseWon'),
         foxTurn: previousState.get('foxTurn'),
