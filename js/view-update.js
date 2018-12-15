@@ -33,5 +33,4 @@ function viewUpdate(currentState) {
         boardTiles[currentState.get('foxAt')];
     }
     placeFox();
-    // On game win,
 }

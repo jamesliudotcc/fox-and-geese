@@ -16,8 +16,10 @@ newGameButton.addEventListener('click', beginGame);
 
 // dragOver, dragLeave, and drop handle the tile targets
 function dragOver(ev: any) {
-  console.log('Someone came into:', ev.target.id);
   ev.preventDefault();
+
+  console.log('Someone came into:', ev.target.id);
+  
 }
 
 function dragLeave(ev: any) {

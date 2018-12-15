@@ -46,6 +46,12 @@ function update(
     // Ready to send newState to viewUpdate
     return fromJS(newState);
   }
+
+  if (previousState.foxWon || previousState.geeseWon) {
+    // In a game own state, nothing should work.
+    return fromJS(newState);
+  }
+
   if (message.foxMoved) {
     if (!newState.foxTurn) {
       newState.messageToView = NOT_FOX_TURN;
@@ -87,6 +93,7 @@ function update(
   // check if fox won
   if (newState.geeseAt.size <= 4) {
     newState.foxWon = true;
+    newState.messageToView = FOX_WON;
   }
 
   // check if geese won
@@ -101,6 +108,7 @@ function update(
   ) {
     //   check fox legal moves. If there are none, geese won.
     newState.geeseWon = true;
+    newState.messageToView = GEESE_WON;
   }
 
   /* 
