@@ -13,6 +13,11 @@ newGameButton.addEventListener('click', beginGame);
 // dragOver, dragLeave, and drop handle the tile targets
 function dragOver(ev) {
     ev.preventDefault();
+    let messageToUpdate = {
+        dropTarget: ev.target.id,
+    };
+    currentState = update(messageToUpdate, currentState);
+    viewUpdate(currentState);
     console.log('Someone came into:', ev.target.id);
 }
 function dragLeave(ev) {
@@ -41,7 +46,7 @@ function dragStart(ev) {
 function dragEnd(ev) {
     console.log('I was dropped');
 }
-// The event handlers call these functions. One sets up the initial
+// The drop handlers call these functions. One sets up the initial
 // board when the begin gaem button is pressed.
 // These functions allow play the console. The drag interface uses
 // these functions.

@@ -1,3 +1,5 @@
+import { version } from 'punycode';
+
 //ImmutabeJS types are declared as any for now.
 let currentState: any;
 // let boardNeighbors: any; // Directory of legal moves
@@ -17,9 +19,14 @@ newGameButton.addEventListener('click', beginGame);
 // dragOver, dragLeave, and drop handle the tile targets
 function dragOver(ev: any) {
   ev.preventDefault();
+  let messageToUpdate = {
+    dropTarget: ev.target.id,
+  };
+
+  currentState = update(messageToUpdate, currentState);
+  viewUpdate(currentState);
 
   console.log('Someone came into:', ev.target.id);
-  
 }
 
 function dragLeave(ev: any) {
@@ -52,7 +59,7 @@ function dragEnd(ev: any) {
   console.log('I was dropped');
 }
 
-// The event handlers call these functions. One sets up the initial
+// The drop handlers call these functions. One sets up the initial
 // board when the begin gaem button is pressed.
 // These functions allow play the console. The drag interface uses
 // these functions.

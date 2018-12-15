@@ -23,6 +23,9 @@ function update(message, previousState) {
         // Ready to send newState to viewUpdate
         return fromJS(newState);
     }
+    if (message.dropTarget) {
+        console.log('Now dropTarget is known in the state: ', message.dropTarget);
+    }
     if (previousState.foxWon || previousState.geeseWon) {
         // In a game own state, nothing should work.
         return fromJS(newState);

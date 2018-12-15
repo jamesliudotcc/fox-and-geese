@@ -21,7 +21,7 @@ For this project, I decided to apply some concepts from Elm and Redux: the Model
 
 Type is implemented using Typescript, and immutability is implemented using Immutabile.js. The Immutable.js documentation is written with Typescript in mind, but it seems pitched at someone who is some weeks further along in JS knowledge than I have. Thus, getting the TS ad I.js to play well together has been a major challenge. It turns out, I am not [the](https://www.reddit.com/r/reactjs/comments/7mfaxy/it_aint_pretty_typescript/) [only](https://blog.mgechev.com/2018/01/18/react-typescript-redux-immutable/) [one](https://themapguyde.blogspot.com/2018/03/making-immutablejs-objects-easier-to.html) have this problem.
 
-All of the solutions I found would take too long to implement for a week-long project, for example, [this](https://medium.com/@alexxgent/enforcing-types-with-immutablejs-and-typescript-6ab980819b6a).
+All of the solutions I found would take too long to implement for a week-long project, for example, [this](https://medium.com/@alexxgent/enforcing-types-with-immutablejs-and-typescript-6ab980819b6a). Also, when I was researching another Typescript feature, I discovered that it is possible to declare properties of objects and arrays as read-only. So, Immutable.js was probably not needed at all.
 
 In order to keep myself sane, inside functions, arrays and objects are mutable, but to preserve the benefits of immutability, return values are immutable. Making everything immutable can be a refactoring project for later. Or I can just implement this in Elm.
 

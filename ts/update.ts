@@ -1,30 +1,31 @@
-function update(
-  message: {
-    gameBegin: boolean;
-    foxMoved: boolean;
-    jumped: boolean;
-    moveFrom: number;
-    moveTo: number;
-  },
-  previousState: any
-): any {
+interface messageToUpdate {
+  gameBegin?: boolean;
+  foxMoved?: boolean;
+  jumped?: boolean;
+  dropTarget?: string;
+  moveFrom?: number;
+  moveTo?: number;
+}
+interface stateDiagram {
+  gameBegin: boolean;
+  foxWon: boolean;
+  geeseWon: boolean;
+  foxTurn: boolean;
+  foxJumped: boolean;
+  foxAt: number;
+  geeseAt: any;
+  legalMoves: any;
+  legalJumps: any;
+  messageToView: string;
+}
+
+function update(message: messageToUpdate, previousState: any): any {
   /* Initialize newState with some sensible defaults, the update function
      updates them, returns it as an immutable object. The main function will then
      pass the newly created state to updateView, which will update the view.
   */
 
-  let newState: {
-    gameBegin: boolean;
-    foxWon: boolean;
-    geeseWon: boolean;
-    foxTurn: boolean;
-    foxJumped: boolean;
-    foxAt: number;
-    geeseAt: any;
-    legalMoves: any;
-    legalJumps: any;
-    messageToView: string;
-  } = {
+  let newState: stateDiagram = {
     gameBegin: false,
     foxWon: previousState.get('foxWon'),
     geeseWon: previousState.get('geeseWon'),
@@ -45,6 +46,10 @@ function update(
     atStartNoMoves();
     // Ready to send newState to viewUpdate
     return fromJS(newState);
+  }
+
+  if (message.dropTarget) {
+    console.log('Now dropTarget is known in the state: ', message.dropTarget);
   }
 
   if (previousState.foxWon || previousState.geeseWon) {
