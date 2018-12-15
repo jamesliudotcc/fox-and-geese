@@ -63,10 +63,8 @@ function update(message, previousState) {
         }
     }
     // check if fox won
-    console.log(newState.geeseAt.length);
     if (newState.geeseAt.size <= 4) {
         newState.foxWon = true;
-        console.log('Fox won!');
     }
     // check if geese won
     /* This happens after the turn is toggled so that fox's legal moves can
@@ -77,7 +75,6 @@ function update(message, previousState) {
         newState.legalJumps.size === 0) {
         //   check fox legal moves. If there are none, geese won.
         newState.geeseWon = true;
-        console.log('Geese Won!');
     }
     /*
     These repopulate the legal moves lists at the close of each turn

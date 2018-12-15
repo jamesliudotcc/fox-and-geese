@@ -40,7 +40,6 @@ function update(
   // convenience alias
   let previousGeeseAt: [] = previousState.get('geeseAt');
   if (message.gameBegin) {
-    console.log(previousState);
     // Build newstate
     atStartNoMoves();
 
@@ -86,10 +85,8 @@ function update(
   }
 
   // check if fox won
-  console.log(newState.geeseAt.length);
   if (newState.geeseAt.size <= 4) {
     newState.foxWon = true;
-    console.log('Fox won!');
   }
 
   // check if geese won
@@ -104,7 +101,6 @@ function update(
   ) {
     //   check fox legal moves. If there are none, geese won.
     newState.geeseWon = true;
-    console.log('Geese Won!');
   }
 
   /* 

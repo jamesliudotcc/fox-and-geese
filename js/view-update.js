@@ -2,6 +2,7 @@ function viewUpdate(currentState) {
     const gameMessages = document.getElementById('game-messages');
     // Only reflect the current game state on the view in this function
     const boardTiles = document.getElementsByClassName('active-tile');
+    const resetButon = document.getElementById;
     const messagesToDisplay = currentState.get('messageToView');
     gameMessages.textContent = messagesToDisplay;
     // remove the fox and goose classes from all of the tiles
@@ -23,14 +24,5 @@ function viewUpdate(currentState) {
     let newFoxLoc = document.getElementById(currentState.get('foxAt').toString());
     newFoxLoc.appendChild(makeFoxImg());
     boardTiles[currentState.get('foxAt')];
-    // Declare victory for fox or geese if appropriate
-    if (currentState.get('foxWon')) {
-        gameMessages.textContent = 'Fox Won!';
-        // Turn off board.
-    }
-    //   if (currentState.get('geeseWon')) {
-    //     gameMessages.textContent = 'Geeeese Won!';
-    //     // Turn off board.
-    //     // number of ee's == number of geese
-    //   }
+    // On game win, 
 }

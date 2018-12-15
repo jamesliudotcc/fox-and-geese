@@ -72,7 +72,6 @@ let startingState: {
   legalJumps: [],
   messageToView: "Game begins with goose's move",
 };
-// Why do I need this function? Can't update handle this even on first move?
 function geeseLocations(numGeese: number): number[] {
   let gooseLocations = [];
   if (numGeese === 13) {
@@ -81,31 +80,31 @@ function geeseLocations(numGeese: number): number[] {
         gooseLocations.push(i);
       }
     } // for
-  } // Other
+  }
   return gooseLocations;
 }
 //I am targetting removing this function.
-function geeseLegalMoves(geeseAt: any): number[][] {
-  // for each goose in array, as per fox
+// function geeseLegalMoves(geeseAt: any): number[][] {
+//   // for each goose in array, as per fox
 
-  let eachGooseMoves;
-  let allowedGooseMovesArr: [][] = [];
-  for (let i = 0; i < geeseAt.size; i++) {
-    eachGooseMoves = boardNeighbors
-      .get(geeseAt.get(i))
-      //@ts-ignore
-      .filter(direction => !geeseAt.includes(direction))
-      //@ts-ignore
-      .filter(direction => direction !== startingState.foxAt)
-      //@ts-ignore
-      .map(neighbor => [geeseAt.get(i), neighbor]);
+//   let eachGooseMoves;
+//   let allowedGooseMovesArr: [][] = [];
+//   for (let i = 0; i < geeseAt.size; i++) {
+//     eachGooseMoves = boardNeighbors
+//       .get(geeseAt.get(i))
+//       //@ts-ignore
+//       .filter(direction => !geeseAt.includes(direction))
+//       //@ts-ignore
+//       .filter(direction => direction !== startingState.foxAt)
+//       //@ts-ignore
+//       .map(neighbor => [geeseAt.get(i), neighbor]);
 
-    for (let j = 0; j < eachGooseMoves.size; j++) {
-      allowedGooseMovesArr.push(eachGooseMoves.get(j));
-    }
-  }
-  return allowedGooseMovesArr;
-}
+//     for (let j = 0; j < eachGooseMoves.size; j++) {
+//       allowedGooseMovesArr.push(eachGooseMoves.get(j));
+//     }
+//   }
+//   return allowedGooseMovesArr;
+// }
 function setBoardNeighbors() {
   let drawBoard: any[] = [];
   // Some functions to calculate commonly seen board patterns

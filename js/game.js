@@ -1,26 +1,9 @@
 //ImmutabeJS types are declared as any for now.
 let currentState;
 // let boardNeighbors: any; // Directory of legal moves
-document.addEventListener('DOMContentLoaded', main);
-function main() {
-    // startingState = createBoardState();
+document.addEventListener('DOMContentLoaded', function () {
     createBoardDOMElement(boardNeighbors);
-    // currentState = allowFirstMove(startingState);
-}
-//I am targetting removal of this function.
-function allowFirstMove(startingState) {
-    // figure this out later
-    // startingState.set(
-    //   'legalMoves',
-    //   setInitialGeeseLegalMoves(
-    //     //@ts-ignore
-    //     startingState.get('geeseAt')
-    //   )
-    // );
-    //This line is required to initialize the game under Immutable. Get rid of this by
-    // changing the startingState to currentState.
-    return startingState;
-}
+});
 /*
 Drag Handlers. This calls the foxMoves and geeseMoves functions to allow
 gameplay using drag and drop interface.
