@@ -239,12 +239,6 @@ function update(
     newState.legalMoves = setFoxLegalMoves(newState.foxAt);
     newState.legalJumps = setFoxLegalJumps(newState.foxAt);
 
-    console.log(
-      'Fox can move and jump:',
-      newState.legalMoves.size,
-      newState.legalJumps.size
-    );
-
     newState.messageToView = FOX_GOES;
   }
 

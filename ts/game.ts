@@ -104,18 +104,6 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
   viewUpdate(currentState);
 }
 
-// I am targetting removing this function.
-// function createBoardState() {
-//   // TODO: Place geese should be in board-setup.ts
-//   // Place geese
-//   for (let i = 28; i < HEIGHT * WIDTH; i++) {
-//     if (boardNeighbors.get(i)) {
-//       startingState.geeseAt.push(i);
-//     }
-//   } // for
-
-//   return fromJS(startingState);
-// }
 // // Implement cheater state?
 
 // function cheaterState() {
