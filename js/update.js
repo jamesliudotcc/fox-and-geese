@@ -18,10 +18,9 @@ function update(message, previousState) {
     // convenience alias
     let previousGeeseAt = previousState.get('geeseAt');
     if (message.gameBegin) {
-        console.log(previousState);
         // Build newstate
         atStartNoMoves();
-        // Send newState to viewUpdate
+        // Ready to send newState to viewUpdate
         return fromJS(newState);
     }
     if (message.foxMoved) {

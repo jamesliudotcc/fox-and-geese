@@ -23,9 +23,7 @@ aside {
 h1 {
   font-family: 'Cabin Sketch', sans-serif;
 }
-.border-fox-goes {
-  border: 4px solid #c65200;
-}
+
 svg {
   grid-row: 1;
   grid-column: 1;
@@ -76,7 +74,9 @@ img {
 .goosy {
   color: #2e2351;
 }
-
+.border-fox-goes {
+  border: 4px solid #c65200;
+}
 .ba {
   border-style: solid;
   border-width: 1px;
@@ -169,6 +169,20 @@ img {
 
 .button {
   margin: 1em auto;
+}
+
+.light-foxy {
+  background-color: #da905c;
+}
+.light-goosy {
+  background-color: #7a7d90;
+}
+
+.med-foxy {
+  background-color: #d0712e;
+}
+.med-goosy {
+  background-color: #545870;
 }
 
 @media screen and (min-width: 702px) {
