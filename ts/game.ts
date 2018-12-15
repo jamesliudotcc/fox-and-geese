@@ -14,15 +14,14 @@ let newGameButton = document.getElementById('new-game');
 
 newGameButton.addEventListener('click', beginGame);
 
-function allowDrop(ev: any) {
+// dragOver, dragLeave, and drop handle the tile targets
+function dragOver(ev: any) {
+  console.log('Someone came into:', ev.target.id);
   ev.preventDefault();
 }
 
-function drag(ev: any) {
-  const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
-  ev.dataTransfer.setData('text', dataFromDrag);
-  console.log('I was dragged', dataFromDrag);
-  //getAttribute
+function dragLeave(ev: any) {
+  console.log('Someone left from:', ev.target.id);
 }
 
 function drop(ev: any) {
@@ -30,7 +29,7 @@ function drop(ev: any) {
 
   const animalMoved = ev.dataTransfer.getData('text').split(' ')[0];
   const dragFrom = ev.dataTransfer.getData('text').split(' ')[1];
-  const dragTo = ev.target.parentNode.id;
+  const dragTo = ev.target.id;
   console.log('Something dropped', [animalMoved, dragFrom, dragTo]);
   if (animalMoved === 'goose') {
     gooseMoves(Number(dragFrom), Number(dragTo));
@@ -39,6 +38,18 @@ function drop(ev: any) {
     foxMoves(Number(dragFrom), Number(dragTo));
   }
 }
+
+// dragStart, and dragEnd handle the animal being picked up.
+function dragStart(ev: any) {
+  const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
+  ev.dataTransfer.setData('text', dataFromDrag);
+  console.log('I was picked up', dataFromDrag);
+}
+// dragEnd is different from drop because only active tiles listen for drops.
+function dragEnd(ev: any) {
+  console.log('I was dropped');
+}
+
 // The event handlers call these functions. One sets up the initial
 // board when the begin gaem button is pressed.
 // These functions allow play the console. The drag interface uses

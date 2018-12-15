@@ -34,10 +34,14 @@ svg {
   min-width: 100%;
   min-height: 100%;
   box-sizing: border-box;
+
+  pointer-events: none;
 }
 line {
   stroke: #23101e;
   stroke-width: 2;
+
+  pointer-events: none;
 }
 
 img {

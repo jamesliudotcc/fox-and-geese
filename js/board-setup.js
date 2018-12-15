@@ -61,7 +61,8 @@ function createBoardDOMElement(boardList) {
         if (boardList.get(i)) {
             boardTile.classList.add('active-tile');
             boardTile.setAttribute('ondrop', 'drop(event)');
-            boardTile.setAttribute('ondragover', 'allowDrop(event)');
+            boardTile.setAttribute('ondragover', 'dragOver(event)');
+            boardTile.setAttribute('ondragleave', 'dragLeave(event)');
             //Development scafolding: write numbers on tiles
             // let tileLabel = document.createElement('p');
             // tileLabel.innerText = i.toString();
@@ -90,7 +91,8 @@ function makeGooseImg() {
     gooseImg.setAttribute('alt', 'Goose icon');
     gooseImg.setAttribute('class', 'goose');
     gooseImg.setAttribute('draggable', 'true');
-    gooseImg.setAttribute('ondragstart', 'drag(event)');
+    gooseImg.setAttribute('ondragstart', 'dragStart(event)');
+    gooseImg.setAttribute('ondragend', 'dragEnd(event)');
     return gooseImg;
 }
 function makeFoxImg() {
@@ -99,6 +101,7 @@ function makeFoxImg() {
     foxImg.setAttribute('alt', 'Fox icon');
     foxImg.setAttribute('class', 'fox');
     foxImg.setAttribute('draggable', 'true');
-    foxImg.setAttribute('ondragstart', 'drag(event)');
+    foxImg.setAttribute('ondragstart', 'dragStart(event)');
+    foxImg.setAttribute('ondragend', 'dragEnd(event)');
     return foxImg;
 }
