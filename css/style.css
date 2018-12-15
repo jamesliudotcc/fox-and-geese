@@ -14,6 +14,7 @@ main {
   display: grid;
   grid-template-columns: repeat(7, 12vw);
   grid-template-rows: repeat(7, 12vw);
+  margin: 2em 0;
 }
 aside {
   width: 85%;
@@ -74,6 +75,100 @@ img {
 }
 .goosy {
   color: #2e2351;
+}
+
+.ba {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.bw1 {
+  border-width: 0.125rem;
+}
+
+.bw2 {
+  border-width: 0.25rem;
+}
+
+.dib {
+  display: inline-block;
+}
+
+.fw6 {
+  font-weight: 600;
+}
+
+.tracked {
+  letter-spacing: 0.1em;
+}
+
+.link {
+  text-decoration: none;
+  transition: color 0.15s ease-in;
+}
+
+.link:link,
+.link:visited {
+  transition: color 0.15s ease-in;
+}
+
+.link:hover {
+  transition: color 0.15s ease-in;
+}
+
+.link:active {
+  transition: color 0.15s ease-in;
+}
+
+.link:focus {
+  transition: color 0.15s ease-in;
+  outline: 1px dotted currentColor;
+}
+
+.white {
+  color: #fff;
+}
+
+.bg-foxy {
+  background-color: #c65200;
+}
+
+.pv2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.ph3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mb2 {
+  margin-bottom: 0.5rem;
+}
+
+.f6 {
+  font-size: 0.875rem;
+}
+
+.dim {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+.dim:hover,
+.dim:focus {
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in;
+}
+
+.dim:active {
+  opacity: 0.8;
+  transition: opacity 0.15s ease-out;
+}
+
+.button {
+  margin: auto;
 }
 
 @media screen and (min-width: 702px) {

@@ -3,7 +3,7 @@ function viewUpdate(currentState) {
     // Only reflect the current game state on the view in this function
     const boardTiles = document.getElementsByClassName('active-tile');
     const messagesToDisplay = currentState.get('messageToView');
-    console.log(messagesToDisplay);
+    gameMessages.textContent = messagesToDisplay;
     // remove the fox and goose classes from all of the tiles
     let geeseImgs = document.getElementsByClassName('goose');
     for (let i = geeseImgs.length - 1; i >= 0; i--) {
@@ -13,13 +13,6 @@ function viewUpdate(currentState) {
     for (let i = foxImgs.length - 1; i >= 0; i--) {
         foxImgs[i].remove();
     }
-    // old way
-    // for (let i = 0; i < HEIGHT * WIDTH; i++) {
-    //   if (boardTiles[i] !== undefined) {
-    //     boardTiles[i].classList.remove('fox');
-    //     boardTiles[i].classList.remove('goose');
-    //   }
-    // } // for
     //   put goose classes tiles based on currentState
     let newGooseLoc;
     for (let i = 0; i < currentState.get('geeseAt').size; i++) {

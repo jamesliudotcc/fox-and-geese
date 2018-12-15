@@ -5,7 +5,7 @@ function viewUpdate(currentState: any) {
 
   const messagesToDisplay = currentState.get('messageToView');
 
-  console.log(messagesToDisplay);
+  gameMessages.textContent = messagesToDisplay;
 
   // remove the fox and goose classes from all of the tiles
 

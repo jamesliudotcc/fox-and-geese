@@ -2,23 +2,16 @@
 let currentState;
 let boardNeighbors; // Directory of legal moves
 document.addEventListener('DOMContentLoaded', main);
-function main() {
+let newGameButton = document.getElementById('new-game');
+newGameButton.addEventListener('click', beginGame);
+function main() { }
+//Figure this out later
+function beginGame(e) {
     boardNeighbors = createBoard();
     startingState = createBoardState();
     createBoardDOMElement(boardNeighbors);
     currentState = allowFirstMove(startingState);
-    function createBoardState() {
-        // TODO: Place geese should be in board-setup.ts
-        // Place geese
-        for (let i = 28; i < HEIGHT * WIDTH; i++) {
-            if (boardNeighbors.get(i)) {
-                startingState.geeseAt.push(i);
-            }
-        } // for
-        return fromJS(startingState);
-    }
 }
-//Figure this out later
 function setInitialGeeseLegalMoves(geeseAt) {
     // for each goose in array, as per fox
     let eachGooseMoves;
@@ -94,6 +87,16 @@ function gooseMoves(movesFrom, movesTo) {
     };
     currentState = update(messageToUpdate, currentState);
     viewUpdate(currentState);
+}
+function createBoardState() {
+    // TODO: Place geese should be in board-setup.ts
+    // Place geese
+    for (let i = 28; i < HEIGHT * WIDTH; i++) {
+        if (boardNeighbors.get(i)) {
+            startingState.geeseAt.push(i);
+        }
+    } // for
+    return fromJS(startingState);
 }
 // // Implement cheater state?
 // function cheaterState() {
