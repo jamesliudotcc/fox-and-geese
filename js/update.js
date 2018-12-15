@@ -3,6 +3,7 @@ function update(message, previousState) {
        updates them, returns it as an immutable object. The main function will then
        pass the newly created state to updateView, which will update the view.
     */
+    // Pass along old state unless there is a reason to change it.
     let newState = {
         gameBegin: false,
         foxWon: previousState.get('foxWon'),
@@ -23,8 +24,9 @@ function update(message, previousState) {
         // Ready to send newState to viewUpdate
         return fromJS(newState);
     }
-    if (message.dropTarget) {
-        console.log('Now dropTarget is known in the state: ', message.dropTarget);
+    if (message.dropTargetOn) {
+        console.log('Now dropTarget is known in the state: ', message.dropTargetOn);
+        newState.dropTargetOn = message.dropTargetOn;
     }
     if (previousState.foxWon || previousState.geeseWon) {
         // In a game own state, nothing should work.

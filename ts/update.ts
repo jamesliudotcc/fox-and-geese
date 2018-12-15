@@ -2,7 +2,7 @@ interface messageToUpdate {
   gameBegin?: boolean;
   foxMoved?: boolean;
   jumped?: boolean;
-  dropTarget?: string;
+  dropTargetOn?: string;
   moveFrom?: number;
   moveTo?: number;
 }
@@ -17,6 +17,7 @@ interface stateDiagram {
   legalMoves: any;
   legalJumps: any;
   messageToView: string;
+  dropTargetOn?: string;
 }
 
 function update(message: messageToUpdate, previousState: any): any {
@@ -25,6 +26,7 @@ function update(message: messageToUpdate, previousState: any): any {
      pass the newly created state to updateView, which will update the view.
   */
 
+  // Pass along old state unless there is a reason to change it.
   let newState: stateDiagram = {
     gameBegin: false,
     foxWon: previousState.get('foxWon'),
@@ -48,8 +50,9 @@ function update(message: messageToUpdate, previousState: any): any {
     return fromJS(newState);
   }
 
-  if (message.dropTarget) {
-    console.log('Now dropTarget is known in the state: ', message.dropTarget);
+  if (message.dropTargetOn) {
+    console.log('Now dropTarget is known in the state: ', message.dropTargetOn);
+    newState.dropTargetOn = message.dropTargetOn;
   }
 
   if (previousState.foxWon || previousState.geeseWon) {

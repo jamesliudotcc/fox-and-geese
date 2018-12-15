@@ -20,13 +20,11 @@ newGameButton.addEventListener('click', beginGame);
 function dragOver(ev: any) {
   ev.preventDefault();
   let messageToUpdate = {
-    dropTarget: ev.target.id,
+    dropTargetOn: ev.target.id,
   };
 
   currentState = update(messageToUpdate, currentState);
   viewUpdate(currentState);
-
-  console.log('Someone came into:', ev.target.id);
 }
 
 function dragLeave(ev: any) {

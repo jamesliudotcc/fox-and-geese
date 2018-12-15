@@ -1,14 +1,23 @@
 function viewUpdate(currentState: any) {
-  const gameMessages = document.getElementById('game-messages');
   // Only reflect the current game state on the view in this function
   const boardTiles = document.getElementsByClassName('active-tile');
 
   const resetButon = document.getElementById;
 
-  const messagesToDisplay = currentState.get('messageToView');
+  const foxTurn = currentState.get('foxTurn');
 
+  const messagesToDisplay = currentState.get('messageToView');
+  const gameMessages = document.getElementById('game-messages');
   gameMessages.textContent = messagesToDisplay;
 
+  if (currentState.get('dropTargetOn')) {
+    console.log(currentState.get('dropTargetOn'));
+    const tile = document.getElementById(currentState.get('dropTargetOn'));
+
+    console.log(foxTurn);
+
+    foxTurn ? tile.classList.add('med-foxy') : tile.classList.add('med-goosy');
+  }
   // remove the fox and goose classes from all of the tiles
 
   function resetBoard() {
@@ -43,7 +52,4 @@ function viewUpdate(currentState: any) {
     boardTiles[currentState.get('foxAt')];
   }
   placeFox();
-  
-
-
 }
