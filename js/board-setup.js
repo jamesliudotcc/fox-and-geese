@@ -1,76 +1,11 @@
-function setBoardNeighbors() {
-    let drawBoard = [];
-    // Some functions to calculate commonly seen board patterns
-    // These functions are created for 3 or more of the same pattern
-    let allNeighbors = function (tile) {
-        return List([
-            tile + NW,
-            tile + N,
-            tile + NE,
-            tile + W,
-            tile + E,
-            tile + SW,
-            tile + S,
-            tile + SE,
-        ]);
-    };
-    const crossNeighbors = function (tile) {
-        return List([tile + N, tile + W, tile + E, tile + S]);
-    };
-    const leftCenter = function (tile) {
-        return List([tile + N, tile + E, tile + S]);
-    };
-    const rightCenter = function (tile) {
-        return List([tile + N, tile + W, tile + S]);
-    };
-    const topCenter = function (tile) {
-        return List([tile + W, tile + E, tile + S]);
-    };
-    const bottomCenter = function (tile) {
-        return List([tile + N, tile + W, tile + E]);
-    };
-    // 10, 22, 24, 26, and 38 are allNeighbors
-    [10, 22, 24, 26, 38].forEach(tile => {
-        drawBoard[tile] = allNeighbors(tile);
-    });
-    //17, 23, 25, and 31 are crossNeighbors
-    [17, 23, 25, 31].forEach(tile => {
-        drawBoard[tile] = crossNeighbors(tile);
-    });
-    //3, 15, 19 are topCenters
-    [3, 15, 19].forEach(tile => {
-        drawBoard[tile] = topCenter(tile);
-    });
-    //9, 21, 37 are leftCenter
-    [9, 21, 37].forEach(tile => {
-        drawBoard[tile] = leftCenter(tile);
-    });
-    // 11, 27, 39 are rightCenter
-    [11, 27, 39].forEach(tile => {
-        drawBoard[tile] = rightCenter(tile);
-    });
-    // 29, 33, 45 are bottomCenter
-    [29, 33, 45].forEach(tile => {
-        drawBoard[tile] = bottomCenter(tile);
-    });
-    // These cases are literally on corners.
-    drawBoard[2] = List([3, 9, 10]);
-    drawBoard[4] = List([3, 10, 11]);
-    drawBoard[14] = List([15, 21, 22]);
-    drawBoard[16] = List([9, 10, 15, 17, 22, 23, 24]);
-    drawBoard[18] = List([10, 11, 17, 19, 24, 25, 26]);
-    drawBoard[20] = List([19, 26, 27]);
-    drawBoard[28] = List([21, 22, 29]);
-    drawBoard[30] = List([22, 23, 24, 29, 31, 37, 38]);
-    drawBoard[32] = List([24, 25, 26, 31, 33, 38, 39]);
-    drawBoard[34] = List([26, 27, 33]);
-    drawBoard[44] = List([37, 38, 45]);
-    drawBoard[46] = List([38, 39, 45]);
-    // Future refactoring: odds are crossNeighbors, evens are allNeighbors
-    // Edge cases can be taken care of by detecting board edges and removing those nodes
-    // Iniside function, nonmutable is OK.
-    return List(drawBoard);
-}
+/*
+
+This file is really a special instance of the view-update
+function. The board is only drawn once at the beginning,
+and does not change at any time later in the game, so it
+lives in its own file.
+
+*/
 function createBoardDOMElement(boardList) {
     let boardMain = document.getElementById('main');
     function newSvgLine(x2, y2) {
@@ -132,18 +67,19 @@ function createBoardDOMElement(boardList) {
             // tileLabel.innerText = i.toString();
             // boardTile.appendChild(tileLabel);
         }
-        // Fox is an HTML class
+        /*
+    I am trying to get rid of this code, replace with viewUpdate function instead
+    */
+        // //@ts-ignore
+        // if (i === startingState.get('foxAt')) {
+        //   // boardTile.classList.add(FOX);
+        //   boardTile.appendChild(makeFoxImg());
+        // }
         //@ts-ignore
-        if (i === startingState.get('foxAt')) {
-            // boardTile.classList.add(FOX);
-            boardTile.appendChild(makeFoxImg());
-        }
-        // Geese are a class
-        //@ts-ignore
-        if (startingState.get('geeseAt').includes(i)) {
-            // boardTile.classList.add(GOOSE);
-            boardTile.appendChild(makeGooseImg());
-        }
+        // if (startingState.get('geeseAt').includes(i)) {
+        //   // boardTile.classList.add(GOOSE);
+        //   boardTile.appendChild(makeGooseImg());
+        // }
         boardMain.appendChild(boardTile);
     } // for
 }

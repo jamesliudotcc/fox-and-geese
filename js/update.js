@@ -17,6 +17,13 @@ function update(message, previousState) {
     };
     // convenience alias
     let previousGeeseAt = previousState.get('geeseAt');
+    if (message.gameBegin) {
+        console.log(previousState);
+        // Build newstate
+        atStartNoMoves();
+        // Send newState to viewUpdate
+        return fromJS(newState);
+    }
     if (message.foxMoved) {
         if (!newState.foxTurn) {
             newState.messageToView = NOT_FOX_TURN;
@@ -161,6 +168,11 @@ function update(message, previousState) {
     Animal mover functions
     */
     // These would be really nice as object destructuring spread operator syntax
+    function atStartNoMoves() {
+        newState.geeseAt = previousGeeseAt;
+        newState.messageToView = GEESE_GO;
+        newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+    }
     function foxMoves() {
         newState.foxAt = message.moveTo;
         newState.geeseAt = previousGeeseAt;

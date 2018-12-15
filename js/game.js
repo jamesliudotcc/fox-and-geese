@@ -1,41 +1,22 @@
 //ImmutabeJS types are declared as any for now.
 let currentState;
-let boardNeighbors; // Directory of legal moves
+// let boardNeighbors: any; // Directory of legal moves
 document.addEventListener('DOMContentLoaded', main);
-let newGameButton = document.getElementById('new-game');
-newGameButton.addEventListener('click', beginGame);
 function main() {
-    boardNeighbors = setBoardNeighbors();
-    startingState = createBoardState();
+    // startingState = createBoardState();
     createBoardDOMElement(boardNeighbors);
-    currentState = allowFirstMove(startingState);
+    // currentState = allowFirstMove(startingState);
 }
-//Figure this out later
-function beginGame(e) { }
-function setInitialGeeseLegalMoves(geeseAt) {
-    // for each goose in array, as per fox
-    let eachGooseMoves;
-    let allowedGooseMovesArr = [];
-    for (let i = 0; i < geeseAt.size; i++) {
-        eachGooseMoves = boardNeighbors
-            .get(geeseAt.get(i))
-            //@ts-ignore
-            .filter(direction => !geeseAt.includes(direction))
-            //@ts-ignore
-            .filter(direction => direction !== startingState.foxAt)
-            //@ts-ignore
-            .map(neighbor => [geeseAt.get(i), neighbor]);
-        for (let j = 0; j < eachGooseMoves.size; j++) {
-            allowedGooseMovesArr.push(eachGooseMoves.get(j));
-        }
-    }
-    return allowedGooseMovesArr;
-}
+//I am targetting removal of this function.
 function allowFirstMove(startingState) {
     // figure this out later
-    startingState.set('legalMoves', setInitialGeeseLegalMoves(
-    //@ts-ignore
-    startingState.get('geeseAt')));
+    // startingState.set(
+    //   'legalMoves',
+    //   setInitialGeeseLegalMoves(
+    //     //@ts-ignore
+    //     startingState.get('geeseAt')
+    //   )
+    // );
     //This line is required to initialize the game under Immutable. Get rid of this by
     // changing the startingState to currentState.
     return startingState;
@@ -44,6 +25,8 @@ function allowFirstMove(startingState) {
 Drag Handlers. This calls the foxMoves and geeseMoves functions to allow
 gameplay using drag and drop interface.
 */
+let newGameButton = document.getElementById('new-game');
+newGameButton.addEventListener('click', beginGame);
 function allowDrop(ev) {
     ev.preventDefault();
 }
@@ -66,8 +49,21 @@ function drop(ev) {
         foxMoves(Number(dragFrom), Number(dragTo));
     }
 }
+// The event handlers call these functions. One sets up the initial
+// board when the begin gaem button is pressed.
 // These functions allow play the console. The drag interface uses
 // these functions.
+function beginGame(ev) {
+    let messageToUpdate = {
+        gameBegin: true,
+        foxMoved: false,
+        jumped: false,
+        moveFrom: 0,
+        moveTo: 0,
+    };
+    currentState = update(messageToUpdate, fromJS(startingState));
+    viewUpdate(currentState);
+}
 function foxMoves(movesFrom, movesTo) {
     let jumped = false;
     //implement logic to check whether a jump happened.
@@ -92,16 +88,17 @@ function gooseMoves(movesFrom, movesTo) {
     currentState = update(messageToUpdate, currentState);
     viewUpdate(currentState);
 }
-function createBoardState() {
-    // TODO: Place geese should be in board-setup.ts
-    // Place geese
-    for (let i = 28; i < HEIGHT * WIDTH; i++) {
-        if (boardNeighbors.get(i)) {
-            startingState.geeseAt.push(i);
-        }
-    } // for
-    return fromJS(startingState);
-}
+// I am targetting removing this function.
+// function createBoardState() {
+//   // TODO: Place geese should be in board-setup.ts
+//   // Place geese
+//   for (let i = 28; i < HEIGHT * WIDTH; i++) {
+//     if (boardNeighbors.get(i)) {
+//       startingState.geeseAt.push(i);
+//     }
+//   } // for
+//   return fromJS(startingState);
+// }
 // // Implement cheater state?
 // function cheaterState() {
 //   currentState = fromJS({
