@@ -2,6 +2,8 @@ interface messageToUpdate {
   gameBegin?: boolean;
   foxMoved?: boolean;
   jumped?: boolean;
+  tileMouseOver?: string;
+  tileMouseOut?: boolean;
   dropTargetOn?: string;
   clearDragShadow?: boolean;
   moveFrom?: number;
@@ -20,6 +22,8 @@ interface stateDiagram {
   messageToView: string;
   dropTargetOn?: string;
   dropTargetOff?: string;
+  moveSuggest?: any;
+  clearSuggestions?: boolean;
 }
 
 function update(message: messageToUpdate, previousState: any): any {
@@ -52,7 +56,31 @@ function update(message: messageToUpdate, previousState: any): any {
     return fromJS(newState);
   }
   if (previousState.foxWon || previousState.geeseWon) {
-    // In a game own state, nothing should work.
+    // In a game-won state, the controls should not work.
+    return fromJS(newState);
+  }
+
+  if (message.tileMouseOver) {
+    const legalMoves = currentState
+      .get('legalMoves')
+      //@ts-ignore
+      .filter(a => a[0] === Number(message.tileMouseOver))
+      //@ts-ignore
+      .map(a => a[1]);
+
+    const legalJumps = currentState
+      .get('legalJumps')
+      //@ts-ignore
+      .filter(a => a[0] === Number(message.tileMouseOver))
+      //@ts-ignore
+      .map(a => a[1]);
+    newState.moveSuggest = legalMoves.concat(legalJumps);
+    return fromJS(newState);
+  }
+
+  if (message.tileMouseOut) {
+    console.log('Implement clearing pickup shadow');
+    newState.clearSuggestions = true;
     return fromJS(newState);
   }
 
@@ -60,10 +88,6 @@ function update(message: messageToUpdate, previousState: any): any {
     if (message.clearDragShadow) {
       newState.dropTargetOff = message.dropTargetOn;
     } else {
-      console.log(
-        'Now dropTarget is known in the state: ',
-        message.dropTargetOn
-      );
       newState.dropTargetOn = message.dropTargetOn;
 
       // Do I need this?

@@ -1,5 +1,3 @@
-import { version } from 'punycode';
-
 //ImmutabeJS types are declared as any for now.
 let currentState: any;
 // let boardNeighbors: any; // Directory of legal moves
@@ -35,7 +33,6 @@ function dragLeave(ev: any) {
 
   currentState = update(messageToUpdate, currentState);
   viewUpdate(currentState);
-  console.log('Someone left from:', ev.target.id);
 }
 
 function drop(ev: any) {
@@ -53,15 +50,29 @@ function drop(ev: any) {
   }
 }
 
-// dragStart, and dragEnd handle the animal being picked up.
+// dragStart handles the animal being picked up.
 function dragStart(ev: any) {
   const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
   ev.dataTransfer.setData('text', dataFromDrag);
   console.log('I was picked up', dataFromDrag);
 }
-// dragEnd is different from drop because only active tiles listen for drops.
-function dragEnd(ev: any) {
+
+function mouseOver(ev: any) {
+  let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
+
+  currentState = update(messageToUpdate, currentState);
+  viewUpdate(currentState);
+}
+
+function mouseOut(ev: any) {
   console.log('I was dropped');
+
+  let messageToUpdate = {
+    tileMouseOut: true,
+  };
+
+  currentState = update(messageToUpdate, currentState);
+  viewUpdate(currentState);
 }
 
 // The drop handlers call these functions. One sets up the initial
