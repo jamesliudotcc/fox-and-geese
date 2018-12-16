@@ -18,6 +18,15 @@ function viewUpdate(currentState: any) {
 
     foxTurn ? tile.classList.add('med-foxy') : tile.classList.add('med-goosy');
   }
+
+  if (currentState.get('dropTargetOff')) {
+    const tile = document.getElementById(currentState.get('dropTargetOff'));
+    console.log('Turn off the tile');
+
+    tile.classList.remove('med-foxy');
+    tile.classList.remove('med-goosy');
+  }
+
   // remove the fox and goose classes from all of the tiles
 
   function resetBoard() {

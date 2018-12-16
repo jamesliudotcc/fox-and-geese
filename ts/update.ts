@@ -3,6 +3,7 @@ interface messageToUpdate {
   foxMoved?: boolean;
   jumped?: boolean;
   dropTargetOn?: string;
+  clearDragShadow?: boolean;
   moveFrom?: number;
   moveTo?: number;
 }
@@ -18,6 +19,7 @@ interface stateDiagram {
   legalJumps: any;
   messageToView: string;
   dropTargetOn?: string;
+  dropTargetOff?: string;
 }
 
 function update(message: messageToUpdate, previousState: any): any {
@@ -49,15 +51,24 @@ function update(message: messageToUpdate, previousState: any): any {
     // Ready to send newState to viewUpdate
     return fromJS(newState);
   }
-
-  if (message.dropTargetOn) {
-    console.log('Now dropTarget is known in the state: ', message.dropTargetOn);
-    newState.dropTargetOn = message.dropTargetOn;
-  }
-
   if (previousState.foxWon || previousState.geeseWon) {
     // In a game own state, nothing should work.
     return fromJS(newState);
+  }
+
+  if (message.dropTargetOn) {
+    if (message.clearDragShadow) {
+      newState.dropTargetOff = message.dropTargetOn;
+    } else {
+      console.log(
+        'Now dropTarget is known in the state: ',
+        message.dropTargetOn
+      );
+      newState.dropTargetOn = message.dropTargetOn;
+
+      // Do I need this?
+      return fromJS(newState);
+    }
   }
 
   if (message.foxMoved) {
@@ -80,7 +91,7 @@ function update(message: messageToUpdate, previousState: any): any {
     } // foxMoveIsLegal
   } else {
     //This else block is from checking if the message passed Fox moved,
-    //else implemens Goose moved
+    //else implements Goose moved
 
     // Check if it is Geese tried to move when it was Fox's turn
     if (newState.foxTurn) {

@@ -28,6 +28,13 @@ function dragOver(ev: any) {
 }
 
 function dragLeave(ev: any) {
+  let messageToUpdate = {
+    dropTargetOn: ev.target.id,
+    clearDragShadow: true,
+  };
+
+  currentState = update(messageToUpdate, currentState);
+  viewUpdate(currentState);
   console.log('Someone left from:', ev.target.id);
 }
 
@@ -85,6 +92,8 @@ function foxMoves(movesFrom: number, movesTo: number): void {
     jumped: jumped,
     moveFrom: movesFrom,
     moveTo: movesTo,
+    dropTargetOn: String(movesTo),
+    clearDragShadow: true,
   };
   currentState = update(messageToUpdate, currentState);
   viewUpdate(currentState);
@@ -97,6 +106,8 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
     jumped: false,
     moveFrom: movesFrom,
     moveTo: movesTo,
+    dropTargetOn: String(movesTo),
+    clearDragShadow: true,
   };
   currentState = update(messageToUpdate, currentState);
   viewUpdate(currentState);
