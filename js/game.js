@@ -20,7 +20,12 @@ function dragOver(ev) {
     viewUpdate(currentState);
 }
 function dragLeave(ev) {
-    console.log('Someone left from:', ev.target.id);
+    let messageToUpdate = {
+        dropTargetOn: ev.target.id,
+        clearDragShadow: true,
+    };
+    currentState = update(messageToUpdate, currentState);
+    viewUpdate(currentState);
 }
 function drop(ev) {
     ev.preventDefault();
@@ -35,16 +40,25 @@ function drop(ev) {
         foxMoves(Number(dragFrom), Number(dragTo));
     }
 }
-// dragStart, and dragEnd handle the animal being picked up.
+// dragStart handles the animal being picked up.
 function dragStart(ev) {
     const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
     ev.dataTransfer.setData('text', dataFromDrag);
     console.log('I was picked up', dataFromDrag);
 }
-// dragEnd is different from drop because only active tiles listen for drops.
-function dragEnd(ev) {
-    console.log('I was dropped');
-}
+// function mouseOver(ev: any) {
+//   let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
+//   currentState = update(messageToUpdate, currentState);
+//   viewUpdate(currentState);
+// }
+// function mouseOut(ev: any) {
+//   console.log('I was dropped');
+//   let messageToUpdate = {
+//     tileMouseOut: true,
+//   };
+//   currentState = update(messageToUpdate, currentState);
+//   viewUpdate(currentState);
+// }
 // The drop handlers call these functions. One sets up the initial
 // board when the begin gaem button is pressed.
 // These functions allow play the console. The drag interface uses
@@ -69,6 +83,8 @@ function foxMoves(movesFrom, movesTo) {
         jumped: jumped,
         moveFrom: movesFrom,
         moveTo: movesTo,
+        dropTargetOn: String(movesTo),
+        clearDragShadow: true,
     };
     currentState = update(messageToUpdate, currentState);
     viewUpdate(currentState);
@@ -80,6 +96,8 @@ function gooseMoves(movesFrom, movesTo) {
         jumped: false,
         moveFrom: movesFrom,
         moveTo: movesTo,
+        dropTargetOn: String(movesTo),
+        clearDragShadow: true,
     };
     currentState = update(messageToUpdate, currentState);
     viewUpdate(currentState);

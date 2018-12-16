@@ -57,23 +57,23 @@ function dragStart(ev: any) {
   console.log('I was picked up', dataFromDrag);
 }
 
-function mouseOver(ev: any) {
-  let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
+// function mouseOver(ev: any) {
+//   let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
 
-  currentState = update(messageToUpdate, currentState);
-  viewUpdate(currentState);
-}
+//   currentState = update(messageToUpdate, currentState);
+//   viewUpdate(currentState);
+// }
 
-function mouseOut(ev: any) {
-  console.log('I was dropped');
+// function mouseOut(ev: any) {
+//   console.log('I was dropped');
 
-  let messageToUpdate = {
-    tileMouseOut: true,
-  };
+//   let messageToUpdate = {
+//     tileMouseOut: true,
+//   };
 
-  currentState = update(messageToUpdate, currentState);
-  viewUpdate(currentState);
-}
+//   currentState = update(messageToUpdate, currentState);
+//   viewUpdate(currentState);
+// }
 
 // The drop handlers call these functions. One sets up the initial
 // board when the begin gaem button is pressed.

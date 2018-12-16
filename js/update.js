@@ -24,13 +24,19 @@ function update(message, previousState) {
         // Ready to send newState to viewUpdate
         return fromJS(newState);
     }
-    if (message.dropTargetOn) {
-        console.log('Now dropTarget is known in the state: ', message.dropTargetOn);
-        newState.dropTargetOn = message.dropTargetOn;
-    }
     if (previousState.foxWon || previousState.geeseWon) {
-        // In a game own state, nothing should work.
+        // In a game-won state, the controls should not work.
         return fromJS(newState);
+    }
+    if (message.dropTargetOn) {
+        if (message.clearDragShadow) {
+            newState.dropTargetOff = message.dropTargetOn;
+        }
+        else {
+            newState.dropTargetOn = message.dropTargetOn;
+            // Do I need this?
+            return fromJS(newState);
+        }
     }
     if (message.foxMoved) {
         if (!newState.foxTurn) {
@@ -54,7 +60,7 @@ function update(message, previousState) {
     }
     else {
         //This else block is from checking if the message passed Fox moved,
-        //else implemens Goose moved
+        //else implements Goose moved
         // Check if it is Geese tried to move when it was Fox's turn
         if (newState.foxTurn) {
             newState.messageToView = NOT_GEESE_TURN;

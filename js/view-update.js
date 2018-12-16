@@ -7,10 +7,28 @@ function viewUpdate(currentState) {
     const gameMessages = document.getElementById('game-messages');
     gameMessages.textContent = messagesToDisplay;
     if (currentState.get('dropTargetOn')) {
-        console.log(currentState.get('dropTargetOn'));
         const tile = document.getElementById(currentState.get('dropTargetOn'));
-        console.log(foxTurn);
         foxTurn ? tile.classList.add('med-foxy') : tile.classList.add('med-goosy');
+    }
+    if (currentState.get('dropTargetOff')) {
+        const tile = document.getElementById(currentState.get('dropTargetOff'));
+        tile.classList.remove('med-foxy');
+        tile.classList.remove('med-goosy');
+    }
+    if (currentState.get('moveSuggest')) {
+        currentState
+            .get('moveSuggest')
+            //@ts-ignore
+            .forEach(a => {
+            document
+                .getElementById(String(a))
+                .classList.add(foxTurn ? 'light-foxy' : 'light-goosy');
+        });
+    }
+    if (currentState.get('clearSuggestions')) {
+        const lightFoxyTiles = document.getElementsByClassName('light-foxy');
+        const lightGoosyTiles = document.getElementsByClassName('light-goosy');
+        console.log('light-foxy:', lightFoxyTiles);
     }
     // remove the fox and goose classes from all of the tiles
     function resetBoard() {

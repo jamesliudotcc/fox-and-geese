@@ -92,7 +92,8 @@ function makeGooseImg() {
     gooseImg.setAttribute('class', 'goose');
     gooseImg.setAttribute('draggable', 'true');
     gooseImg.setAttribute('ondragstart', 'dragStart(event)');
-    gooseImg.setAttribute('ondragend', 'dragEnd(event)');
+    // gooseImg.setAttribute('onmouseover', 'mouseOver(event)');
+    // gooseImg.setAttribute('onmouseout', 'mouseOut(event)');
     return gooseImg;
 }
 function makeFoxImg() {
@@ -102,6 +103,7 @@ function makeFoxImg() {
     foxImg.setAttribute('class', 'fox');
     foxImg.setAttribute('draggable', 'true');
     foxImg.setAttribute('ondragstart', 'dragStart(event)');
-    foxImg.setAttribute('ondragend', 'dragEnd(event)');
+    // foxImg.setAttribute('onmouseover', 'mouseOver(event)');
+    // foxImg.setAttribute('onmouseout', 'mouseOut(event)');
     return foxImg;
 }
