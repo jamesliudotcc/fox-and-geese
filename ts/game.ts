@@ -54,7 +54,7 @@ function drop(ev: any) {
 function dragStart(ev: any) {
   const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
   ev.dataTransfer.setData('text', dataFromDrag);
-  console.log('I was picked up', dataFromDrag);
+  console.log('I was picked up', ev.target.parentNode.id);
 }
 
 // function mouseOver(ev: any) {

@@ -22,8 +22,8 @@ interface stateDiagram {
   messageToView: string;
   dropTargetOn?: string;
   dropTargetOff?: string;
-  moveSuggest?: any;
-  clearSuggestions?: boolean;
+  // moveSuggest?: any;
+  // clearSuggestions?: boolean;
 }
 
 function update(message: messageToUpdate, previousState: any): any {
@@ -55,9 +55,10 @@ function update(message: messageToUpdate, previousState: any): any {
     // Ready to send newState to viewUpdate
     return fromJS(newState);
   }
+
   if (previousState.foxWon || previousState.geeseWon) {
     // In a game-won state, the controls should not work.
-    return fromJS(newState);
+    return previousState;
   }
 
   if (message.dropTargetOn) {
@@ -187,6 +188,7 @@ function update(message: messageToUpdate, previousState: any): any {
         allowedGooseMovesArr.push(eachGooseMoves.get(j));
       }
     }
+    console.log('I set the goose legal moves');
     return List(allowedGooseMovesArr);
   }
 
@@ -241,6 +243,7 @@ function update(message: messageToUpdate, previousState: any): any {
     newState.geeseAt = previousGeeseAt;
     newState.messageToView = GEESE_GO;
     newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
+    console.log(newState.legalMoves);
   }
 
   function foxMoves() {
