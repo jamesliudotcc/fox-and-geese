@@ -12,11 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "browser-sync": "^2.24.6",
     "immutable": "^4.0.0-rc.12"
   },
-  "homepage": "",
-  "main": "index.js",
+  "homepage": "https://jamesliudotcc.github.io/fox-and-geese/#0",
+  "main": "./ts/game.ts",
   "devDependencies": {
     "@types/node": "^10.12.12",
     "ts-node": "^7.0.1"
