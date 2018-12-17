@@ -1,6 +1,4 @@
-//ImmutabeJS types are declared as any for now.
 let currentState: any;
-// let boardNeighbors: any; // Directory of legal moves
 
 document.addEventListener('DOMContentLoaded', function() {
   createBoardDOMElement(boardNeighbors);
@@ -8,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /*
 Drag Handlers. This calls the foxMoves and geeseMoves functions to allow
-gameplay using drag and drop interface.
+gameplay using drag and drop interface. They are called from the HTML file.
 */
 let newGameButton = document.getElementById('new-game');
 
@@ -104,8 +102,6 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
   viewUpdate(currentState);
 }
 
-// // Implement cheater state?
-
 function cheaterState(animal: string) {
   if (animal === 'fox') {
     currentState = fromJS({
@@ -115,8 +111,8 @@ function cheaterState(animal: string) {
       foxJumped: false,
       foxAt: 18, // Fox placed here.
       geeseAt: [24, 22, 15, 23, 37, 38, 39, 34, 46],
-      legalMoves: [], // calculate legal moves
-      legalJumps: [], // calculate legal jumps
+      legalMoves: [],
+      legalJumps: [],
     });
   } else {
     currentState = fromJS({
@@ -126,8 +122,8 @@ function cheaterState(animal: string) {
       foxJumped: false,
       foxAt: 3, // Fox placed here.
       geeseAt: [4, 9, 10, 11, 17, 18],
-      legalMoves: [], // calculate legal moves
-      legalJumps: [], // calculate legal jumps
+      legalMoves: [],
+      legalJumps: [],
     });
   }
 

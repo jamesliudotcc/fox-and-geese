@@ -22,8 +22,6 @@ interface stateDiagram {
   messageToView: string;
   dropTargetOn?: string;
   dropTargetOff?: string;
-  // moveSuggest?: any;
-  // clearSuggestions?: boolean;
 }
 
 function update(message: messageToUpdate, previousState: any): any {
@@ -75,13 +73,17 @@ function update(message: messageToUpdate, previousState: any): any {
     }
   }
 
+  // This is the main dispatcher function for in-game moves. It has to perform
+  // the checks for which animal has been picked up, and so on.
+
+  // Future refactoring: make sure that the type of action passed in is an
+  // in-game move before performing these dispatch actions. For now, the earlier
+  // dispatchers eliminate all of the other possibilities.
   if (message.foxMoved) {
     if (!newState.foxTurn) {
       newState.messageToView = NOT_FOX_TURN;
       return fromJS(newState);
     }
-    // Check if the prevTurnJumped, if so, only check jump logic.
-    // Implement this.
 
     if (foxJumpIsLegal(previousState.get('legalJumps').toJS())) {
       foxJumpsAGoose();
@@ -122,14 +124,14 @@ function update(message: messageToUpdate, previousState: any): any {
   // check if geese won
   /* This happens after the turn is toggled so that fox's legal moves can 
     be checked. Geese only win at the close of their turn and do not jump 
-    the fox, so it is OK to do this after toggling the turn to fox. */
+    the fox, so it is OK to do this after toggling the turn to fox and 
+    setting the new fox legal moves. If there are none, the geese win */
 
   if (
     newState.foxTurn &&
     newState.legalMoves.size === 0 &&
     newState.legalJumps.size === 0
   ) {
-    //   check fox legal moves. If there are none, geese won.
     newState.geeseWon = true;
     newState.messageToView = GEESE_WON;
   }
@@ -149,7 +151,7 @@ function update(message: messageToUpdate, previousState: any): any {
     );
   }
   function setFoxLegalJumps(foxAt: number) {
-    // The board knows where fox can go in one move, so use that to
+    // The board knows which directions fox can go in one move, so use that to
     // figure out what directions the fox can go.
     let directions = boardNeighbors
       .get(foxAt)
