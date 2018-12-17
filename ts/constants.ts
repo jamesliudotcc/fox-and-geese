@@ -2,7 +2,7 @@ const { fromJS, List } = require('immutable');
 // In JS file, instead of import, use:
 // const List = Immutable.List, fromJS = Immutable.fromJS, Map = Immutable.Map;
 
-const NO_OF_GEESE = 13;
+let NO_OF_GEESE = 13;
 
 const FOX = 'fox',
   GOOSE = 'goose';
@@ -52,7 +52,7 @@ let startingState: {
   geeseWon: false,
   foxTurn: false,
   foxJumped: false,
-  foxAt: 17, // Fox placed here.
+  foxAt: NO_OF_GEESE === 23 ? 9 : 17, // Fox placed here.
   geeseAt: geeseLocations(13),
   legalMoves: [
     // [28, 21],
@@ -176,7 +176,5 @@ function setBoardNeighbors() {
   // Future refactoring: odds are crossNeighbors, evens are allNeighbors
   // Edge cases can be taken care of by detecting board edges and removing those nodes
 
-  // Iniside function, nonmutable is OK.
   return List(drawBoard);
 }
-// Messages to display

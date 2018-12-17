@@ -58,7 +58,10 @@ function update(message: messageToUpdate, previousState: any): any {
 
   if (previousState.foxWon || previousState.geeseWon) {
     // In a game-won state, the controls should not work.
-    return previousState;
+
+    newState.legalMoves = [];
+    newState.legalJumps = [];
+    return fromJS(newState);
   }
 
   if (message.dropTargetOn) {
@@ -243,7 +246,6 @@ function update(message: messageToUpdate, previousState: any): any {
     newState.geeseAt = previousGeeseAt;
     newState.messageToView = GEESE_GO;
     newState.legalMoves = setGeeseLegalMoves(newState.geeseAt);
-    console.log(newState.legalMoves);
   }
 
   function foxMoves() {
@@ -269,7 +271,7 @@ function update(message: messageToUpdate, previousState: any): any {
   }
 
   function foxJumpsAGoose() {
-    newState.geeseAt = previousGeeseAt;
+    newState.geeseAt = geeseLocations(NO_OF_GEESE);
     newState.foxAt = message.moveTo;
     newState.foxJumped = true;
     newState.legalMoves = [];
