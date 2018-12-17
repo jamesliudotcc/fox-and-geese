@@ -32,7 +32,6 @@ function drop(ev) {
     const animalMoved = ev.dataTransfer.getData('text').split(' ')[0];
     const dragFrom = ev.dataTransfer.getData('text').split(' ')[1];
     const dragTo = ev.target.id;
-    console.log('Something dropped', [animalMoved, dragFrom, dragTo]);
     if (animalMoved === 'goose') {
         gooseMoves(Number(dragFrom), Number(dragTo));
     }
@@ -44,25 +43,11 @@ function drop(ev) {
 function dragStart(ev) {
     const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
     ev.dataTransfer.setData('text', dataFromDrag);
-    console.log('I was picked up', ev.target.parentNode.id);
 }
-// function mouseOver(ev: any) {
-//   let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
-//   currentState = update(messageToUpdate, currentState);
-//   viewUpdate(currentState);
-// }
-// function mouseOut(ev: any) {
-//   console.log('I was dropped');
-//   let messageToUpdate = {
-//     tileMouseOut: true,
-//   };
-//   currentState = update(messageToUpdate, currentState);
-//   viewUpdate(currentState);
-// }
 // The drop handlers call these functions. One sets up the initial
-// board when the begin gaem button is pressed.
-// These functions allow play the console. The drag interface uses
-// these functions.
+// board when the begin gaem button is pressed. They also enable
+// gameplay from the console, or a program to play, in case I malke
+// an AI in the future.
 function beginGame(ev) {
     let messageToUpdate = {
         gameBegin: true,

@@ -58,7 +58,6 @@ function update(message: messageToUpdate, previousState: any): any {
 
   if (previousState.get('foxWon') || previousState.get('geeseWon')) {
     // In a game-won state, the controls should not work.
-    console.log('I am speaking from a win condition');
     newState.legalMoves = [];
     newState.legalJumps = [];
     newState.messageToView == previousState.get('foxWon') ? FOX_WON : GEESE_WON;

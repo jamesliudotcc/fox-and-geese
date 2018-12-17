@@ -1,7 +1,6 @@
 function viewUpdate(currentState) {
     // Only reflect the current game state on the view in this function
     const boardTiles = document.getElementsByClassName('active-tile');
-    const resetButon = document.getElementById;
     const foxTurn = currentState.get('foxTurn');
     const messagesToDisplay = currentState.get('messageToView');
     const gameMessages = document.getElementById('game-messages');
@@ -28,7 +27,6 @@ function viewUpdate(currentState) {
     if (currentState.get('clearSuggestions')) {
         const lightFoxyTiles = document.getElementsByClassName('light-foxy');
         const lightGoosyTiles = document.getElementsByClassName('light-goosy');
-        console.log('light-foxy:', lightFoxyTiles);
     }
     // remove the fox and goose classes from all of the tiles
     function resetBoard() {

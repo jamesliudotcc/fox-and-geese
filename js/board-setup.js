@@ -63,24 +63,7 @@ function createBoardDOMElement(boardList) {
             boardTile.setAttribute('ondrop', 'drop(event)');
             boardTile.setAttribute('ondragover', 'dragOver(event)');
             boardTile.setAttribute('ondragleave', 'dragLeave(event)');
-            //Development scafolding: write numbers on tiles
-            // let tileLabel = document.createElement('p');
-            // tileLabel.innerText = i.toString();
-            // boardTile.appendChild(tileLabel);
         }
-        /*
-    I am trying to get rid of this code, replace with viewUpdate function instead
-    */
-        // //@ts-ignore
-        // if (i === startingState.get('foxAt')) {
-        //   // boardTile.classList.add(FOX);
-        //   boardTile.appendChild(makeFoxImg());
-        // }
-        //@ts-ignore
-        // if (startingState.get('geeseAt').includes(i)) {
-        //   // boardTile.classList.add(GOOSE);
-        //   boardTile.appendChild(makeGooseImg());
-        // }
         boardMain.appendChild(boardTile);
     } // for
 }

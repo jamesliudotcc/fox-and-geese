@@ -34,21 +34,7 @@ let startingState = {
   foxJumped: false,
   foxAt: NO_OF_GEESE === 23 ? 9 : 17,
   geeseAt: geeseLocations(13),
-  legalMoves: [
-    // [28, 21],
-    // [28, 22],
-    // [29, 22],
-    // [30, 22],
-    // [30, 23],
-    // [30, 24],
-    // [31, 24],
-    // [32, 24],
-    // [32, 25],
-    // [32, 26],
-    // [33, 26],
-    // [34, 26],
-    // [34, 27],
-  ],
+  legalMoves: [],
   legalJumps: [],
   messageToView: "Game begins with goose's move",
 };
@@ -63,26 +49,6 @@ function geeseLocations(numGeese) {
   }
   return gooseLocations;
 }
-//I am targetting removing this function.
-// function geeseLegalMoves(geeseAt: any): number[][] {
-//   // for each goose in array, as per fox
-//   let eachGooseMoves;
-//   let allowedGooseMovesArr: [][] = [];
-//   for (let i = 0; i < geeseAt.size; i++) {
-//     eachGooseMoves = boardNeighbors
-//       .get(geeseAt.get(i))
-//       //@ts-ignore
-//       .filter(direction => !geeseAt.includes(direction))
-//       //@ts-ignore
-//       .filter(direction => direction !== startingState.foxAt)
-//       //@ts-ignore
-//       .map(neighbor => [geeseAt.get(i), neighbor]);
-//     for (let j = 0; j < eachGooseMoves.size; j++) {
-//       allowedGooseMovesArr.push(eachGooseMoves.get(j));
-//     }
-//   }
-//   return allowedGooseMovesArr;
-// }
 function setBoardNeighbors() {
   let drawBoard = [];
   // Some functions to calculate commonly seen board patterns
