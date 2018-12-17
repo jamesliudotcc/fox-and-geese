@@ -33,7 +33,13 @@ function viewUpdate(currentState: any) {
     const lightFoxyTiles = document.getElementsByClassName('light-foxy');
     const lightGoosyTiles = document.getElementsByClassName('light-goosy');
   }
+
   // remove the fox and goose classes from all of the tiles
+  resetBoard();
+
+  placeGeese();
+
+  placeFox();
 
   function resetBoard() {
     let geeseImgs = document.getElementsByClassName('goose');
@@ -45,7 +51,6 @@ function viewUpdate(currentState: any) {
       foxImgs[i].remove();
     }
   }
-  resetBoard();
 
   //   put goose classes tiles based on currentState
   function placeGeese() {
@@ -55,7 +60,6 @@ function viewUpdate(currentState: any) {
       newGooseLoc.appendChild(makeGooseImg());
     }
   }
-  placeGeese();
 
   function placeFox() {
     // Only one place where the fox might be:
@@ -66,5 +70,4 @@ function viewUpdate(currentState: any) {
 
     boardTiles[currentState.get('foxAt')];
   }
-  placeFox();
 }

@@ -1,7 +1,7 @@
 const List = Immutable.List,
   fromJS = Immutable.fromJS,
   Map = Immutable.Map;
-const NO_OF_GEESE = 13;
+let NO_OF_GEESE = 13;
 const FOX = 'fox',
   GOOSE = 'goose';
 const WIDTH = 7,
