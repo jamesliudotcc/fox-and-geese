@@ -44,7 +44,7 @@ function drop(ev) {
 function dragStart(ev) {
     const dataFromDrag = ev.target.className + ' ' + ev.target.parentNode.id;
     ev.dataTransfer.setData('text', dataFromDrag);
-    console.log('I was picked up', dataFromDrag);
+    console.log('I was picked up', ev.target.parentNode.id);
 }
 // function mouseOver(ev: any) {
 //   let messageToUpdate = { tileMouseOver: ev.target.parentNode.id };
@@ -103,15 +103,38 @@ function gooseMoves(movesFrom, movesTo) {
     viewUpdate(currentState);
 }
 // // Implement cheater state?
-// function cheaterState() {
-//   currentState = fromJS({
-//     foxWon: false,
-//     geeseWon: false,
-//     foxTurn: false,
-//     foxJumped: false,
-//     foxAt: 17, // Fox placed here.
-//     geeseAt: [],
-//     legalMoves: [], // calculate legal moves
-//     legalJumps: [], // calculate legal jumps
-//   });
-// }
+function cheaterState(animal) {
+    if (animal === 'fox') {
+        currentState = fromJS({
+            foxWon: false,
+            geeseWon: false,
+            foxTurn: false,
+            foxJumped: false,
+            foxAt: 18,
+            geeseAt: [24, 22, 15, 23, 37, 38, 39, 34, 46],
+            legalMoves: [],
+            legalJumps: [],
+        });
+    }
+    else {
+        currentState = fromJS({
+            foxWon: false,
+            geeseWon: false,
+            foxTurn: false,
+            foxJumped: false,
+            foxAt: 3,
+            geeseAt: [4, 9, 10, 11, 17, 18],
+            legalMoves: [],
+            legalJumps: [],
+        });
+    }
+    let messageToUpdate = {
+        gameBegin: true,
+        foxMoved: false,
+        jumped: false,
+        moveFrom: 0,
+        moveTo: 0,
+    };
+    currentState = update(messageToUpdate, fromJS(currentState));
+    viewUpdate(currentState);
+}

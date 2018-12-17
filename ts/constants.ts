@@ -30,7 +30,7 @@ const NOT_FOX_TURN = "Not fox's turn, geese go",
   GEESE_GO = 'Geese Go',
   ILLEGAL_MOVE = 'Try again',
   JUMP = 'Fox jumped over a goose!',
-  FOX_WON = 'Fox win!',
+  FOX_WON = 'Fox wins!',
   GEESE_WON = 'Geese win!';
 
 let boardNeighbors = setBoardNeighbors();

@@ -24,8 +24,12 @@ function update(message, previousState) {
         // Ready to send newState to viewUpdate
         return fromJS(newState);
     }
-    if (previousState.foxWon || previousState.geeseWon) {
+    if (previousState.get('foxWon') || previousState.get('geeseWon')) {
         // In a game-won state, the controls should not work.
+        console.log('I am speaking from a win condition');
+        newState.legalMoves = [];
+        newState.legalJumps = [];
+        newState.messageToView == previousState.get('foxWon') ? FOX_WON : GEESE_WON;
         return fromJS(newState);
     }
     if (message.dropTargetOn) {
@@ -142,6 +146,7 @@ function update(message, previousState) {
                 allowedGooseMovesArr.push(eachGooseMoves.get(j));
             }
         }
+        console.log('I set the goose legal moves');
         return List(allowedGooseMovesArr);
     }
     /*
@@ -206,7 +211,7 @@ function update(message, previousState) {
         newState.messageToView = FOX_GOES;
     }
     function foxJumpsAGoose() {
-        newState.geeseAt = previousGeeseAt;
+        newState.geeseAt = geeseLocations(NO_OF_GEESE);
         newState.foxAt = message.moveTo;
         newState.foxJumped = true;
         newState.legalMoves = [];

@@ -126,17 +126,30 @@ function gooseMoves(movesFrom: number, movesTo: number): void {
 
 // // Implement cheater state?
 
-function cheaterState() {
-  currentState = fromJS({
-    foxWon: false,
-    geeseWon: false,
-    foxTurn: false,
-    foxJumped: false,
-    foxAt: 18, // Fox placed here.
-    geeseAt: [24, 22, 15, 23, 37, 38, 39, 34, 46],
-    legalMoves: [], // calculate legal moves
-    legalJumps: [], // calculate legal jumps
-  });
+function cheaterState(animal: string) {
+  if (animal === 'fox') {
+    currentState = fromJS({
+      foxWon: false,
+      geeseWon: false,
+      foxTurn: false,
+      foxJumped: false,
+      foxAt: 18, // Fox placed here.
+      geeseAt: [24, 22, 15, 23, 37, 38, 39, 34, 46],
+      legalMoves: [], // calculate legal moves
+      legalJumps: [], // calculate legal jumps
+    });
+  } else {
+    currentState = fromJS({
+      foxWon: false,
+      geeseWon: false,
+      foxTurn: false,
+      foxJumped: false,
+      foxAt: 3, // Fox placed here.
+      geeseAt: [4, 9, 10, 11, 17, 18],
+      legalMoves: [], // calculate legal moves
+      legalJumps: [], // calculate legal jumps
+    });
+  }
 
   let messageToUpdate = {
     gameBegin: true,

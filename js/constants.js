@@ -1,7 +1,7 @@
 const List = Immutable.List,
   fromJS = Immutable.fromJS,
   Map = Immutable.Map;
-const NO_OF_GEESE = 13;
+let NO_OF_GEESE = 13;
 const FOX = 'fox',
   GOOSE = 'goose';
 const WIDTH = 7,
@@ -23,7 +23,7 @@ const NOT_FOX_TURN = "Not fox's turn, geese go",
   GEESE_GO = 'Geese Go',
   ILLEGAL_MOVE = 'Try again',
   JUMP = 'Fox jumped over a goose!',
-  FOX_WON = 'Fox win!',
+  FOX_WON = 'Fox wins!',
   GEESE_WON = 'Geese win!';
 let boardNeighbors = setBoardNeighbors();
 let startingState = {
@@ -32,22 +32,22 @@ let startingState = {
   geeseWon: false,
   foxTurn: false,
   foxJumped: false,
-  foxAt: 17,
+  foxAt: NO_OF_GEESE === 23 ? 9 : 17,
   geeseAt: geeseLocations(13),
   legalMoves: [
-    [28, 21],
-    [28, 22],
-    [29, 22],
-    [30, 22],
-    [30, 23],
-    [30, 24],
-    [31, 24],
-    [32, 24],
-    [32, 25],
-    [32, 26],
-    [33, 26],
-    [34, 26],
-    [34, 27],
+    // [28, 21],
+    // [28, 22],
+    // [29, 22],
+    // [30, 22],
+    // [30, 23],
+    // [30, 24],
+    // [31, 24],
+    // [32, 24],
+    // [32, 25],
+    // [32, 26],
+    // [33, 26],
+    // [34, 26],
+    // [34, 27],
   ],
   legalJumps: [],
   messageToView: "Game begins with goose's move",
@@ -153,7 +153,5 @@ function setBoardNeighbors() {
   drawBoard[46] = List([38, 39, 45]);
   // Future refactoring: odds are crossNeighbors, evens are allNeighbors
   // Edge cases can be taken care of by detecting board edges and removing those nodes
-  // Iniside function, nonmutable is OK.
   return List(drawBoard);
 }
-// Messages to display
