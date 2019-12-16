@@ -18,7 +18,7 @@
   "homepage": "https://jamesliudotcc.github.io/fox-and-geese/#0",
   "main": "./ts/game.ts",
   "devDependencies": {
-    "@types/node": "^10.12.12",
+    "@types/node": "^12.12.18",
     "ts-node": "^7.0.1"
   }
 }
